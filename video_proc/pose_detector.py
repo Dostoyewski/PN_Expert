@@ -3,7 +3,8 @@ import time
 
 import cv2
 import numpy as np
-from Tremoro_site import settings
+
+from PN_Expert import settings
 
 protoFile = "video_proc/ML_model/pose_deploy.prototxt"
 weightsFile = "video_proc/ML_model/pose_iter_102000.caffemodel"
