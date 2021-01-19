@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tremoro</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style-grishas-intro.css' %}">
+
+    <link rel="icon" href="{% static 'images/logo-icon.ico' %}">
+
+</head>
+
+<body>
+<div class="container" id="main-content">
+    <div class="photos">
+        <img src="{% static 'images/grishas-photo-1.png' %}" alt="">
+        <img src="{% static 'images/grishas-photo-2.png' %}" alt="">
+    </div>
+    <p class="flow-text">
+        В первом упражнение телефон необходимо держать параллельно полу на протяжении 10 секунд. Во втором упражнение
+        телефон необходимо держать перпендикулярно полу. Пример выполнения можно посмотреть на фотографиях. Таймер будет
+        показывать общее время выполнения двух упражнений. Для старта измерений нажмите кнопку "Начать".
+    </p>
+    <div class="button-wrapper">
+        <a class="btn-large waves-effect waves-light" href="{% url 'intro_timer' %}">Начать<i
+                class="material-icons right">send</i></a>
+    </div>
+</div>
+
+<script src="{% static 'js/materialize/bin/materialize.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+<script>
+
+</script>
+</body>
+</html>

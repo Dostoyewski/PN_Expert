@@ -1,0 +1,292 @@
+@import 'materialize/materialize.scss';
+
+
+html {
+  height: 100%;
+}
+
+$global-background-color: #f5f5fb;
+
+body {
+  height: 100%;
+
+  background-color: $global-background-color;
+  padding: 0;
+  margin: 0;
+}
+
+
+.scrollbarless {
+  // I found this threasure here:
+  // https://www.w3schools.com/howto/howto_css_hide_scrollbars.asp
+
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar { // hide scrollbar for Chrome, Safari and Opera
+    display: none;
+  }
+}
+
+
+@mixin unselectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                     supported by Chrome, Edge, Opera and Firefox */
+}
+
+.noselect {
+  @include unselectable;
+}
+
+
+#main-sections {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+
+  overflow: hidden; // ensures that we never have the global scrollbar
+
+  #menu-section {
+    background-color: white;
+    flex-basis: 20%;
+    max-width: 18em;
+    min-width: 17em;
+
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+
+    #logo {
+      // background-color: $secondary-color; // debug
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        height: 4.2em;
+        margin: 1.5em 0.3em 1.5em 1.5em;
+      }
+
+      p {
+        font-weight: bold;
+        font-size: 1.8em;
+        transform: translateY(-30%);
+
+        background: linear-gradient(180deg, #FFA68D 9.38%, #8490EA 100%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+      }
+    }
+
+    #join-button-space {
+      padding: 1em;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    #menu {
+      .menu-entry {
+        font-size: 1.001em;
+        padding: 1.1em 1.1em 1.1em 3em;
+        width: 100%;
+
+        i {
+          color: $secondary-color;
+        }
+
+        &.selected {
+          font-weight: bold;
+          position: relative;
+          color: black;
+
+          &::after {
+            content: '';
+            background-color: $secondary-color;
+
+            position: absolute;
+            top: 50%;
+            right: 0;
+
+            height: 60%;
+            width: 5px;
+
+            transform: translateY(-50%);
+          }
+        }
+
+        &.highlighted {
+          font-weight: bold;
+          position: relative;
+          color: black;
+        }
+
+        &:not(.selected):not(.highlighted) {
+          color: #a9abb9;
+
+          i {
+            color: #a9abb9;
+          }
+        }
+      }
+
+      .submenu {
+        .menu-entry {
+          padding-left: 5em;
+        }
+      }
+    }
+  }
+
+  #content-section {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    #content-topbar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      #content-search {
+        width: 10px;
+        flex-grow: 1;
+        background-color: white;
+        margin: 1.5em;
+        border-radius: 1em;
+        border-width: 0;
+        padding: 0 1.1em;
+      }
+
+      #notofications-button {
+        margin: 0 1.5em 0 0;
+        width: 2.7em;
+        padding: 0;
+        border-radius: 50%;
+      }
+    }
+
+    #main-content {
+      margin: 1em;
+      height: 100%;
+      box-sizing: border-box;
+
+      .col {
+        height: 33.33%;
+        padding: 2em 4em;
+
+        .col-content {
+          width: 100%;
+          height: 100%;
+          background-color: white;
+          border-radius: 1em;
+
+          position: relative;
+
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
+
+          div {
+            position: absolute;
+            left: 10%;
+            top: 10%;
+
+            font-size: 1.4em;
+          }
+
+          .video {
+            width: 100%;
+          }
+
+          &.selected {
+            box-shadow: 0 0 40px #D2B9FB;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.thing-with-image-and-2-texts {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  img {
+    margin: 0.6em 1.2em 0.6em 1.7em;
+    border-radius: 0.4em;
+    height: 3em;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+
+    p {
+      margin: 0;
+    }
+
+    .upper {
+      font-weight: bold;
+    }
+
+    .lower {
+      color: #a9abb9;
+    }
+  }
+
+  .progress {
+    flex-basis: 8em;
+    flex-grow: 0;
+    margin: 0em 1.7em 0em 1.2em;
+  }
+}
+
+
+.padded-content {
+  margin: 0em 1.7em 0em 1.7em;
+}
+
+.small-header {
+  margin: 4em 0em 1.2em 0em;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.advertising-block {
+  width: 100%;
+  padding: 1.2em 1.7em 1.2em 1.7em;
+  border-radius: 0.4em;
+}
+
+
+.fullscreen-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 100%;
+
+  h1 {
+    text-align: center;
+
+    background: linear-gradient(180deg, #FFA68D 9.38%, #8490EA 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+}

@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Профиль</title>
+
+    <!-- <link rel="stylesheet" href="{% static 'css/materialize.css' %}" /> -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}  ?ver=2" />	 -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/account.css' %}  ?ver=2" />	 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style-profile.css' %}  ?ver=2"/>
+
+    <link rel="icon" href="images/logo-icon.ico">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+{% include 'base.html' %}
+
+<div id="main-sections">
+    <div id="menu-section" style="max-width: 18em;">
+        <div id="logo">
+            <img src="{% static 'images/logo-icon.svg' %}" alt="">
+            <p>TREMORO</p>
+        </div>
+
+        <!-- <div id="join-button-space">
+            <button class="btn-large waves-effect waves-light">Присоединиться</button>
+        </div> -->
+
+        <div id="menu">
+            <a href="{% url 'account' %}" class="waves-effect waves-dark menu-entry selected"
+               style="padding-left: 2em;"><i class="material-icons left selected">account_circle</i>Аккаунт</a>
+            <a class="waves-effect waves-dark menu-entry " style="padding-left: 2em;"><i class="material-icons left">dashboard</i>Новости</a>
+            <a href="{% url 'competition_list' %}" class="waves-effect waves-dark menu-entry"
+               style="padding-left: 2em;"><i class="material-icons left">date_range</i>Активности</a>
+            <a class="waves-effect waves-dark menu-entry unassigned" style="padding-left: 2em;"><i
+                    class="material-icons left">supervisor_account</i>Пользователи</a>
+            <a class="waves-effect waves-dark menu-entry unassigned" style="padding-left: 2em;"><i
+                    class="material-icons left">favorite_border</i>О нас</a>
+            <a class="waves-effect waves-dark menu-entry unassigned" style="padding-left: 2em;"><i
+                    class="material-icons left">settings</i>Настройки</a>
+        </div>
+    </div>
+
+    <div id="content-section" class="scrollbarless">
+        <div id="content-topbar">
+            <input type="text" id="content-search" placeholder="Поиск" style="margin-bottom: 0em">
+            <button id="notofications-button" class="btn-flat waves-effect waves-dark unassigned"><i
+                    class="material-icons" style="color: #768492;">notifications</i></button>
+        </div>
+
+        <div id="content-main">
+            <div id="profile-summary">
+                <div id="profile-summary-head-spacer"></div>
+                <div id="profile-avatar-wrapper"></div>
+                <img id="profile-avatar" src="{{ profile.avatar.url }}" alt="">
+                <div id="profile-summary-head-spacer-2"></div>
+                <div id="profile-summary-content">
+                    <div id="profile-name">
+                        {{ profile.name }} {{ profile.vorname }}
+                    </div>
+                    <div id="profile-description">
+                        {{ profile.status }}
+                    </div>
+                    <div id="profile-short-stats">
+                        <div class="stat-entry">
+                            <div class="number">32</div>
+                            <div class="text">Друга</div>
+                        </div>
+                        <div class="stat-entry">
+                            <div class="number">8</div>
+                            <div class="text">Видео</div>
+                        </div>
+                        <div class="stat-entry">
+                            <div class="number">105</div>
+                            <div class="text">Записей</div>
+                        </div>
+                    </div>
+                    <div id="profile-status">
+                        Откладывать на завтра то, что можно сделать сегодня, — мое хобби. С утра до ночи откладывала бы
+                        не щадя живота.
+                    </div>
+                    <div id="profile-actions">
+                        <button class="btn waves-effect waves-light">Дневник</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profile-non-summary">
+                <h4>Общая информация</h4>
+
+                <div id="profile-general" style="margin: 0em 2.5em;">
+                    <div class="row valign-wrapper">
+                        <div class="col s12">
+                            <div class="row">
+                                <form action="/account/" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form }}
+                                    <input type="submit" value="Submit">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col s4">
+                            <div class="col-content">
+                                <label for="last-name">Фамилия</label>
+                                <input type="text" id="last-name" placeholder="Фамилия">
+                            </div>
+                        </div>
+                        <div class="col s4">
+                            <div class="col-content" id="first-name">
+                                <label for="first-name">Имя</label>
+                                <input type="text" id="first-name" placeholder="Имя">
+                            </div>
+                        </div>
+                        <div class="col s4">
+                            <div class="col-content" id="second-name">
+                                <label for="second-name">Отчество</label>
+                                <input type="text" id="second-name" placeholder="Отчество">
+                            </div>
+                        </div>
+
+                        <div class="col s4">
+                            <div class="col-content" id="birth-date">
+                                <label for="birth-date">Дата рождения</label>
+                                <input type="text" class="datepicker" id="birth-date">
+                            </div>
+                        </div>
+                        <div class="col s4">
+                            <div class="col-content" id="city">
+                                <label for="city">Город</label>
+                                <!-- <input type="text" id="city">
+                                <select>
+                                    <option value="" disabled selected>Выберете город</option>
+                                    <option value="1">Санкт-Петербург</option>
+                                    <option value="2">Москва</option>
+                                    <option value="3">Новосибирск</option>
+                                    <option value="4">Владивосток</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col s4">
+                            <div class="col-content" id="role">
+                                <label for="role">Роль</label>
+                                <input type="text" id="role" placeholder="Роль">
+                            </div>
+                        </div>
+
+                        <div class="col s4">
+                            <div class="col-content" id="sex">
+                                <label for="sex">Пол</label>
+                                <select>
+                                    <option value="" disabled selected>Выберете пол</option>
+                                    <option value="1">Мужской</option>
+                                    <option value="2">Женский</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col s8 longer-one">
+                            <div class="text">
+                                Если Вы яляетесь врачом или пациентом необходимо подтвердить это, введя специальный код в поле:
+                            </div>
+                            <div class="col-content" id="code">
+                                <label for="code">Код</label>
+                                <input type="text" id="code">
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+                <!-- <h4>Статистика</h4>
+
+					<div id="profile-statistics">
+						<img src="{% static 'images/oval.svg' %}" alt="">
+						<p class="flow-text">После того, как Вы выполните задания, здесь появится Ваша статистика :)</p>
+					</div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        M.updateTextFields()
+    });
+</script>
+
+<!-- <div class="container white" style="width:100%; max-width: 100%; margin: 2em 0 0; border-radius: 2em; padding: 2em 0em 2em 0em;">
+		<div class="row">
+			<div class="col s12 m4 l4 first-column">
+				<div class="row valign-wrapper center">
+					<div class="col s12">
+						<h5>Личный кабинет</h5>
+					</div>
+				</div>
+				<div class="row valign-wrapper center">
+					<div class="col s12" >
+					  <img src="{{ profile.avatar.url }}" alt="Profile Photo" class="circle responsive-img" >
+					</div>
+				</div>
+				<div class="row valign-wrapper center">
+					<div class="col s12">
+					  <p>Имя Фамилия</p>
+					</div>
+				</div>
+				<div class="row valign-wrapper center">
+					<div class="col s12">
+					  <p>Статус (врач)</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col s12 m8 l8 second-column">
+				<div class="row valign-wrapper">
+					<div class="col s12">
+						<h5>Подробная информация</h5>
+					</div>
+				</div>
+				<div class="row valign-wrapper">
+					<div class="col s12">
+						<div class="row">
+                            <form action="/account/" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form }}
+                                <input type="submit" value="Submit">
+                            </form>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{% static 'js/materialize/bin/materialize.min.js' %}"></script>
+<!-- <script src=""></script> -->
+<!-- <script src=""></script> -->
+<script src="{% static 'js/script.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', e => {
+        let tabElements = document.querySelectorAll('.tabs');
+        let result = M.Tabs.init(tabElements, {});
+
+        let datepickers = document.querySelectorAll('.datepicker');
+        result = M.Datepicker.init(datepickers, {
+            format: 'yyyy-mm-dd'
+        })
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+
+</body>
+</html>

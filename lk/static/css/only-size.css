@@ -1,0 +1,70 @@
+/* Smartphones (горизонтальная) ----------- */
+@media only screen and (min-width: 321px) {
+    .modal {
+    }
+
+    .modal-footer {
+        text-align: center !important;
+    }
+}
+
+/* Smartphones (вертикальная) ----------- */
+@media only screen and (max-width: 420px) {
+    .modal {
+        width: 80%;
+    }
+
+    .modal-footer {
+        text-align: center !important;
+    }
+
+}
+
+@media only screen and (max-width: 680px) {
+    .modal-footer {
+        text-align: center !important;
+    }
+
+}
+
+/* iPads (горизонтальная) ----------- */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .modal {
+        width: 50%;
+    }
+}
+
+/* iPads (вертикальная) ----------- */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .modal {
+        width: 50%;
+    }
+}
+
+
+/* Настольные компьютеры и ноутбуки ----------- */
+@media only screen  and (min-width: 1224px) {
+    .modal {
+        width: 40%;
+    }
+
+    .no-account {
+        text-align: left;
+    }
+
+    .register {
+        text-align: right;
+    }
+
+}
+
+/* Большие экраны ----------- */
+@media only screen  and (min-width: 1824px) {
+    .modal {
+        width: 30%;
+    }
+}
+    
+   
+
+    

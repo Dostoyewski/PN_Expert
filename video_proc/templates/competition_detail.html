@@ -1,0 +1,112 @@
+{% load static %}
+{% csrf_token %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tremoro</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style-video.css' %}"/>
+
+    <link rel="icon" href="images/logo-icon.ico">
+
+    {% load i18n %}
+    {% load account socialaccount %}
+</head>
+
+<body>
+{% include 'base.html' %}
+
+<div class="hide-on-med-and-down">
+    <div id="main-sections">
+        <div id="menu-section">
+            <div id="logo">
+                <img src="{% static 'images/logo-icon.svg' %}" alt="">
+                <p>TREMORO</p>
+            </div>
+
+            <div id="menu">
+                <a href="{% url 'account' %}" class="waves-effect waves-dark menu-entry"><i class="material-icons left">account_circle</i>Аккаунт</a>
+                <a href="{% url 'home' %}" class="waves-effect waves-dark menu-entry"><i
+                        class="material-icons left selected">dashboard</i>Новости</a>
+                <div>
+                    <a class="waves-effect waves-dark menu-entry highlighted"><i
+                            class="material-icons left">date_range</i>Активности</a>
+                    <div class="submenu">
+                        <a class="waves-effect waves-dark menu-entry selected"><i class="material-icons left">ondemand_video</i>Видео</a>
+                        <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">poll</i>Опросы</a>
+                        <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">book</i>Дневник</a>
+                        <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">sports_esports</i>Игры</a>
+                    </div>
+                </div>
+                <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">supervisor_account</i>Пользователи</a>
+                <a class="waves-effect waves-dark menu-entry unassigned"><i
+                        class="material-icons left">favorite_border</i>О нас</a>
+                <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">settings</i>Настройки</a>
+            </div>
+        </div>
+
+        <div id="content-section" class="scrollbarless">
+            <div id="content-topbar">
+                <input type="text" id="content-search" placeholder="Поиск">
+                <button id="notofications-button" class="btn-flat waves-effect waves-dark unassigned"><i
+                        class="material-icons" style="color: #768492;">notifications</i></button>
+            </div>
+
+            <div class="container">
+                <h4>{{ comp_profile.header }}</h4>
+                <div class="flow-text">
+                    {{ comp_profile.text }}
+                </div>
+                <br>
+                <div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">
+                    <iframe width="425" height="344" src="{{ comp_profile.video_ref }}" frameborder="0" allowfullscreen
+                            style="position:absolute; top:0; left:0; width:100%; height:100%;">
+                    </iframe>
+                </div>
+                <div class="flow-text">
+                    Награда: {{ comp_profile.exp }}<br>
+                </div>
+                {% if not hasLoaded %}
+                    <div class="flow-text">
+                        <div class="row">
+                            <div class="col m6 s12">
+                                <form action="{{ absolute }}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form }}
+                                    <input type="submit" value="Submit">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="flow-text">
+                        Ваш результат сейчас будет загружен.<br>
+                    </div>
+                    <div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">
+                        <iframe width="425" height="344" src="{{ result.recognition.url }}" frameborder="0"
+                                allowfullscreen
+                                style="position:absolute; top:0; left:0; width:100%; height:100%;">
+                        </iframe>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="hide-on-large-only">
+            <div class="container fullscreen-message">
+                <h1>Here the dragons be...</h1>
+            </div>
+        </div>
+
+        <script src="js/materialize/bin/materialize.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                M.updateTextFields()
+            });
+        </script>
+</body>
+</html>

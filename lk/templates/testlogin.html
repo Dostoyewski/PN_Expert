@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Заходи, не стесняйся</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}  ?ver=2"/>
+
+    {% load i18n %}
+    {% load account socialaccount %}
+    {% block content %}
+
+        </head>
+
+        <body>
+        <!-- <div class="navbar-fixed"> -->
+        <nav>
+            <div class="nav-wrapper">
+                <div class="container">
+                    <a href="/" class="brand-logo"><img src="{% static 'images/logotremor1.png' %}" style="padding: 1%;"
+                                                        height="60px" alt="LOGO"></a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="#">Активности</a></li>
+                        <li><a href="#">Личный кабинет</a></li>
+                        <li><a href="#">Сообщения</a></li>
+                        <li><a class="modal-trigger" href="#modal1">Войти</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="#">Активности</a></li>
+            <li><a href="#">Личный кабинет</a></li>
+            <li><a href="#">Сообщения</a></li>
+            <li><a class="modal-trigger" href="#modal1">Войти</a></li>
+        </ul>
+        <!-- </div> -->
+
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <div class="modal-header modal-header-tab">
+                    <a href="#" class="modal-close right"><i class="material-icons">close</i></a>
+                </div>
+                <div class="modal-body">
+                    <div class="center">
+                        <img src="{% static 'images/logotremor1.png' %}" class="center" height="70px" alt="LOGO">
+                    </div>
+                    <div class="section">
+                        <form action="{% url 'account_login' %}" method="POST">
+                            {% csrf_token %}
+
+                            <div class="input-field">
+                                <input type="text" id="id_login" name="login" tabindex="1" required>
+                                <label for="login">Имя пользователя</label>
+                            </div>
+
+                            <div class="input-field">
+                                <input type="password" id="id_password" name="password" tabindex="2" required>
+                                <label for="password">Пароль</label>
+                            </div>
+
+                            <div class="center">
+                                <label><input type="checkbox" id="id_remember" name="remember" tabindex="10">
+                                    <span>Запомнить меня</span></label>
+
+                                <a href="{% url 'account_reset_password' %}"
+                                   class="btn-flat waves-effect waves-dark"
+                                   tabindex="3"
+                                   class="left">Забыли пароль?
+                                </a>
+                            </div>
+
+                            <div class="center" style="margin: 5%;">
+                                <button
+                                        class="btn modal-close"
+                                        tabindex="4"
+                                        type="submit">{% trans "Войти" %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- <div> -->
+                <div class="left">Нет аккаунта?</div>
+                <a href="#" class="right">ЗАРЕГИСТРИРОВАТЬСЯ</p>
+                    <!-- </div>     -->
+            </div>
+        </div>
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="{% static 'js/materialize.min.js' %}"></script>
+
+        <!-- <script src="{% static 'js/common.js' %}"></script>
+    <script src="{% static 'js/TweenLite.min.js' %}"></script>
+    <script src="{% static 'js/EasePack.min.js' %}"></script>
+    <script src="{% static 'js/rAF.js' %}"></script> -->
+
+        <script>
+            $(document).ready(function () {
+                $('.sidenav').sidenav();
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('.modal').modal();
+            });
+        </script>
+
+        <script>
+            let allErrors = '{{ form.errors.as_json }}';
+            let data = JSON.parse(render(allErrors));
+
+            let errorTab = document.getElementById('errorTab');
+            let errorMessage = errorTab.querySelector('p');
+
+            if (data['__all__'].length > 0) {
+                errorMessage.innerHTML = data['__all__'][0]['message'];
+                errorTab.classList.remove('hide')
+            }
+        </script>
+
+    {% endblock %}
+    </body>
+</html>
+

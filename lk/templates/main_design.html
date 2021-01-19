@@ -1,0 +1,277 @@
+{% load static %}
+{% csrf_token %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/main-for-all-page.css' %}  ?ver=2"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/only-size.css' %}  ?ver=2"/>
+
+<nav>
+    <div class="nav-wrapper">
+        <div class="container">
+            <a href="/" class="brand-logo"><img src="{% static 'images/logotremor1.png' %}" id="logo1"
+                                                style="padding: 1%;" height="60px" alt="LOGO"></a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons"
+                                                                             style="color: black;">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                {% if not user.is_authenticated %}
+                    <li><a href="#">Активности</a></li>
+                    <li><a class="modal-trigger" href="#modal1">Войти</a></li>
+                {% else %}
+                    <li><a href="#">Активности</a></li>
+                    <li><a href="#">{{ user.get_username }}</a></li>
+                    <li><a class="modal-trigger" href="#modal2">Выйти</a></li>
+                {% endif %}
+            </ul>
+            <ul class="sidenav" id="mobile-demo">
+                {% if not user.is_authenticated %}
+                    <li><a href="#">Активности</a></li>
+                    <li><a class="modal-trigger" href="#modal1">Войти</a></li>
+                {% else %}
+                    <li><a href="#">Активности</a></li>
+                    <li><a href="#">Сообщения</a></li>
+                    <li><a href="#">{{ user.get_username }}</a></li>
+                    <li><a class="modal-trigger" href="#modal2">Выйти</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Modal Structure LOGIN\REGISTRATION-->
+<div id="modal1" class="modal s12">
+    <div class="modal-content">
+        <div class="modal-header modal-header-tab">
+            <a href="#" class="modal-close right"><i class="material-icons">close</i></a>
+        </div>
+        <div class="modal-body">
+            <div class="center logo">
+                <img src="{% static 'images/logotremor1.png' %}" class="center" id="logo" height="70px" alt="LOGO">
+            </div>
+            <div class="section">
+                <div id="2" style="display:block">
+                    <form id="form1" class="ajax-post" role="form" action="{% url 'rest_login' %}">{% csrf_token %}
+                        <label for="username" class="col-sm-4 control-label">Имя пользователя</label>
+                        <div class="col-sm-10">
+                            <input name="username" type="text" class="form-control" id="username"
+                                   placeholder="Имя пользователя" tabindex="1">
+                        </div>
+
+                        <label for="password" class="col-sm-4 control-label">Пароль</label>
+                        <div class="col-sm-10">
+                            <input name="password" type="password" class="form-control" id="password"
+                                   placeholder="Пароль" tabindex="2">
+                        </div>
+                        <!--
+                                                <div class="error" id="errorTab">
+                                                    <p class="flow-text red-text api-response"></p>
+                                                </div>
+                                             -->
+                        <div class="center">
+                            <button type="submit" onclick="var delayInMilliseconds = 300; //1 second
+
+                        setTimeout(function() {
+                          window.location.reload()
+                          //your code to be executed after 1 second
+                        }, delayInMilliseconds);
+                        " id="submit1" class="btn center">ВОЙТИ
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <div class="modal-footer">
+                        <div>
+                            <div class="no-acount">Нет аккаунта?</div>
+                            <a href="#" onClick="show();" class="register">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="3" style="display:none">
+                    <form id="form2" id="signup" role="form" action="{% url 'rest_register' %}">{% csrf_token %}
+                        <label for="email" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input name="email" type="text" class="form-control" id="email"
+                                   placeholder="example@yandex.ru">
+                        </div>
+
+                        <label for="username" class="col-sm-2 control-label">Имя пользователя</label>
+                        <div class="col-sm-10">
+                            <input name="username" type="text" class="form-control" id="username1"
+                                   placeholder="Имя пользователя">
+                        </div>
+
+                        <label for="password1" class="col-sm-2 control-label">Пароль</label>
+                        <div class="col-sm-10">
+                            <input name="password1" type="password" class="form-control" id="password1"
+                                   placeholder="Пароль">
+                        </div>
+
+                        <label for="password2" class="col-sm-2 control-label">Пароль ещё раз</label>
+                        <div class="col-sm-10">
+                            <input name="password2" type="password" class="form-control" id="password2"
+                                   placeholder="Пароль ещё раз">
+                        </div>
+
+                        <div class="hide error" id="errorTab">
+                            <div class="divider"></div>
+                            <p class="flow-text red-text api-response">THIS IS SOME ERRORS</p>
+                        </div>
+
+                        <div class="center">
+                            <button type="submit" id="submit2" class="btn btn-default">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                        </div>
+
+                        <div class="api-response"></div>
+                    </form>
+                    <div class="modal-footer">
+                        <div>
+                            <div class="no-acount">Есть аккаунт?</div>
+                            <a href="#" onClick="show();" class="register">ВОЙТИ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Structure LOGOUT-->
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        <div class="modal-header modal-header-tab">
+            <a href="#" class="modal-close right"><i class="material-icons">close</i></a>
+        </div>
+        <div class="modal-body">
+            <div class="center logo">
+                <img src="{% static 'images/logotremor1.png' %}" class="center" id="logo" height="70px" alt="LOGO">
+            </div>
+            <form class="ajax-post" role="form" action="{% url 'rest_logout' %}">{% csrf_token %}
+                <div class="center">
+                    Вы уверены, что хотите выйти?
+                </div>
+
+                <div class="center">
+                    <button type="submit" onclick="logout(), window.location.reload()" class="btn modal-close"
+                            href="{% url 'rest_logout' %}">ВЫЙТИ
+                    </button>
+                    <button href="#" class="btn modal-close">ОСТАТЬСЯ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        if (matchMedia) {
+            const mq = window.matchMedia("(min-width: 900px)");
+            mq.addListener(WidthChange);
+            WidthChange(mq);
+        }
+
+        function WidthChange(mq) {
+            if (mq.matches) {
+                $("#logo").attr("src", "{% static 'images/logotremor1.png' %}");
+            } else {
+                $("#logo").attr("src", "{% static 'images/logotremoro.png' %}");
+            }
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        if (matchMedia) {
+            const mq = window.matchMedia("(min-width: 600px)");
+            mq.addListener(WidthChange);
+            WidthChange(mq);
+        }
+
+        function WidthChange(mq) {
+            if (mq.matches) {
+                $("#logo1").attr("height", "60px");
+            } else {
+                $("#logo1").attr("height", "50px");
+            }
+        }
+    });
+</script>
+
+<script>
+    show.visible = '2';
+    show.hidden = '3';
+
+    function show() {
+        show.hidden = show.visible;
+        show.visible = (show.visible === '2') ? '3' : '2';
+        document.getElementById(show.visible).style.display = 'block';
+        document.getElementById(show.hidden).style.display = 'none';
+    }
+</script>
+
+
+<script>
+    document.getElementsByClassName('btn').onsubmit = function () {
+        location.reload(true);
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{% static 'js/materialize.min.js' %}"></script>
+
+<script src="{% static 'js/getCookie.js' %}"></script>
+<script src="{% static 'js/logout.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.modal').modal();
+    });
+</script>
+
+<script type="text/javascript">
+    var error_response = function (data) {
+        // $('.api-response').html("API Response: " + data.status + ' ' + data.statusText + '<br/>Content: ' + data.responseText);
+        //$('.api-response').html(data.responseText);
+        console.log(data.responseText);
+        console.log('ok');
+    };
+    var susccess_response = function (data) {
+        //$('.api-response').html("API Response: OK<br/>Content: " + JSON.stringify(data));
+    };
+
+    $().ready(function () {
+        $('form.ajax-post button[type=submit]').click(function () {
+            var form = $('form1.ajax-post');
+            $.post(form.attr('action'), form.serialize())
+                .fail(function (data) {
+                    error_response(data);
+                })
+                .done(function (data) {
+                    susccess_response(data);
+                });
+            return false;
+        });
+    });
+</script>
+
+<!-- <script>
+    let allErrors = '{{ form.errors.as_json }}'
+    let data = JSON.parse(render(allErrors))
+
+    let errorTab = document.getElementById('errorTab')
+    let errorMessage = errorTab.querySelector('p')
+
+    if (data['__all__'].length > 0) {
+      errorMessage.innerHTML = data['__all__'][0]['message']
+      errorTab.classList.remove('hide')
+    }
+</script> -->
+

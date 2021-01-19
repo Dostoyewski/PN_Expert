@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Профиль</title>
+
+    <!-- <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/style_account.css' %}" /> -->
+    <!-- <link rel="stylesheet" href="{% static 'css/materialize.css' %}" />	 -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}  ?ver=2" />	 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style-profile.css' %}  ?ver=2"/>
+
+    <link rel="icon" href="images/logo-icon.ico">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div id="menu-section">
+    <div id="logo">
+        <img src="{% static 'images/logo-icon.svg' %}" alt="">
+        <p>TREMORO</p>
+    </div>
+
+
+    <div id="menu">
+        <a href="{% url 'account' %}" class="waves-effect waves-dark menu-entry selected"><i
+                class="material-icons left selected">account_circle</i>Аккаунт</a>
+        <a href="" class="waves-effect waves-dark menu-entry"><i class="material-icons left ">dashboard</i>Новости</a>
+        <a href="profile.html" class="waves-effect waves-dark menu-entry"><i class="material-icons left">date_range</i>Активности</a>
+        <a href="profile.html" class="waves-effect waves-dark menu-entry"><i class="material-icons left">supervisor_account</i>Пользователи</a>
+        <a href="profile.html" class="waves-effect waves-dark menu-entry"><i
+                class="material-icons left">favorite_border</i>О нас</a>
+        <a href="profile.html" class="waves-effect waves-dark menu-entry"><i class="material-icons left">settings</i>Настройки</a>
+    </div>
+
+    <div id="join-button-space">
+        <button class="btn-large waves-effect waves-light">Присоединиться</button>
+    </div>
+
+</div>
+
+
+<div class="container" style="width:100%; max-width: 100%; margin: 0%">
+    <div class="row">
+        <div class="col s12 m4 l4 first-column">
+            <div class="row valign-wrapper center">
+                <div class="col s12">
+                    <h5>ЛичaDWadый кабинет</h5>
+                </div>
+            </div>
+            <div class="row valign-wrapper center">
+                <div class="col s12">
+                    <img src="{% static 'images/toothless.jpg' %}" alt="Profile Photo" class="circle responsive-img">
+                </div>
+            </div>
+            <div class="row valign-wrapper center">
+                <div class="col s12">
+                    <p>Имя Фамилия</p>
+                </div>
+            </div>
+            <div class="row valign-wrapper center">
+                <div class="col s12">
+                    <p>Статус (врач)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m8 l8 second-column">
+            <div class="row valign-wrapper">
+                <div class="col s12">
+                    <h5>Подробная информация</h5>
+                </div>
+            </div>
+            <div class="row valign-wrapper">
+                <div class="col s12">
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12 m4 l4">
+                                    <input value="{{ name }}" id="surname" type="text" class="validate" tabindex="1">
+                                    <label for="surname">Фамилия</label>
+                                </div>
+                                <div class="input-field col s12 m4 l4">
+                                    <input value="{{ vorname }}" id="name" type="text" class="validate" tabindex="2">
+                                    <label for="name">Имя</label>
+                                </div>
+                                <div class="input-field col s12 m4 l4">
+                                    <input value="{{ fname }}" id="patronym" type="text" class="validate" tabindex="3">
+                                    <label for="patronym">Отчество</label>
+                                </div>
+
+                                <div class="input-field col s6 m4">
+                                    <input id="id_age" name="age" tabindex="4" type="text" class="col datepicker"
+                                           placeholder="Дата рождения">
+                                    <label for="id_age">Дата рождения:</label>
+                                </div>
+
+                                <div class="input-field col s6 m4">
+                                    <input id="id_city" name="city" tabindex="5" type="text" class="validate"
+                                           placeholder="Город проживания">
+                                    <label for="id_city">Город проживания:</label>
+                                </div>
+
+                                <div class="col s12 m4">
+                                    <label for="id_gender">Пол:</label>
+                                    <p>
+                                        <label>
+                                            <input value="0" type="radio" name="gender" id="id_gender" tabindex="5"
+                                                   checked/>
+                                            <span>Мужской</span>
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label>
+                                            <input name="gender" value="1" tabindex="6" id="id_gender" type="radio"/>
+                                            <span>Женский</span>
+                                        </label>
+                                    </p>
+                                </div>
+                                <!-- <div class="input-field col s6 m6">
+                                    <input id="email_inline" type="email" class="validate">
+                                    <label for="email_inline">Email</label>
+                                    <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                                </div> -->
+
+                                <div class="input-field col s12 m6">
+                                    <select>
+                                        <option value="" disabled selected>Роль в проекте</option>
+                                        <option value="1">Пациент</option>
+                                        <option value="2">Родственник</option>
+                                        <option value="3">Врач</option>
+                                        <option value="4">Тестировщик</option>
+                                        <option value="3">Исследователь</option>
+                                    </select>
+                                    <label>Роль в проекте</label>
+                                </div>
+
+                                <div class="input-field col s12">
+                                    <span>Далее необходимо указать Вашу роль в данном проекте. Если Вы являетесь пациентом, родственником или врачом, то Вам необходимо подтвердить вашу роль. Для этого внесите в следующее поле персональный код, выданный администратором.</span>
+                                </div>
+
+
+                                <!-- <div class="input-field col s6">
+                                  <input id="last_name" type="text" class="validate">
+                                  <label for="last_name">Last Name</label>
+                                </div> -->
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="password" type="password" class="validate">
+                                    <label for="password">Password</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="email" type="email" class="validate">
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    This is an inline input field:
+                                    <div class="input-field inline">
+                                        <input id="email_inline" type="email" class="validate">
+                                        <label for="email_inline">Email</label>
+                                        <span class="helper-text" data-error="wrong"
+                                              data-success="right">Helper text</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="section " id="user-profile">
+			<div class="card-panel hoverable">
+				<div class="row marg">
+				<div class="col s12 m7">
+					<div class="display-flex media ">
+						<div class="col s12 m3">
+							<img src="{{avatar}}" alt="users view avatar"
+							height="80px" width="80px">
+						</div>
+						<div class="col s12 m9">
+							<div class="media-body">
+								<h6 class="media-heading">
+								<span class="users-view-name">{{name}}</span>
+								<span class="grey-text">@</span>
+								<span class="users-view-username grey-text">{{user.username}}</span>
+								<blockquote  >
+									По всем вопросам пишите в личные сообщения :)
+								</blockquote>
+								</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col s12 m5 quick-action-btns display-flex justify-content-end align-items-center pt-2">
+					<a href="app-email.html" class="btn-large btn-light-indigo right-align waves-light waves-effect"><i class="material-icons">mail_outline</i></a>
+					{% if not isFull %}
+					<a href="/accounts/changeform" class="btn-large indigo">Обновить данные</a>
+					{% endif %}
+				</div>
+				</div>
+			</div>
+			<div class="card ">
+				<div class="card-content hoverable">
+				<div class="row indigo lighten-5 border-radius-4 mb-2">
+					<div class="col s12 m12 users-view-timeline">
+					<h6 class="indigo-text m-0">ФИО: <span>{{vorname}} {{name}} {{fname}}</span></h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+					<table class="striped">
+						<tbody>
+
+
+						</tbody>
+					</table>
+					<h6 class="mb-2 mt-2"><i class="material-icons">error_outline</i> Personal Info</h6>
+					<table class="striped">
+						<tbody>
+							<tr>
+								<td>Должность:</td>
+								<td>{{position}}</td>
+							</tr>
+							<tr>
+								<td>E-mail:</td>
+								<td class="users-view-email">{{ email }}</td>
+							</tr>
+							<tr>
+								<td>Стаж</td>
+								<td class="users-view-name">{{exp}}</td>
+							</tr>
+
+							<tr>
+								<td>Username:</td>
+								<td class="users-view-username">{{user.username}}</td>
+							</tr>
+
+							<tr>
+								<td>День рождения:</td>
+								<td>{{bdate}}</td>
+							</tr>
+							<tr>
+								<td>Возраст</td>
+								<td class="users-view-age">{{age}}</td>
+							</tr>								
+
+
+						</tbody>
+					</table>
+						<h6 class="mb-2 mt-2"><i class="material-icons">link</i> Social Links</h6>
+						<table class="striped">
+							<tbody>
+							<tr>
+								<td>Facebook:</td>
+								<td><a href="#">https://www.facebook.com/</a></td>
+							</tr>
+							<tr>
+								<td>Instagram:</td>
+								<td><a href="#">https://www.instagram.com/</a></td>
+							</tr>
+							</tbody>
+
+					</table>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="hat white-text row" style="margin-bottom: 0em;">
+		<div class="container m3 s12 center" style="padding: 1em;">
+			<h6>© 2020 NTI THEORMECH_RELEASE</h6>
+		</div>
+	</div> -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{% static 'js/materialize.min.js' %}"></script>
+<script src="{% static '/js/registerSw.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', e => {
+        let tabElements = document.querySelectorAll('.tabs');
+        let result = M.Tabs.init(tabElements, {});
+
+        let datepickers = document.querySelectorAll('.datepicker');
+        result = M.Datepicker.init(datepickers, {
+            format: 'yyyy-mm-dd'
+        })
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+
+
+</body>
+</html>
+
+

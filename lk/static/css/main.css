@@ -1,0 +1,53 @@
+nav {
+    background-color: white;
+    /* height: 130px; */
+}
+
+nav ul a {
+    color: black;
+}
+
+/* nav .sidenav-trigger{
+    color: black !important;
+} */
+
+nav .nav-wrapper {
+    box-shadow: 0em;
+}
+
+.modal {
+    border-radius: 10px;
+    max-height: 90% !important;
+}
+
+.modal-content {
+    border-radius: 10px;
+    padding: 3rem 3rem 0rem 3rem !important;
+    background-color: white;
+}
+
+.modal-close {
+    color: black;
+}
+
+.modal .modal-footer {
+    background-color: white;
+    padding: 5%;
+    margin: 0em;
+}
+
+.section {
+    padding-bottom: 1px;
+}
+
+.btn {
+    background-color: #60c6f2;
+    text-decoration-color: white;
+}
+
+@media only screen and (max-width: 992px) {
+    .modal {
+        width: 80%;
+    }
+
+}

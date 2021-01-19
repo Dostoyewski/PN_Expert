@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tremoro</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style-grishas-timer.css' %}">
+
+    <link rel="icon" href="col s12">
+    <img src="{% static 'images/logo-icon.ico' %}">
+</head>
+
+<body>
+<div class="container" id="main-content">
+    <div class="timer-wrapper">
+        <p>Осталось:</p>
+        <div id="timer">0:20</div>
+        <p>секунд</p>
+    </div>
+    <p class="flow-text" id="info">
+        В первом упражнение телефон необходимо держать параллельно полу на протяжении 10 секунд. Во втором упражнение
+        телефон необходимо держать перпендикулярно полу. Пример выполнения можно посмотреть на фотографиях. Таймер будет
+        показывать общее время выполнения двух упражнений. Для старта измерений нажмите кнопку "Начать".
+    </p>
+    <div id="button_wrapper" style="display: none;">
+        <a class="btn-large waves-effect waves-light" href="{% url 'account' %}">Вернуться в личный кабинет</a>
+    </div>
+</div>
+
+<script src="{% static 'js/materialize/bin/materialize.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+<script>
+    let time = 20;
+
+    function finalize() {
+        info.textContent = "Данные успешно загружены!";
+        button_wrapper.style.display = 'flex'
+    }
+
+    let interval = setInterval(function repeat() {
+        time -= 1;
+
+        if (time >= 10) {
+            timer.textContent = `0:${time}`
+        } else if (time >= 0) {
+            timer.textContent = `0:0${time}`
+        } else {
+            clearInterval(interval);
+            finalize()
+        }
+    }, 1000)
+</script>
+</body>
+</html>

@@ -6,6 +6,15 @@ __pycache__/
 # C extensions
 *.so
 
+# idea folder
+.idea/
+
+#Environ config
+*.env
+
+# ML model
+*.caffemodel
+
 # Distribution / packaging
 .Python
 build/

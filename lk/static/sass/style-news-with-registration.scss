@@ -1,0 +1,323 @@
+@import 'materialize/materialize.scss';
+
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+
+  background-color: #EAEAF5;
+  padding: 0;
+  margin: 0;
+}
+
+
+.scrollbarless {
+  // I found this threasure here:
+  // https://www.w3schools.com/howto/howto_css_hide_scrollbars.asp
+
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar { // hide scrollbar for Chrome, Safari and Opera
+    display: none;
+  }
+}
+
+
+@mixin unselectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                     supported by Chrome, Edge, Opera and Firefox */
+}
+
+.noselect {
+  @include unselectable;
+}
+
+
+#main-sections {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+
+  overflow: hidden; // ensures that we never have the global scrollbar
+
+  #menu-section {
+    background-color: white;
+    flex-basis: 24%;
+
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+
+    #logo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        height: 4.2em;
+        margin: 1.5em;
+      }
+
+      p {
+        font-weight: bold;
+        font-size: 1.8em;
+        transform: translateY(-30%);
+
+        background: linear-gradient(180deg, #FFA68D 9.38%, #8490EA 100%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+      }
+    }
+
+    #join-button-space {
+      padding: 1em;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    #menu {
+      .menu-entry {
+        font-size: 1.001em;
+        padding: 1.1em 1.1em 1.1em 6em;
+        width: 100%;
+
+        i {
+          color: $secondary-color;
+        }
+
+        &.selected {
+          font-weight: bold;
+          position: relative;
+          color: black;
+
+          &::after {
+            content: '';
+            background-color: $secondary-color;
+
+            position: absolute;
+            top: 50%;
+            right: 0;
+
+            height: 60%;
+            width: 2px;
+
+            transform: translateY(-50%);
+          }
+        }
+
+        &:not(.selected) {
+          color: #a9abb9;
+        }
+      }
+    }
+  }
+
+  #content-section {
+    flex-grow: 1;
+
+    #content-topbar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      #content-search {
+        width: 10px;
+        flex-grow: 1;
+        background-color: white;
+        margin: 1.5em;
+        border-radius: 1em;
+        border-width: 0;
+        padding: 0 1.1em;
+      }
+
+      #notofications-button {
+        margin: 0 1.5em 0 0;
+        width: 2.7em;
+        padding: 0;
+        border-radius: 50%;
+      }
+    }
+
+    #content-carousel {
+      // padding: 1.7em;
+
+      .carousel-item {
+        @include unselectable;
+
+        border-radius: 1em;
+        min-height: 287px;
+        height: 287px;
+        width: calc(100% - 1.7em * 2);
+        margin-left: 1.7em;
+
+        padding: 1.2em;
+
+        .title {
+          font-size: 2.5em;
+        }
+
+        .subtitle {
+          margin: 0.3em 1.2em;
+          font-size: 1.3em;
+        }
+      }
+    }
+
+    p {
+      font-size: 1.01em;
+      padding: 0 1.7em;
+      text-align: justify;
+    }
+
+    h4 {
+      font-weight: bold;
+      font-size: 1.4em;
+      margin: 2.3em 0 1em 0;
+    }
+
+    #big-cards {
+      .col {
+        padding: 1em;
+
+        .col-content {
+          background-color: white;
+          border-radius: 1em;
+          padding: 1.2em;
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          // img {
+          //     height: 9em;
+          // }
+
+          div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 1.2em;
+
+            p {
+              padding: 0 1.2em;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #profile-section {
+    background-color: white;
+    flex-basis: 26%;
+
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+
+    .simple-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      margin: 1.7em 4.5em 0 4.5em;
+
+      input[type="text"] {
+        background-color: white;
+        border: 1px solid #d0d6da;
+        border-radius: 0.5em;
+        height: 2em;
+        padding: 0 0.5em;
+
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      label {
+        width: 100%;
+        text-align: left;
+      }
+
+      .title {
+        font-weight: bold;
+        font-size: 1.8em;
+        transform: translateY(-30%);
+
+        background: linear-gradient(180deg, #FFA68D 9.38%, #8490EA 100%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+      }
+
+      button {
+        margin: 1em 0;
+      }
+    }
+  }
+}
+
+
+.thing-with-image-and-2-texts {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  img {
+    margin: 0.6em 1.2em 0.6em 1.7em;
+    border-radius: 0.4em;
+    height: 3em;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+
+    p {
+      margin: 0;
+    }
+
+    .upper {
+      font-weight: bold;
+    }
+
+    .lower {
+      color: #a9abb9;
+    }
+  }
+
+  .progress {
+    flex-basis: 8em;
+    flex-grow: 0;
+    margin: 0em 1.7em 0em 1.2em;
+  }
+}
+
+
+.padded-content {
+  margin: 0em 1.7em 0em 1.7em;
+}
+
+.small-header {
+  margin: 4em 0em 1.2em 0em;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.advertising-block {
+  width: 100%;
+  padding: 1.2em 1.7em 1.2em 1.7em;
+  border-radius: 0.4em;
+}
