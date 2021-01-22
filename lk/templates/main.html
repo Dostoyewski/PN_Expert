@@ -425,7 +425,6 @@
     $().ready(function () {
         $('#logout-button').click(function () {
             var form = $('#logout-form');
-            alert("logout");
             $.post(form.attr('action'), form.serialize())
                 .fail(function (data) {
                     error_response(data);
