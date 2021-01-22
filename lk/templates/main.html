@@ -243,17 +243,10 @@
                         </div>
                     </section>
 
-                    <form class="ajax-post" id="#logout-button" role="form" action="{% url 'rest_logout' %}">
-
+                    <form id="logout-form" class="ajax-post" role="form" action="{% url 'rest_logout' %}">
                         {% csrf_token %}
-                        <div class="center">
-                            <button id="logout-button" type="submit" onclick="logout(); var delayInMilliseconds = 180; //1 second
-                                setTimeout(function() {
-                                window.location.reload()
-                                //your code to be executed after 1 second
-                                }, delayInMilliseconds);" class="btn-large waves-effect waves-light"
-                                    href="{% url 'rest_logout' %}">ВЫЙТИ
-                            </button>
+                        <div class="simple-form login-form">
+                            <button id="logout-button" type="submit">ВЫЙТИ</button>
                         </div>
                     </form>
 
@@ -312,7 +305,7 @@
                             <label for="password1">Пароль</label>
                             <input name="password1" type="password" id="password1" placeholder="Пароль">
 
-                            <label for="password2">Еще раз пароль this is main</label>
+                            <label for="password2">Еще раз пароль</label>
                             <input name="password2" type="password" id="password2" placeholder="Повторите пароль">
 
                             <div class="error">
@@ -382,7 +375,6 @@
 </script>
 
 <script src="{% static 'js/getCookie.js' %}"></script>
-<script src="{% static 'js/logout.js' %}"></script>
 
 <script type="text/javascript">
     var error_response = function (data) {
@@ -403,7 +395,6 @@
     };
 
     $().ready(function () {
-        {#$('form.ajax-post button[type=submit]').click(function () {#}
         $('#submit1').click(function () {
             var form = $('#form1');
             $.post(form.attr('action'), form.serialize())
@@ -418,9 +409,23 @@
     });
 
     $().ready(function () {
-        {#$('form.ajax-post button[type=submit]').click(function () {#}
         $('#submit2').click(function () {
             var form = $('#form2');
+            $.post(form.attr('action'), form.serialize())
+                .fail(function (data) {
+                    error_response(data);
+                })
+                .done(function (data) {
+                    susccess_response(data);
+                });
+            return false;
+        });
+    });
+
+    $().ready(function () {
+        $('#logout-button').click(function () {
+            var form = $('#logout-form');
+            alert("logout");
             $.post(form.attr('action'), form.serialize())
                 .fail(function (data) {
                     error_response(data);
