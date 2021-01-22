@@ -298,9 +298,7 @@
                 </div>
 
                 <div id="3" style="display:none">
-
-                    {#                    <form id="form2"  id="signup" role="form" action="{% url 'rest_register' %}">#}
-                    <form id="form2" id="signup" role="form" action="#">
+                    <form id="form2" id="signup" role="form" action="{% url 'rest_register' %}">
                         {% csrf_token %}
                         <div class="simple-form register-form">
                             <div class="title">РЕГИСТРАЦИЯ</div>
@@ -314,7 +312,7 @@
                             <label for="password1">Пароль</label>
                             <input name="password1" type="password" id="password1" placeholder="Пароль">
 
-                            <label for="password2">Еще раз пароль</label>
+                            <label for="password2">Еще раз пароль this is main</label>
                             <input name="password2" type="password" id="password2" placeholder="Повторите пароль">
 
                             <div class="error">
@@ -396,8 +394,8 @@
 
     };
     var susccess_response = function (data) {
-        // $('.api-response').html("API Response: OK<br/>Content: " + JSON.stringify(data));
-        // var delayInMilliseconds = 100; //1 second
+        $('.api-response').html("API Response: OK<br/>Content: " + JSON.stringify(data));
+        var delayInMilliseconds = 100; //1 second
         // setTimeout(function() {
         window.location.reload()
         //your code to be executed after 1 second
@@ -405,8 +403,24 @@
     };
 
     $().ready(function () {
-        $('form.ajax-post button[type=submit]').click(function () {
-            var form = $('form.ajax-post');
+        {#$('form.ajax-post button[type=submit]').click(function () {#}
+        $('#submit1').click(function () {
+            var form = $('#form1');
+            $.post(form.attr('action'), form.serialize())
+                .fail(function (data) {
+                    error_response(data);
+                })
+                .done(function (data) {
+                    susccess_response(data);
+                });
+            return false;
+        });
+    });
+
+    $().ready(function () {
+        {#$('form.ajax-post button[type=submit]').click(function () {#}
+        $('#submit2').click(function () {
+            var form = $('#form2');
             $.post(form.attr('action'), form.serialize())
                 .fail(function (data) {
                     error_response(data);
