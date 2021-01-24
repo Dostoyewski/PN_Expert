@@ -51,7 +51,7 @@ urlpatterns = [
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^account/', include('allauth.urls')),
-    path('accounts/confirm-email/', auth_views.ConfirmEmailView.as_view(template_name='email_confirm.html'),
+    path('accounts/confirm-email/', auth_views.ConfirmEmailView.as_view(template_name='account/email_confirm.html'),
          name="account_email_verification_sent"),
 ]
 

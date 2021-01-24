@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lk',
+    'video_proc',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -55,7 +56,6 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'corsheaders',
-    'video_proc',
 ]
 
 # Убрать перед релизом!!!
