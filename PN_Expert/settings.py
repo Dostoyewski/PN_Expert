@@ -202,3 +202,12 @@ EMAIL_USE_TLS = True
 # Media root config
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
+
+# WEBPUSH settings
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": env('VAPID_PUBLIC_KEY'),
+    "VAPID_PRIVATE_KEY": env('VAPID_PUBLIC_KEY'),
+    "VAPID_ADMIN_EMAIL": env('VAPID_ADMIN_EMAIL')
+}
+
+NOTIFICATION_KEY = env('NOTIFICATION_KEY')
