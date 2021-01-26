@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lk',
+    'webpush',
+    'push_notifications',
     'video_proc',
     'allauth',
     'allauth.account',
