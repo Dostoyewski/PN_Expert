@@ -1,37 +1,49 @@
-import json
-
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST, require_GET
+from rest_framework.decorators import api_view
+from webpush import send_user_notification
 
-from push_notifications import send_user_notification
 
-
-@require_POST
+@api_view(['POST'])
 @csrf_exempt
+@login_required
 def send_push(request):
     """
     This function gets JSON with body and head, than pushes message
     :param request:
     :return: JSONResponse with status
+    {"name": "admin",
+    "head": "asd",
+    "body": "asd"}
+    {"name": "admin",
+    "head": "asd",
+    "body": "asd",
+    "url": "example.com",
+    "icon": "https://i.imgur.com/dRDxiCQ.png"}
     """
     try:
-        body = request.body
-        data = json.loads(body)
-
-        if 'head' not in data or 'body' not in data or 'id' not in data:
-            return JsonResponse(status=400, data={"message": "Invalid data format"})
-
-        user_id = data['id']
-        user = get_object_or_404(User, pk=user_id)
-        payload = {'head': data['head'], 'body': data['body']}
-        send_user_notification(user=user, payload=payload, ttl=1000)
-
+        data = request.data
+        url = None
+        try:
+            url = data['url']
+            icon = data['icon']
+            use_full_shema = True
+        except KeyError:
+            use_full_shema = False
+        try:
+            user_id = data['id']
+            user = get_object_or_404(User, pk=user_id)
+        except KeyError:
+            user_name = data['name']
+            user = get_object_or_404(User, username=user_name)
+        if use_full_shema:
+            send_to_user(data['head'], data['body'], user, icon, url)
+        else:
+            payload = {'head': data['head'], 'body': data['body']}
+            send_user_notification(user=user, payload=payload, ttl=1000)
         return JsonResponse(status=200, data={"message": "Web push successful"})
     except TypeError:
         return JsonResponse(status=500, data={"message": "An error occurred"})
@@ -53,18 +65,3 @@ def send_to_user(head, body, user, icon="https://i.imgur.com/dRDxiCQ.png", url="
     payload = {'head': head, 'body': body,
                "icon": icon, "url": url}
     send_user_notification(user=user, payload=payload, ttl=1000)
-
-
-@login_required
-@require_GET
-def home(request):
-    """
-    This funciton represents the main page
-    :param request:
-    :return:
-    """
-    # send_to_user('INFO', 'This is the main page', get_object_or_404(User, pk=request.user.pk))
-    webpush_settings = getattr(settings, 'WEBPUSH_SETTINGS', {})
-    vapid_key = webpush_settings.get('VAPID_PUBLIC_KEY')
-    user = request.user
-    return render(request, 'main/home.html', {user: user, 'vapid_key': vapid_key})
