@@ -93,6 +93,23 @@
                 <br><br>Что для этого нужно сделать? Загружайте свои видео, проходите опросы, так мы сможем собрать
                 необходимый датасет!
                 {% webpush_button with_class="btn btn-outline-info" %}
+
+            <form method="POST" action="{% url 'account_reset_password' %}" class="password_reset">
+                {% csrf_token %}
+
+                <div class="text_for_user">Забыли пароль? Введите свой e-mail адрес ниже, и мы вышлем вам письмо для
+                    сброса пароля.
+                </div>
+
+                <div>
+                    {% csrf_token %}
+                    <input type="email" name="email" id="id_email" placeholder="E-mail адрес" required/>
+                    <button
+                            class="btn-large waves-effect waves-light"
+                            type="submit">{% trans 'Reset My Password' %}
+                    </button>
+                </div>
+            </form>
             </p>
 
             <div class="padded-content">
