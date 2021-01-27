@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from allauth.account import views as auth_views
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -52,8 +51,6 @@ urlpatterns = [
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^account/', include('allauth.urls')),
-    path('accounts/confirm-email/', auth_views.ConfirmEmailView.as_view(template_name='account/email_confirm.html'),
-         name="account_email_verification_sent"),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

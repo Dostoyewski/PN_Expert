@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>А может не надо?</title>
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/component.css' %}"/>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/kitty.ico' %}"/>
+
+    {% load i18n %}
+    {% block content %}
+        </head>
+
+        <body>
+        <div class="screen-height-filler valign-wrapper container demo-1 full-screen">
+            <div id="large-header" class="large-header outer">
+                <canvas id="demo-canvas"></canvas>
+                <div class="container row center inner" style="top: 60%;">
+                    <div class="col m8 offset-m2 s12 white popup">
+                        <h2>ВЫЙТИ</h2>
+
+                        <div class="divider"></div>
+
+
+                        <!--<div class="divider"></div>-->
+
+                        <div class="section center">
+                            <form method="post" action="{% url 'account_logout' %}">
+                                {% csrf_token %}
+
+                                <div class="text_for_user">Вы уверены, что хотите выйти?</div>
+
+                                <div>
+                                    <button
+                                            class="btn-large waves-effect waves-light"
+                                            type="submit">{% trans 'Sign Out' %}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'js/materialize.min.js' %}"></script>
+        <script src="{% static 'js/common.js' %}"></script>
+        <script src="{% static 'js/TweenLite.min.js' %}"></script>
+        <script src="{% static 'js/EasePack.min.js' %}"></script>
+        <script src="{% static 'js/rAF.js' %}"></script>
+        <script src="{% static 'js/demo-1.js' %}"></script>
+    {% endblock %}
+    </body>
+</html>
+
+
+
+
+
