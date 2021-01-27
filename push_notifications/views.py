@@ -19,8 +19,8 @@ def send_push(request):
     "head": "asd",
     "body": "asd"}
     {"name": "admin",
-    "head": "asd",
-    "body": "asd",
+    "head": "Test message",
+    "body": "Test message",
     "url": "example.com",
     "icon": "https://i.imgur.com/dRDxiCQ.png"}
     """
