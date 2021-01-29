@@ -46,10 +46,11 @@
         </div>
 
         <div id="content-section" class="scrollbarless">
-            <div id="content-topbar">
+            <div id="content-topbar" style="margin-right: 1.7em;">
                 <input type="text" id="content-search" placeholder="Поиск">
-                <button id="notofications-button" class="btn-flat waves-effect waves-dark unassigned"><i
-                        class="material-icons" style="color: #768492;">notifications</i></button>
+                <button id="webpush-subscribe-button" data-url="/webpush/save_information" class="btn waves-effect waves-light btn-flat"><i
+                        class="material-icons" style="color: #768492; margin-right: 1.7em;">notifications</i></button>
+                        <!-- {% webpush_button with_class="btn btn-outline-info" %} -->
             </div>
 
             <div id="content-carousel">
@@ -92,7 +93,7 @@
                 пациентам!
                 <br><br>Что для этого нужно сделать? Загружайте свои видео, проходите опросы, так мы сможем собрать
                 необходимый датасет!
-                {% webpush_button with_class="btn btn-outline-info" %}
+                
 
             
             </p>
@@ -250,8 +251,8 @@
 
                     <form id="logout-form" class="ajax-post" role="form" action="{% url 'rest_logout' %}">
                         {% csrf_token %}
-                        <div class="simple-form login-form">
-                            <button id="logout-button" type="submit">ВЫЙТИ</button>
+                        <div class="simple-form login-form" style="margin-top: 1.5em;">
+                            <button class="btn waves-effect waves-light" id="logout-button" type="submit">ВЫЙТИ</button>
                         </div>
                     </form>
 
@@ -305,12 +306,12 @@
                             <div class="simple-form register-form">
                                 <div class="title center">СБРОС</div>
     
-                                <div class="text_for_user" style="text-align: center">Забыли пароль? Введите свой e-mail адрес ниже, и мы вышлем вам письмо для
+                                <div class="text_for_user" style="text-align: center; margin-bottom: 1em;">Забыли пароль? Введите свой e-mail адрес ниже, и мы вышлем вам письмо для
                                     сброса пароля
                                 </div>
                 
                                 {% csrf_token %}
-                                <label for="password2">Почта</label>
+                                <label for="email">Почта</label>
                                 <input  type="text" name="email" id="id_email" placeholder="example@yandex.ru" required/>    
 
                                 <button class="btn waves-effect waves-light center" type="submit">Сбросить
