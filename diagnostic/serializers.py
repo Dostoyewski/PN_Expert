@@ -12,6 +12,7 @@ class EventSerializer(serializers.Serializer):
     location = serializers.CharField(max_length=100)
     start = serializers.CharField(max_length=100)
     end = serializers.CharField(max_length=100)
+    event_type = serializers.IntegerField()
 
     def create(self, validated_data):
         return Event.objects.create(**validated_data)

@@ -48,6 +48,15 @@ class GameRecording(models.Model):
     data = models.CharField(max_length=1000, default=" ")
 
 
+TYPES = (
+    (0, 'Мероприятие'),
+    (1, 'Прием лекарств'),
+    (2, 'Видео тест'),
+    (3, 'Отправка фотографии'),
+    (4, 'Опрос'),
+)
+
+
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=1000, default="")
@@ -55,6 +64,7 @@ class Event(models.Model):
     location = models.CharField(max_length=100, default="")
     start = models.CharField(max_length=100, default='2021-02-23T09:00:00-07:00')
     end = models.CharField(max_length=100, default='2021-02-23T09:00:00-07:00')
+    event_type = models.IntegerField(choices=TYPES, default=0)
 
     def save(self, *args, **kwargs):
         create_event(summary=self.summary, location=self.location, description=self.description,
