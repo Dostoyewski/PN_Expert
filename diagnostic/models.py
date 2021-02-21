@@ -70,3 +70,8 @@ class Event(models.Model):
         create_event(summary=self.summary, location=self.location, description=self.description,
                      start=self.start, end=self.end, attendee=[{'email': self.user.email}])
         super().save(*args, **kwargs)
+
+
+class DataRecording(models.Model):
+    file = models.FileField(upload_to="user_files", blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

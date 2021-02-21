@@ -22,3 +22,19 @@ class EventSerializer(serializers.Serializer):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
         return instance
+
+
+class DataRecordingSerializer(serializers.Serializer):
+    """
+    DiaryRecording serializer
+    """
+    file = serializers.FileField()
+
+    def create(self, validated_data):
+        return Event.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.header = validated_data.get('header', instance.header)
+        instance.text = validated_data.get('text', instance.text)
+        instance.save()
+        return instance

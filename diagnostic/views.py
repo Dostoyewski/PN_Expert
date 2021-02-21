@@ -1,11 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Event
-from .serializers import EventSerializer
+from .forms import DataRecordingForm
+from .models import Event, DataRecording
+from .serializers import EventSerializer, DataRecordingSerializer
 
 
 @login_required()
@@ -37,3 +40,28 @@ def get_all_events(request):
     usr = request.user
     events = Event.objects.filter(user=usr)
     return render(request, 'events.html', {'events': EventSerializer(events, many=True).data})
+
+
+@login_required()
+def load_file(request):
+    user = request.user
+    if request.method == 'POST':
+        form = DataRecordingForm(request.POST, request.FILES)
+        if form.is_valid():
+            recording = DataRecording()
+            recording.file = form.cleaned_data['file']
+            recording.user = user
+            recording.save()
+            return HttpResponseRedirect(reverse('account'))
+
+    else:
+        form = DataRecordingForm()
+    return render(request, 'load_file.html', {'form': form})
+
+
+@login_required()
+def file_list(request):
+    user = request.user
+    files = DataRecording.objects.filter(user=user)
+    return render(request, 'file_list.html',
+                  {'files': DataRecordingSerializer(files, many=True).data})
