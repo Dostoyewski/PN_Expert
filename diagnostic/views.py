@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Event
+from .serializers import EventSerializer
 
 
 @login_required()
@@ -28,3 +30,10 @@ def create_event(request):
                          end=request.data['end'],
                          user=usr)
     return Response({"message": "Ok"})
+
+
+@login_required()
+def get_all_events(request):
+    usr = request.user
+    events = Event.objects.filter(user=usr)
+    return render(request, 'events.html', {'events': EventSerializer(events, many=True).data})
