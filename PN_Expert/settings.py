@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'corsheaders',
+    'diagnostic',
 ]
 
 # Убрать перед релизом!!!
