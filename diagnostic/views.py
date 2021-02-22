@@ -52,7 +52,7 @@ def load_file(request):
             recording.file = form.cleaned_data['file']
             recording.user = user
             recording.save()
-            return HttpResponseRedirect(reverse('account'))
+            return HttpResponseRedirect(reverse('file_list'))
 
     else:
         form = DataRecordingForm()
