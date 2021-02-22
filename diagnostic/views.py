@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .forms import DataRecordingForm
-from .models import Event, DataRecording
+from .models import Event, DataRecording, DailyActivity
 from .serializers import EventSerializer, DataRecordingSerializer
 
 
@@ -65,3 +65,28 @@ def file_list(request):
     files = DataRecording.objects.filter(user=user)
     return render(request, 'file_list.html',
                   {'files': DataRecordingSerializer(files, many=True).data})
+
+
+@login_required()
+@api_view(['POST'])
+def create_activity(request):
+    """
+    Creates event for user
+    {"username": "fedor",
+    "steps": 1000,
+    "activity": "[12, 12, 12]",
+    "standing": 0.5,
+    "sitting": 0.1,
+    "liing": 0.2,
+    "upstairs": 0.4,
+    "downstairs": 0.1}
+    :param request:
+    :return:
+    """
+    usr = User.objects.get(username=request.data['username'])
+    DailyActivity.objects.create(user=usr, steps=request.data['steps'],
+                                 activity=request.data['activity'], standing=request.data['standing'],
+                                 sitting=request.data['sitting'], liing=request.data['liing'],
+                                 upstairs=request.data['upstairs'],
+                                 downstairs=request.data['downstairs'])
+    return Response({"message": "Ok"})

@@ -17,5 +17,13 @@ class DataRecordingAdmin(admin.ModelAdmin):
     list_display = ('user', 'file')
 
 
+class DailyActivityAdmin(admin.ModelAdmin):
+    """
+    Register User Profiles to admin profiles
+    """
+    list_display = ('user', 'steps', 'activity', 'standing', 'sitting', 'liing',
+                    'upstairs', 'downstairs')
+
+
 admin.site.register(Event, EventAdmin)
 admin.site.register(DataRecording, DataRecordingAdmin)

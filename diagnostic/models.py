@@ -75,3 +75,14 @@ class Event(models.Model):
 class DataRecording(models.Model):
     file = models.FileField(upload_to="user_files", blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class DailyActivity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    steps = models.IntegerField(default=0)
+    activity = models.CharField(max_length=1000)
+    standing = models.FloatField(default=0.5)
+    sitting = models.FloatField(default=0.1)
+    liing = models.FloatField(default=0.1)
+    upstairs = models.FloatField(default=0.1)
+    downstairs = models.FloatField(default=0.1)
