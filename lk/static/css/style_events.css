@@ -1,0 +1,13 @@
+
+.box{
+    display: flex;
+    background: #FFFFFF;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    margin: 3em 10em 3em 3em;
+    padding: 1em;
+}
+
+#main-sections #content-section h4{
+    margin: 0 !important;
+}
