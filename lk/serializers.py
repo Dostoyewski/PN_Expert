@@ -61,3 +61,13 @@ class UserProfileSerializer(serializers.Serializer):
         instance.vorname = validated_data.get('vorname', instance.vorname)
         instance.save()
         return instance
+
+
+class UserProfileAPISerializer(serializers.ModelSerializer):
+    """
+    UserProfile serializer
+    """
+
+    class Meta:
+        model = UserProfile
+        fields = '__all__'

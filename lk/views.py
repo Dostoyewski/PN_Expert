@@ -6,7 +6,8 @@ from rest_framework.response import Response
 
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording
-from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, UserProfileSerializer
+from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
+    UserProfileSerializer, UserProfileAPISerializer
 
 
 def profile(request, slug):
@@ -134,3 +135,21 @@ def home(request):
     return render(request, 'main.html', {"recordings": NewsRecordingSerializer(NewsRecording.objects.all(),
                                                                                many=True).data,
                                          'profile': u_profile})
+
+
+@api_view(['GET', 'POST'])
+def get_user_info(request):
+    """
+    Get user info. Shoud have header 'user' with pk of user instance<br>
+    <b>Sample</b>:<br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        return Response({"profiles": UserProfileAPISerializer(UserProfile.objects.all(), many=True).data})
+    elif request.method == 'POST':
+        up = UserProfile.objects.get(user__pk=request.data['user'])
+        return Response({"profiles": UserProfileAPISerializer(up).data})
+    else:
+        return Response({"message": "Method not allowed!"})
