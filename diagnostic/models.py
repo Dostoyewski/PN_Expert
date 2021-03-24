@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -62,13 +64,15 @@ class Event(models.Model):
     description = models.CharField(max_length=1000, default="")
     summary = models.CharField(max_length=100, default="")
     location = models.CharField(max_length=100, default="")
-    start = models.CharField(max_length=100, default='2021-02-23T09:00:00-07:00')
-    end = models.CharField(max_length=100, default='2021-02-23T09:00:00-07:00')
+    start = models.DateTimeField(default=datetime.datetime.now)
+    end = models.DateTimeField(default=datetime.datetime.now)
     event_type = models.IntegerField(choices=TYPES, default=0)
 
     def save(self, *args, **kwargs):
         create_event(summary=self.summary, location=self.location, description=self.description,
-                     start=self.start, end=self.end, attendee=[{'email': self.user.email}])
+                     start=self.start.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
+                     end=self.end.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
+                     attendee=[{'email': self.user.email}])
         super().save(*args, **kwargs)
 
 

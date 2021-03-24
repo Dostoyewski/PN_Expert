@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -90,3 +92,20 @@ def create_activity(request):
                                  upstairs=request.data['upstairs'],
                                  downstairs=request.data['downstairs'])
     return Response({"message": "Ok"})
+
+
+@api_view(['POST'])
+def get_user_events(request):
+    """
+    Get user events. Shoud have header 'user' with pk of user instance<br>
+    <b>Sample</b>:<br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        events = Event.objects.filter(start__date=date.today(), user__pk=request.data['user'])
+        return Response({"events": EventSerializer(events, many=True).data,
+                         "message": "ok"})
+    else:
+        return Response({"message": "Method not allowed!"})
