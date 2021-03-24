@@ -97,14 +97,25 @@ def create_activity(request):
 @api_view(['POST'])
 def get_user_events(request):
     """
-    Get user events. Shoud have header 'user' with pk of user instance<br>
-    <b>Sample</b>:<br>
+    Get user events. Shoud have header 'user' with pk of user instance or header 'username' with username<br>
+    <b>Samples</b>:<br>
     {"user": 5}<br>
+    {"username": "fedor"}<br>
+    <b>Event Types</b>:<br>
+    0: 'Мероприятие',<br>
+    1: 'Прием лекарств',<br>
+    2: 'Видео тест',<br>
+    3: 'Отправка фотографии',<br>
+    4: 'Опрос',<br>
     :param request:
     :return:
     """
     if request.method == 'POST':
-        events = Event.objects.filter(start__date=date.today(), user__pk=request.data['user'])
+        try:
+            events = Event.objects.filter(start__date=date.today(), user__pk=request.data['user'])
+        except KeyError:
+            events = Event.objects.filter(start__date=date.today(),
+                                          user__username=request.data['username'])
         return Response({"events": EventSerializer(events, many=True).data,
                          "message": "ok"})
     else:
