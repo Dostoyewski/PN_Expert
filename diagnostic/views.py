@@ -140,3 +140,24 @@ class FileView(APIView):
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def get_user_files(request):
+    """
+    Get user files. Shoud have header 'user' with pk of user instance or header 'username' with username<br>
+    <b>Samples</b>:<br>
+    {"user": 5}<br>
+    {"username": "admin"}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            files = DataRecording.objects.filter(user__pk=request.data['user'])
+        except KeyError:
+            files = DataRecording.objects.filter(user__username=request.data['username'])
+        return Response({"files": DataSerializer(files, many=True).data,
+                         "message": "ok"})
+    else:
+        return Response({"message": "Method not allowed!"})
