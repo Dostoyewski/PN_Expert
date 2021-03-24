@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event
+from .models import Event, DataRecording
 
 
 class EventSerializer(serializers.Serializer):
@@ -38,3 +38,9 @@ class DataRecordingSerializer(serializers.Serializer):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
         return instance
+
+
+class DataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DataRecording
+        fields = ('file', 'user')

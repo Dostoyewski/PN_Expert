@@ -9,4 +9,5 @@ urlpatterns = [
     path('file_list/', views.file_list, name='file_list'),
     path('create_activity/', views.create_activity, name='create_activity'),
     path('api/event/current/', views.get_user_events, name='user_events'),
+    path('api/file/upload/', views.FileView.as_view(), name='file_upload'),
 ]

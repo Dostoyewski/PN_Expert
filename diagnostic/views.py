@@ -5,13 +5,18 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .forms import DataRecordingForm
 from .models import Event, DataRecording, DailyActivity
-from .serializers import EventSerializer, DataRecordingSerializer
+from .serializers import EventSerializer, DataRecordingSerializer, DataSerializer
 
+
+# TODO: Add username to pk API
 
 @login_required()
 @api_view(['POST'])
@@ -120,3 +125,18 @@ def get_user_events(request):
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})
+
+
+class FileView(APIView):
+    """
+    Should contain fieds 'file' with a file and 'user' with user pk
+    """
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = DataSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
