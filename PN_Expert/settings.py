@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lk',
+    'survey',
     'webpush',
     'push_notifications',
     'video_proc',

@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('lk.urls'), name='home'),
     path('', include('push_notifications.urls'), name='push'),
     path('', include('diagnostic.urls'), name='diagnostic'),
+    path('', include('survey.urls'), name='survey'),
     path('video/', include('video_proc.urls'), name='videos'),
     url(r'^email-verification/$',
         TemplateView.as_view(template_name="email_verification.html"),
