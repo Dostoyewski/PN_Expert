@@ -2,6 +2,8 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 
 from diagnostic.models import Event
 
@@ -13,18 +15,20 @@ class Survey(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=200)
 
-    def save(self, *args, **kwargs):
-        end = datetime.datetime.now()
-        end = end.replace(hour=23, minute=59)
-        super().save(*args, **kwargs)  # Call the "real" save() method.
-        for user in self.users.all():
-            Event.objects.create(user=user,
-                                 description=self.description,
-                                 summary=self.title,
-                                 location="—",
-                                 end=end,
-                                 event_type=4
-                                 )
+
+@receiver(m2m_changed, sender=Survey)
+def create_events(sender, instance, **kwargs):
+    end = datetime.datetime.now()
+    end = end.replace(hour=23, minute=59)
+    for user in instance.users.all():
+        Event.objects.create(user=user,
+                             description=sender.description,
+                             summary=sender.title,
+                             location="—",
+                             end=end,
+                             event_type=4
+                             )
+        print("create")
 
 
 TYPES = (

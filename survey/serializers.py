@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Question
+from .models import Question, Survey, Answer
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -22,7 +22,20 @@ class AnswerSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = Question
+        model = Answer
+        fields = '__all__'
+
+        def create(self, validated_data):
+            return Question.objects.create(**validated_data)
+
+
+class SurveySerializer(serializers.ModelSerializer):
+    """
+    Survey serializer
+    """
+
+    class Meta:
+        model = Survey
         fields = '__all__'
 
         def create(self, validated_data):
