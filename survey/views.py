@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from diagnostic.models import Event
-from .models import Question
+from .models import Question, Answer, Survey
 from .serializers import QuestionSerializer, AnswerSerializer, SurveySerializer
 
 
@@ -81,7 +81,7 @@ def create_answer(request):
 @api_view(['POST'])
 def create_survey(request):
     """
-    Creates answer. Should contain all answer fields:<br>
+    Creates survey. Should contain all survey fields:<br>
     description: text.<br>
     points: integer<br>
     users: users_pk<br>
@@ -114,5 +114,35 @@ def create_survey(request):
             return Response({"message": "Survey created!"})
         else:
             return Response({"message": "Error!"})
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def get_answer(request):
+    """
+    Returns answer. Should contain fields user or username and survey:<br>
+    user: user_pk<br>
+    survey: survey_pk<br>
+    username: username<br>
+    <b>Sample</b>:<br>
+    {"user": 5,<br>
+     "survey": 2}<br>
+    {"username": "fedor",<br>
+     "survey": 2}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(pk=request.data['user'])
+        except KeyError:
+            user = User.objects.get(username=request.data['username'])
+        survey = Survey.objects.get(pk=request.data['survey'])
+        answers = Answer.objects.filter(user=user, question__survey=survey)
+        questions = Question.objects.filter(survey=survey)
+        serializer = AnswerSerializer(answers, many=True)
+        return Response({"answers": serializer.data,
+                         "questions": QuestionSerializer(questions, many=True).data})
     else:
         return Response({"message": "Method not allowed!"})

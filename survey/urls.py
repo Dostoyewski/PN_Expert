@@ -7,4 +7,5 @@ urlpatterns = [
     path('api/question/create/', views.create_question, name='question_create'),
     path('api/survey/get/', views.get_survey, name='survey_get'),
     path('api/survey/create/', views.create_survey, name='survey_create'),
+    path('api/answer/get/', views.get_answer, name='get_answer'),
 ]
