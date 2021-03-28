@@ -146,3 +146,31 @@ def get_answer(request):
                          "questions": QuestionSerializer(questions, many=True).data})
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def attendee_survey(request):
+    """
+    Creates event with survey for users list<br>
+    <b>Sample:</b><br>
+    {"survey": 1,<br>
+    "users": [5, 6, 7, 8]}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        survey = Survey.objects.get(pk=request.data['survey'])
+        for i in request.data['users']:
+            user = User.objects.get(pk=i)
+            end = datetime.datetime.now()
+            end = end.replace(hour=23, minute=59)
+            Event.objects.create(user=user,
+                                 description=survey.description,
+                                 summary=survey.title,
+                                 location="—",
+                                 end=end,
+                                 event_type=4
+                                 )
+        return Response({"message": "Survey attended!"})
+    else:
+        return Response({"message": "Method not allowed!"})
