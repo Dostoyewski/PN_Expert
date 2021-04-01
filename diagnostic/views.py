@@ -1,4 +1,5 @@
 from datetime import date
+from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -122,6 +123,38 @@ def get_user_events(request):
             events = Event.objects.filter(start__date=date.today(), user__pk=request.data['user'])
         except KeyError:
             events = Event.objects.filter(start__date=date.today(),
+                                          user__username=request.data['username'])
+        return Response({"events": EventSerializer(events, many=True).data,
+                         "message": "ok"})
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def get_event_by_date(request):
+    """
+    Get user events. Shoud have header 'user' with pk of user instance or header 'username' with username and header 'date<br>
+    date should have format '%Y-%m-%d'<br>
+    <b>Samples</b>:<br>
+    {"user": 5,<br>
+    "date": "2021-03-27"}<br>
+    {"username": "luna_koly",<br>
+    "date": "2021-03-28"}<br>
+    <b>Event Types</b>:<br>
+    0: 'Мероприятие',<br>
+    1: 'Прием лекарств',<br>
+    2: 'Видео тест',<br>
+    3: 'Отправка фотографии',<br>
+    4: 'Опрос',<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        date_req = datetime.strptime(request.data['date'], '%Y-%m-%d')
+        try:
+            events = Event.objects.filter(start__date=date_req, user__pk=request.data['user'])
+        except KeyError:
+            events = Event.objects.filter(start__date=date_req,
                                           user__username=request.data['username'])
         return Response({"events": EventSerializer(events, many=True).data,
                          "message": "ok"})

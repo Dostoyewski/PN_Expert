@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/event/current/', views.get_user_events, name='user_events'),
     path('api/file/upload/', views.FileView.as_view(), name='file_upload'),
     path('api/file/get/', views.get_user_files, name='file_get'),
+    path('api/event/by_date/', views.get_event_by_date, name='file_get'),
 ]
