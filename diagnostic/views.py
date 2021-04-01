@@ -13,7 +13,8 @@ from rest_framework.views import APIView
 
 from .forms import DataRecordingForm
 from .models import Event, DataRecording, DailyActivity
-from .serializers import EventSerializer, DataRecordingSerializer, DataSerializer
+from .serializers import EventSerializer, DataRecordingSerializer, \
+    DataRecordingCreateSerializer
 
 
 # TODO: Add username to pk API
@@ -130,12 +131,12 @@ def get_user_events(request):
 
 class FileView(APIView):
     """
-    Should contain fieds 'file' with a file and 'user' with user pk
+    Should contain fieds 'file' with a file, 'user' with user pk, 'name' with filename
     """
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        file_serializer = DataSerializer(data=request.data)
+        file_serializer = DataRecordingCreateSerializer(data=request.data)
         if file_serializer.is_valid():
             file_serializer.save()
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
@@ -158,7 +159,7 @@ def get_user_files(request):
             files = DataRecording.objects.filter(user__pk=request.data['user'])
         except KeyError:
             files = DataRecording.objects.filter(user__username=request.data['username'])
-        return Response({"files": DataSerializer(files, many=True).data,
+        return Response({"files": DataRecordingSerializer(files, many=True).data,
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})

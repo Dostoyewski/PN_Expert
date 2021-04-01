@@ -79,6 +79,14 @@ class Event(models.Model):
 class DataRecording(models.Model):
     file = models.FileField(upload_to="user_files", blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(default="File", max_length=100)
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+
+
+# @receiver(post_save, sender=DataRecording)
+# def update_data(sender, instance, **kwargs):
+#     instance.date = timezone.now()
+#     instance.save()
 
 
 class DailyActivity(models.Model):

@@ -24,7 +24,7 @@ class EventSerializer(serializers.Serializer):
         return instance
 
 
-class DataRecordingSerializer(serializers.Serializer):
+class DataRecordingFileSerializer(serializers.Serializer):
     """
     DiaryRecording serializer
     """
@@ -38,6 +38,32 @@ class DataRecordingSerializer(serializers.Serializer):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
         return instance
+
+
+class DataRecordingSerializer(serializers.ModelSerializer):
+    """
+    Drecording serializer
+    """
+
+    class Meta:
+        model = DataRecording
+        fields = '__all__'
+
+        def create(self, validated_data):
+            return DataRecording.objects.create(**validated_data)
+
+
+class DataRecordingCreateSerializer(serializers.ModelSerializer):
+    """
+    Drecording serializer
+    """
+
+    class Meta:
+        model = DataRecording
+        fields = ('file', 'user', 'name')
+
+        def create(self, validated_data):
+            return DataRecording.objects.create(**validated_data)
 
 
 class DataSerializer(serializers.ModelSerializer):
