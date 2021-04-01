@@ -48,6 +48,7 @@ class UserProfile(models.Model):
     slug = models.SlugField(null=True)
     # Avatar
     avatar = models.ImageField(upload_to="avatars", default="lk/static/images/noimg.jpg")
+    send_push = models.BooleanField(default=True)
 
     def __str__(self):
         return "%s's profile" % self.user
