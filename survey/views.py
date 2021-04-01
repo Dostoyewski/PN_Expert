@@ -99,7 +99,7 @@ def create_survey(request):
     if request.method == 'POST':
         serializer = SurveySerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            survey = serializer.save()
             for i in request.data['users']:
                 user = User.objects.get(pk=i)
                 end = datetime.datetime.now()
@@ -109,7 +109,8 @@ def create_survey(request):
                                      summary=request.data['title'],
                                      location="—",
                                      end=end,
-                                     event_type=4
+                                     event_type=4,
+                                     survey_pk=survey.pk
                                      )
             return Response({"message": "Survey created!"})
         else:

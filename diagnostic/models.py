@@ -67,6 +67,7 @@ class Event(models.Model):
     start = models.DateTimeField(default=datetime.datetime.now)
     end = models.DateTimeField(default=datetime.datetime.now)
     event_type = models.IntegerField(choices=TYPES, default=0)
+    survey_pk = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         create_event(summary=self.summary, location=self.location, description=self.description,
