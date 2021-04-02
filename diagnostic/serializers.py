@@ -32,7 +32,7 @@ class DataRecordingFileSerializer(serializers.Serializer):
     file = serializers.FileField()
 
     def create(self, validated_data):
-        return Event.objects.create(**validated_data)
+        return DataRecording.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.header = validated_data.get('header', instance.header)

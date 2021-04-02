@@ -70,6 +70,10 @@ class Event(models.Model):
     survey_pk = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
+        if type(self.start) is not datetime.datetime:
+            self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
+        if type(self.end) is not datetime.datetime:
+            self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
         create_event(summary=self.summary, location=self.location, description=self.description,
                      start=self.start.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
                      end=self.end.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
