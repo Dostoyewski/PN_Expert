@@ -96,7 +96,7 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  end=datetime.datetime.now() + datetime.timedelta(hours=5),
                                  user=instance,
                                  survey_pk=2,
-                                 event_type=4)
+                                 event_type=0)
 
 
 post_save.connect(create_user_profile, sender=User)
