@@ -7,7 +7,9 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
-# Create your models here.
+from diagnostic.models import Event
+
+TEST = True
 
 GENDER = (
     (0, "MALE"),
@@ -74,6 +76,18 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile, created = UserProfile.objects.get_or_create(user=instance)
         profile.slug = slugify(profile.user.get_username())
         profile.save()
+        if TEST:
+            Event.objects.create(description="Снимок в полный рост",
+                                 summary="Снять себя в полный рост на хорошую камеру",
+                                 location="SPB",
+                                 end=datetime.datetime.now() + datetime.timedelta(hours=5),
+                                 user=instance)
+            Event.objects.create(description="Пройти тест",
+                                 summary="Пройти тест 'Сложные виды поведения'",
+                                 location="SPB",
+                                 end=datetime.datetime.now() + datetime.timedelta(hours=5),
+                                 user=instance,
+                                 survey_pk=2)
 
 
 post_save.connect(create_user_profile, sender=User)
