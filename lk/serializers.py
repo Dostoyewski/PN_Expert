@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
 from .models import DiaryRecording, NewsRecording, UserProfile
 
@@ -37,30 +38,10 @@ class NewsRecordingSerializer(serializers.Serializer):
         return instance
 
 
-class UserProfileSerializer(serializers.Serializer):
-    """
-    UserProfile serializer
-    """
-    name = serializers.CharField(max_length=50)
-    # Фамилия
-    vorname = serializers.CharField(max_length=50)
-    # Отчество
-    fathername = serializers.CharField(max_length=50)
-    gender = serializers.IntegerField()
-    age = serializers.DateField()
-    # Статус в проекте — врач, пациент, тестировщик...
-    status = serializers.IntegerField()
-    # Город проживания
-    city = serializers.CharField(max_length=50)
-
-    def create(self, validated_data):
-        return UserProfile.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.vorname = validated_data.get('vorname', instance.vorname)
-        instance.save()
-        return instance
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        exclude = ['status', 'avatar', 'user', 'slug', 'id']
 
 
 class UserProfileAPISerializer(serializers.ModelSerializer):
@@ -71,3 +52,14 @@ class UserProfileAPISerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = '__all__'
+
+
+class UserProfileAvatarSerializer(ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["avatar"]
+
+    def save(self, *args, **kwargs):
+        if self.instance.avatar:
+            self.instance.avatar.delete()
+        return super().save(*args, **kwargs)

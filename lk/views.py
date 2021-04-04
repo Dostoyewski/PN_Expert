@@ -1,13 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
-    UserProfileSerializer, UserProfileAPISerializer
+    UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer
 
 
 def profile(request, slug):
@@ -151,5 +154,55 @@ def get_user_info(request):
     elif request.method == 'POST':
         up = UserProfile.objects.get(user__pk=request.data['user'])
         return Response({"profiles": UserProfileAPISerializer(up).data})
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
+class UserAvatarUpload(APIView):
+    """
+    Should contain fieds 'avatar' with an image, 'user' with user pk
+    """
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        up = UserProfile.objects.get(user__pk=request.data['user'])
+        data = request.data
+        del data['user']
+        avatar_serializer = UserProfileAvatarSerializer(data=data, instance=up)
+        if avatar_serializer.is_valid():
+            avatar_serializer.save()
+            return Response(avatar_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(avatar_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def write_user_info(request):
+    """
+    Write user info. Shoud have header 'user' with pk of user instance, other fields you can see below:<br>
+    <b>Sample</b>:<br>
+    {"name": "fedor",<br>
+    "vorname": "kondratenko",<br>
+    "fathername": "igorevich",<br>
+    "gender": 0,<br>
+    "age": "2000-01-01",<br>
+    "exp": 0,<br>
+    "isFull": false,<br>
+    "city": "SPb",<br>
+    "send_push": true,<br>
+    "user": 2}
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        up = UserProfile.objects.get(user__pk=request.data['user'])
+        data = request.data
+        del data['user']
+        serializer = UserProfileSerializer(data=data, instance=up)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({"message": "Method not allowed!"})
