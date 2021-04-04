@@ -81,19 +81,22 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  summary="Снять себя в полный рост на хорошую камеру",
                                  location="SPB",
                                  end=datetime.datetime.now() + datetime.timedelta(hours=5),
-                                 user=instance)
+                                 user=instance,
+                                 event_type=3)
             Event.objects.create(description="Пройти тест",
                                  summary="Пройти тест 'Сложные виды поведения'",
                                  location="SPB",
                                  end=datetime.datetime.now() + datetime.timedelta(hours=5),
                                  user=instance,
-                                 survey_pk=2)
+                                 survey_pk=2,
+                                 event_type=4)
             Event.objects.create(description="Загрузить историю болезни",
                                  summary="Загрузить файл в раздел загрузки",
                                  location="SPB",
                                  end=datetime.datetime.now() + datetime.timedelta(hours=5),
                                  user=instance,
-                                 survey_pk=2)
+                                 survey_pk=2,
+                                 event_type=4)
 
 
 post_save.connect(create_user_profile, sender=User)
