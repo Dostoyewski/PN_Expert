@@ -43,7 +43,7 @@ class Question(models.Model):
     question = models.TextField(max_length=1000)
     typo = models.IntegerField(choices=TYPES, default=1)
     # Should be separated using ::
-    choices = models.CharField(max_length=2000, blank=True)
+    choices = models.TextField(max_length=2000, blank=True)
 
 
 class Answer(models.Model):
