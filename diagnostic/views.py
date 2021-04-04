@@ -1,3 +1,4 @@
+import datetime as dt
 from datetime import date
 from datetime import datetime
 
@@ -119,7 +120,7 @@ def get_user_events(request):
     :return:
     """
     if request.method == 'POST':
-        tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+        tomorrow = date.today() + dt.timedelta(days=1)
         try:
             events = Event.objects.filter(start__date=date.today(), user__pk=request.data['user'])
             # TODO: remove this part with tomorrow events
