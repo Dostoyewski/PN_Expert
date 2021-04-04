@@ -119,12 +119,18 @@ def get_user_events(request):
     :return:
     """
     if request.method == 'POST':
+        tomorrow = datetime.date.today() + datetime.timedelta(days=1)
         try:
             events = Event.objects.filter(start__date=date.today(), user__pk=request.data['user'])
+            # TODO: remove this part with tomorrow events
+            tevents = Event.objects.filter(start__date=tomorrow, user__pk=request.data['user'])
         except KeyError:
+            tevents = Event.objects.filter(start__date=tomorrow,
+                                           user__username=request.data['username'])
             events = Event.objects.filter(start__date=date.today(),
                                           user__username=request.data['username'])
         return Response({"events": EventSerializer(events, many=True).data,
+                         "tomorrow_events": EventSerializer(tevents, many=True).data,
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})
@@ -151,18 +157,12 @@ def get_event_by_date(request):
     """
     if request.method == 'POST':
         date_req = datetime.strptime(request.data['date'], '%Y-%m-%d')
-        # TODO: remove this part with tomorrow events
-        tomorrow = datetime.date.today() + datetime.timedelta(days=1)
         try:
             events = Event.objects.filter(start__date=date_req, user__pk=request.data['user'])
-            tevents = Event.objects.filter(start__date=tomorrow, user__pk=request.data['user'])
         except KeyError:
             events = Event.objects.filter(start__date=date_req,
                                           user__username=request.data['username'])
-            tevents = Event.objects.filter(start__date=tomorrow,
-                                           user__username=request.data['username'])
         return Response({"events": EventSerializer(events, many=True).data,
-                         "tomorrow_events": EventSerializer(tevents, many=True).data,
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})
