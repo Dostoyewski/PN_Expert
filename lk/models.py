@@ -38,6 +38,7 @@ class UserProfile(models.Model):
     fathername = models.CharField(max_length=50, blank=True)
     gender = models.IntegerField(choices=GENDER, default=0)
     age = models.DateField(default=datetime.date(2000, 1, 1))
+    parkinson = models.DateField(default=datetime.date(2000, 1, 1))
     # Статус в проекте — врач, пациент, тестировщик...
     status = models.IntegerField(choices=STATUS, default=0)
     # Опыт

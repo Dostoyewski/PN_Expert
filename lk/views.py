@@ -190,7 +190,8 @@ def write_user_info(request):
     "isFull": false,<br>
     "city": "SPb",<br>
     "send_push": true,<br>
-    "user": 2}
+    "user": 2,<br>
+    "parkinson": "2000-01-01"}<br>
     :param request:
     :return:
     """
