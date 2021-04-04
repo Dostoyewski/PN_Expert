@@ -20,8 +20,10 @@ def get_survey(request):
     """
     if request.method == 'POST':
         survey_id = request.data['survey']
+        survey = Survey.objects.get(pk=survey_id)
         questions = Question.objects.filter(survey__pk=survey_id)
-        return Response({"data": QuestionSerializer(questions, many=True).data})
+        return Response({"data": QuestionSerializer(questions, many=True).data,
+                         "survey": SurveySerializer(survey).data})
     else:
         return Response({"message": "Method not allowed!"})
 
