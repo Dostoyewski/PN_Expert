@@ -30,19 +30,51 @@
 
                 {% user_display confirmation.email_address.user as user_display %}
                 <div class="section center">
-                    <p class="text_for_user">Пожалуйста, подтвердите, что данный e-mail <a
-                            href="mailto:{{ email }}">{{ email }}</a> принадлежит пользователю {{ user_display }}.</p>
-                    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-                        {% csrf_token %}
-                        <button
-                                class="btn-large waves-effect waves-light"
-                                type="submit">{% trans 'Confirm' %}</button>
-                    </form>
-                </div>
+                    <div id="profile-section" class="scrollbarless">
+                        {% if confirmation %}
+                            {% user_display confirmation.email_address.user as user_display %}
 
+                            <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                                {% csrf_token %}
+                                <div class="simple-form login-form">
+                                    <div class="title">РЕГИСТРАЦИЯ</div>
+
+                                    <p style="text-align: center">
+                                        Пожалуйста, подтвердите, что адрес электронной почты <a
+                                            href="mailto:{{ confirmation.email_address.email }}">{{ confirmation.email_address.email }}</a>
+                                        принадлежит
+                                        пользователю <b>{{ user_display }}</b>
+                                    </p>
+
+                                    <button class="btn waves-effect waves-light" type="submit" onclick="">Подтвердить
+                                    </button>
+                                </div>
+                            </form>
+
+                        {% else %}
+
+                            {% url 'account_email' as email_url %}
+                            <div class="simple-form login-form">
+                                <div class="title">РЕГИСТРАЦИЯ</div>
+
+                                <p style="text-align: center">Срок действия ссылки для подтверждения пользователя по
+                                    электронной почте истек или она недействительна.
+                                    Пожалуйста, <a href="{{ email_url }}"> отправьте новый запрос на подтверждение по
+                                        электронной почте. </a>
+                                </p>
+
+                            </div>
+
+
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
+</div>
+</div>
 </div>
 
 <script src="{% static 'js/materialize.min.js' %}"></script>
