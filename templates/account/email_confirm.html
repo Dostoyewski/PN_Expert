@@ -2,236 +2,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Подтверждение почты</title>
-    <link rel="icon" href="images/logo-icon.ico">
-    
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}  ?ver=2"/>
+    <title>Подтверждение e-mail</title>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/component.css' %}"/>
 
     {% load i18n %}
     {% load account %}
-    {% load account socialaccount %}
-    {% load webpush_notifications %}
-    {% webpush_header %}
+
+
 </head>
+<body>
+<div class="screen-height-filler valign-wrapper container demo-1 full-screen">
+    <div id="large-header" class="large-header outer">
+        <canvas id="demo-canvas"></canvas>
+        <div class="container row center inner" style="top: 50%;">
+            <div class="col m8 offset-m2 s12 white popup">
+                <h2>{% trans "Confirm E-mail Address" %}</h2>
+                <div class="divider"></div>
 
-{% include "base.html" %}
-
-<div class="hide-on-med-and-down">
-    <div id="main-sections">
-
-        <div id="menu-section">
-            <div id="logo">
-                <img src="{% static 'images/logo-icon.svg' %}" alt="">
-                <p>TREMORO</p>
-            </div>
-
-
-            <div id="menu">
-                <a href="{% url 'account' %}" class="waves-effect waves-dark menu-entry"><i class="material-icons left">account_circle</i>Аккаунт</a>
-                <a href="{% url 'home' %}" class="waves-effect waves-dark menu-entry selected"><i class="material-icons left selected">dashboard</i>Новости</a>
-                <a href="{% url 'competition_list' %}" class="waves-effect waves-dark menu-entry"><i
-                        class="material-icons left">date_range</i>Активности</a>
-                <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">supervisor_account</i>Пользователи</a>
-                <a class="waves-effect waves-dark menu-entry unassigned"><i
-                        class="material-icons left">favorite_border</i>О нас</a>
-                <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">settings</i>Настройки</a>
-            </div>
-        </div>
-
-        <div id="content-section" class="scrollbarless">
-            <div id="content-topbar">
-                <input type="text" id="content-search" placeholder="Поиск">
-                <button id="notofications-button" class="btn-flat waves-effect waves-dark unassigned"><i
-                        class="material-icons" style="color: #768492;">notifications</i></button>
-            </div>
-
-            <div id="content-carousel">
-                <div class="carousel carousel-slider center">
-                    <!-- <div class="carousel carousel-slider center"> -->
-                    <!-- <div class="carousel-fixed-item left">
-                        <a class="btn waves-effect white grey-text darken-text-2">button</a>
-                    </div> -->
-                    {% for fd in recordings %}
-                        <div class="carousel-item" style="background-image: url({{ fd.img }});" href="#one!">
-                            <h2 class="black-text">{{ fd.header }}</h2>
-                            <p class="black-text">{{ fd.text }}</p>
-                        </div>
-                    {% endfor %}
-                    <!-- </div> -->
-                    <div class="carousel-item" style="background-image: url({% static 'images/house2.jpg' %});">
-                        <div class="title">НОВОСТИ</div>
-                        <div class="subtitle">Обнаружены самые ранние признаки болезни Паркинсона</div>
-                    </div>
-
-                    <div class="carousel-item"
-                         style="background-image: url({% static 'images/increase-serotonin.jpg' %});">
-                        <div class="title">НОВОСТИ</div>
-                        <div class="subtitle">Ученые определили механизм разрушения клеток мозга при болезни
-                            Паркинсона
-                        </div>
-                    </div>
-
-                    {% comment %} <div class="carousel-item" style="background-image: url('images/test-house.png');">
-                            <div class="title">Header 3</div>
-                            <div class="subtitle">Text 3</div>
-                        </div> {% endcomment %}
-                </div>
-            </div>
-
-            <p>
-                Боле́знь Паркинсо́на — медленно прогрессирующее хроническое нейродегенеративное неврологическое
-                заболевание, характерное для лиц старшей возрастной группы.
-                <br><br>Присоединяйтесь к нашему проекту! Вместе мы сможем помочь оцифровать болезнь и обглечить жизнь
-                пациентам!
-                <br><br>Что для этого нужно сделать? Загружайте свои видео, проходите опросы, так мы сможем собрать
-                необходимый датасет!
-            </p>
-
-            <div class="padded-content">
-                <h4>Активности</h4>
-            </div>
-
-            <p>
-                Что бы принять участие в проекте регистрируйтесь и выполняйте задания. Например, снимите видео как вы
-                сжимаете руку в кулак. У вас это отнимет пару минут, но позволит нам обработать ваше видео и за счёт
-                полученных данных облегчить жизнь сотням паркинсонникам!
-            </p>
-
-            <div class="padded-content">
-                <div id="big-cards" class="row">
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/video.svg' %}" alt="">
-
-                            <div>
-                                <button id="video-button" class="btn waves-effect waves-light unassigned">Видео</button>
-                                <p>
-                                    Снимай видео и обрабатывай на сервере!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/book.svg' %}" alt="">
-
-                            <div>
-                                <button id="book-button" class="btn waves-effect waves-light lighten-2 unassigned">
-                                    Дневник
-                                </button>
-                                <p>
-                                    Расскажи как прошёл твой день!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/document.svg' %}" alt="">
-
-                            <div>
-                                <button id="document-button"
-                                        class="btn waves-effect waves-light cyan lighten-2 unassigned">Опросы
-                                </button>
-                                <p>
-                                    Проходи опросы и мини-тесты!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/joystick.svg' %}" alt="">
-
-                            <div>
-                                <button id="joystick-button"
-                                        class="btn waves-effect waves-light green lighten-2 unassigned">Игры
-                                </button>
-                                <p>
-                                    Играй и развивайся одновремеено!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="profile-section" class="scrollbarless">
-            {% if confirmation %}
                 {% user_display confirmation.email_address.user as user_display %}
-            
-                <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-                    {% csrf_token %}
-                    <div class="simple-form login-form">
-                        <div class="title">РЕГИСТРАЦИЯ</div>
-
-                        <p style="text-align: center">
-                            Пожалуйста, подтвердите, что адрес электронной почты <a href="mailto:{{ confirmation.email_address.email }}">{{ confirmation.email_address.email }}</a> принадлежит
-                            пользователю <b>{{ user_display }}</b>                        
-                        </p>
-                        
-                        <button class="btn waves-effect waves-light" type="submit" onclick="">Подтвердить
-                        </button>
-                    </div>
-                </form>
-
-            {% else %} 
-
-                {% url 'account_email' as email_url %}
-                <div class="simple-form login-form">
-                    <div class="title">РЕГИСТРАЦИЯ</div>
-
-                    <p style="text-align: center">Срок действия ссылки для подтверждения пользователя по электронной почте истек или она недействительна. 
-                        Пожалуйста, <a href="{{ email_url }}"> отправьте новый запрос на подтверждение по электронной почте. </a>
-                    </p>                    
-                    
+                <div class="section center">
+                    <p class="text_for_user">Пожалуйста, подтвердите, что данный e-mail <a
+                            href="mailto:{{ email }}">{{ email }}</a> принадлежит пользователю {{ user_display }}.</p>
+                    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                        {% csrf_token %}
+                        <button
+                                class="btn-large waves-effect waves-light"
+                                type="submit">{% trans 'Confirm' %}</button>
+                    </form>
                 </div>
 
-                
-            {% endif %}
+            </div>
         </div>
     </div>
 </div>
 
-<div class="hide-on-large-only">
-    <div class="container fullscreen-message">
-        <h1>Here the dragons be...</h1>
-    </div>
-</div>
-
-<script src="{% static 'js/script.js' %}"></script>
-
-<script>
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     var elems = document.querySelectorAll('.carousel');
-    //     var instances = M.Carousel.init(elems, {
-    //         fullWidth: true,
-    //         indicators: true,
-    //         padding: 100
-    //     });
-    // });
-    $('.carousel.carousel-slider').carousel({
-        fullWidth: true,
-        indicators: true,
-        padding: 100
-    });
-    autoplay();
-
-    function autoplay() {
-        $('.carousel').carousel('next');
-        setTimeout(autoplay, 4500);
-    }
-</script>
-
-<script src="{% static 'js/getCookie.js' %}"></script>
-
+<script src="{% static 'js/materialize.min.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src="{% static 'js/TweenLite.min.js' %}"></script>
+<script src="{% static 'js/EasePack.min.js' %}"></script>
+<script src="{% static 'js/rAF.js' %}"></script>
+<script src="{% static 'js/demo-1.js' %}"></script>
 
 </body>
 </html>
+
