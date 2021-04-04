@@ -43,13 +43,13 @@ class Question(models.Model):
     question = models.TextField(max_length=1000)
     typo = models.IntegerField(choices=TYPES, default=1)
     # Should be separated using ::
-    choices = models.CharField(max_length=500, blank=True)
+    choices = models.CharField(max_length=2000, blank=True)
 
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     # Should be separated using ',' if Multiply
-    answer = models.TextField(max_length=200)
+    answer = models.TextField(max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def parse_answers(self):
