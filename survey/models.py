@@ -75,10 +75,10 @@ class SurveyAnswer(models.Model):
     def process_answers(self):
         df = pd.DataFrame(columns=['Вопрос', 'Ответ'])
         path = media + '/user_surveys/'
-        for answer in self.answers:
+        for answer in self.answers.all():
             df = df.append({"Вопрос": answer.question.question,
-                            "Ответ": answer.answer})
-        name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title)
+                            "Ответ": answer.answer}, ignore_index=True)
+        name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title) + ".xlsx"
         df.to_excel(name)
         self.file.name = name
         super().save()
