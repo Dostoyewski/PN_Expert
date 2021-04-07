@@ -6,7 +6,8 @@ from rest_framework.response import Response
 
 from diagnostic.models import Event
 from .models import Question, Answer, Survey
-from .serializers import QuestionSerializer, AnswerSerializer, SurveySerializer
+from .serializers import QuestionSerializer, AnswerSerializer, SurveySerializer, \
+    SurveyAnswerSerializer
 
 
 @api_view(['POST'])
@@ -175,5 +176,27 @@ def attendee_survey(request):
                                  event_type=4
                                  )
         return Response({"message": "Survey attended!"})
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def create_survey_answer(request):
+    """
+    Creates survey answer. Should contain fields 'user' and 'survey':<br>
+    <b>Sample</b>:<br>
+    {"survey": 8,<br>
+     "user": "4"}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        serializer = SurveyAnswerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "SurveyAnswer created!"})
+        else:
+            return Response({"message": "Error!",
+                             "errors": serializer.errors})
     else:
         return Response({"message": "Method not allowed!"})

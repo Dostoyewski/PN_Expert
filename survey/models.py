@@ -72,7 +72,7 @@ class SurveyAnswer(models.Model):
         super().save(*args, **kwargs)
         for answer in answers:
             self.answers.add(answer)
-        super().save(*args, **kwargs)
+        super().save()
         self.process_answers()
 
     # @postpone
