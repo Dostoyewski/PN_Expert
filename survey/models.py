@@ -8,7 +8,6 @@ from django.dispatch import receiver
 
 from PN_Expert.settings import MEDIA_ROOT as media
 from diagnostic.models import Event
-from video_proc.decorators import postpone
 
 
 class Survey(models.Model):
@@ -63,15 +62,20 @@ class Answer(models.Model):
 
 class SurveyAnswer(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    answers = models.ManyToManyField(Answer)
+    answers = models.ManyToManyField(Answer, blank=True)
     file = models.FileField(upload_to="user_surveys", blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
+        answers = Answer.objects.filter(question__survey=self.survey,
+                                        user=self.user)
+        super().save(*args, **kwargs)
+        for answer in answers:
+            self.answers.add(answer)
         super().save(*args, **kwargs)
         self.process_answers()
 
-    @postpone
+    # @postpone
     def process_answers(self):
         df = pd.DataFrame(columns=['Вопрос', 'Ответ'])
         path = media + '/user_surveys/'
