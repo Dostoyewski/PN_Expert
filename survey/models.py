@@ -7,7 +7,7 @@ from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 
 from PN_Expert.settings import MEDIA_ROOT as media
-from diagnostic.models import Event
+from diagnostic.models import Event, DataRecording
 
 
 class Survey(models.Model):
@@ -86,3 +86,8 @@ class SurveyAnswer(models.Model):
         df.to_excel(name)
         self.file.name = name
         super().save()
+        dr = DataRecording()
+        dr.file.name = name
+        dr.user = self.user
+        dr.name = "Ответы на тест " + str(self.survey.title)
+        dr.save()
