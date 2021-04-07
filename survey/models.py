@@ -1,11 +1,14 @@
 import datetime
 
+import pandas as pd
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 
+from PN_Expert.settings import MEDIA_ROOT as media
 from diagnostic.models import Event
+from video_proc.decorators import postpone
 
 
 class Survey(models.Model):
@@ -56,3 +59,26 @@ class Answer(models.Model):
         if self.question.typo == 2:
             return self.answer.split(sep=',')
         return self.answer
+
+
+class SurveyAnswer(models.Model):
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    answers = models.ManyToManyField(Answer)
+    file = models.FileField(upload_to="user_surveys", blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.process_answers()
+
+    @postpone
+    def process_answers(self):
+        df = pd.DataFrame(columns=['Вопрос', 'Ответ'])
+        path = media + '/user_surveys/'
+        for answer in self.answers:
+            df = df.append({"Вопрос": answer.question.question,
+                            "Ответ": answer.answer})
+        name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title)
+        df.to_excel(name)
+        self.file.name = name
+        super().save()
