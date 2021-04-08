@@ -203,3 +203,24 @@ def get_user_files(request):
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def mark_as_done(request):
+    """
+    Marks event as done. Shoud have header 'event' with pk of event instance<br>
+    <b>Sample</b>:<br>
+    {"event": 5}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            event = Event.objects.get(pk=request.data['event'])
+            event.isDone = True
+            event.save()
+            return Response({"message": "ok"})
+        except KeyError:
+            return Response({"message": "Check your format!"})
+    else:
+        return Response({"message": "Method not allowed!"})
