@@ -68,6 +68,7 @@ class Event(models.Model):
     end = models.DateTimeField(default=datetime.datetime.now)
     event_type = models.IntegerField(choices=TYPES, default=0)
     survey_pk = models.IntegerField(default=0)
+    isDone = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if type(self.start) is not datetime.datetime:

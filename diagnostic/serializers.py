@@ -14,6 +14,7 @@ class EventSerializer(serializers.Serializer):
     end = serializers.CharField(max_length=100)
     event_type = serializers.IntegerField()
     survey_pk = serializers.IntegerField()
+    isDone = serializers.BooleanField()
 
     def create(self, validated_data):
         return Event.objects.create(**validated_data)
