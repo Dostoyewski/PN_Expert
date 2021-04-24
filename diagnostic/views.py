@@ -21,6 +21,7 @@ from .serializers import EventSerializer, DataRecordingSerializer, \
 
 # TODO: Add username to pk API
 # TODO: Add security checks
+# TODO: Fix submitting API
 
 @login_required()
 @api_view(['POST'])
