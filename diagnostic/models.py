@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
-from survey.models import Survey
 from .google_sync import create_event
 
 
@@ -116,4 +115,4 @@ class StartEvent(models.Model):
     location = models.CharField(max_length=100, default="")
     day_delta = models.IntegerField(default=2)
     event_type = models.IntegerField(choices=TYPES, default=0)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
