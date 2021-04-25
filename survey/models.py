@@ -62,6 +62,10 @@ class Answer(models.Model):
             return self.answer.split(sep=',')
         return self.answer
 
+    def __str__(self):
+        return "Ответ пользователя " + str(self.user.username) + " на вопрос из теста " + \
+               str(self.question.survey.title)
+
 
 class SurveyAnswer(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
