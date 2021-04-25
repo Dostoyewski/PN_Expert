@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'corsheaders',
     'diagnostic',
+    'sheduling',
+    'django_q',
 ]
 
 # Убрать перед релизом!!!
@@ -220,3 +222,13 @@ WEBPUSH_SETTINGS = {
 }
 
 NOTIFICATION_KEY = env('NOTIFICATION_KEY')
+
+Q_CLUSTER = {
+    'name': 'DjangORM',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
+}
