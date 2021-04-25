@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
+from survey.models import Survey
 from .google_sync import create_event
 
 
@@ -104,3 +105,15 @@ class DailyActivity(models.Model):
     liing = models.FloatField(default=0.1)
     upstairs = models.FloatField(default=0.1)
     downstairs = models.FloatField(default=0.1)
+
+
+class StartEvent(models.Model):
+    """
+    Event, который назначается всем пользователям при старте
+    """
+    description = models.CharField(max_length=1000, default="")
+    summary = models.CharField(max_length=100, default="")
+    location = models.CharField(max_length=100, default="")
+    day_delta = models.IntegerField(default=2)
+    event_type = models.IntegerField(choices=TYPES, default=0)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)

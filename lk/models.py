@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
-from diagnostic.models import Event
+from diagnostic.models import Event, StartEvent
 
 TEST = True
 
@@ -98,6 +98,16 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  user=instance,
                                  survey_pk=2,
                                  event_type=0)
+        else:
+            events = StartEvent.objects.all()
+            for event in events:
+                Event.objects.create(description=event.description,
+                                     summary=event.summary,
+                                     location=event.location,
+                                     end=datetime.datetime.now() + datetime.timedelta(days=event.day_delta),
+                                     user=instance,
+                                     survey_pk=event.survey.pk,
+                                     event_type=event.event_type)
 
 
 post_save.connect(create_user_profile, sender=User)
