@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Pill, AssignedPill
+from .serializers import PillSerializer
 
 
 @api_view(['POST'])
@@ -31,3 +32,36 @@ def create_pill_assigment(request):
             return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['GET'])
+def get_pills_list(request):
+    """
+    Returns pills list
+    :param request:
+    :return:
+    """
+    pills = Pill.objects.all()
+    serializer = PillSerializer(pills, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def view_assigned_pills(request):
+    """
+    Returns assigned pills to user. Should have header 'user' or header "name".<br> <b>Samples:</b><br>
+    {"user": 5}<br>
+    {"name": "fedor"}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except KeyError:
+        user = User.objects.get(username=request.data['name'])
+    assignee = AssignedPill.objects.filter(user=user)
+    pills = []
+    for rec in assignee:
+        pills.append(rec.pill)
+    serializer = PillSerializer(pills, many=True)
+    return Response(serializer.data)
