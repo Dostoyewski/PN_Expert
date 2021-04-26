@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'diagnostic',
     'sheduling',
     'django_q',
+    'pills',
 ]
 
 # Убрать перед релизом!!!
