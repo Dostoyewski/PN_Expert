@@ -58,8 +58,3 @@ class UserProfileAvatarSerializer(ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ["avatar"]
-
-    def save(self, *args, **kwargs):
-        if self.instance.avatar:
-            self.instance.avatar.delete()
-        return super().save(*args, **kwargs)
