@@ -9,7 +9,7 @@ from django.utils.text import slugify
 
 from diagnostic.models import Event, StartEvent
 
-TEST = True
+TEST = False
 
 GENDER = (
     (0, "MALE"),
