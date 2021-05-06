@@ -42,11 +42,11 @@ class SurveyShedule(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.run_interval == 0:
-            schedule(create_events, 1,
+            schedule('create_events', 1,
                      schedule_type=Schedule.DAILY,
                      next_run=datetime.datetime.now() + datetime.timedelta(seconds=10))
         elif self.run_interval == 1:
-            schedule(q_test_run_events, 1,
+            schedule('q_test_run_events', 1,
                      schedule_type=Schedule.WEEKLY)
         elif self.run_interval == 2:
             schedule(create_events, 1,
