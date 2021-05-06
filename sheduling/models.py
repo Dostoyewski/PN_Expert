@@ -14,22 +14,19 @@ SHEDULE_TYPE = (
     (3, 'Раз в квартал')
 )
 
+TYPES = (
+    (0, 'Мероприятие'),
+    (1, 'Прием лекарств'),
+    (2, 'Видео тест'),
+    (3, 'Отправка фотографии'),
+    (4, 'Опрос'),
+)
+
 
 class SurveyShedule(models.Model):
     run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
     users = models.ManyToManyField(User)
-
-    def create_event(self):
-        for user in self.users.all():
-            Event.objects.create(description="Пройти тест " + self.survey.title,
-                                 summary="Пройти тест",
-                                 location="",
-                                 end=datetime.datetime.now() + datetime.timedelta(days=1),
-                                 user=user,
-                                 survey_pk=self.survey.pk,
-                                 event_type=4)
-        print("lkdflsdjf")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -45,4 +42,27 @@ class SurveyShedule(models.Model):
                      schedule_type=Schedule.MONTHLY)
         elif self.run_interval == 3:
             schedule("PN_Expert.services.create_events", self.pk,
+                     schedule_type=Schedule.QUARTERLY)
+
+
+class MessageSurvey(models.Model):
+    run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
+    message = models.TextField(default=" ")
+    users = models.ManyToManyField(User)
+    typo = models.IntegerField(choices=TYPES)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.run_interval == 0:
+            schedule("PN_Expert.services.create_events_message", self.pk,
+                     schedule_type=Schedule.DAILY,
+                     next_run=datetime.datetime.now() + datetime.timedelta(seconds=10))
+        elif self.run_interval == 1:
+            schedule("PN_Expert.services.create_events_message", self.pk,
+                     schedule_type=Schedule.WEEKLY)
+        elif self.run_interval == 2:
+            schedule("PN_Expert.services.create_events_message", self.pk,
+                     schedule_type=Schedule.MONTHLY)
+        elif self.run_interval == 3:
+            schedule("PN_Expert.services.create_events_message", self.pk,
                      schedule_type=Schedule.QUARTERLY)
