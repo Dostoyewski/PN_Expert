@@ -21,16 +21,16 @@ class Pill(models.Model):
     info = models.TextField(max_length=1000, blank=True)
     dosege = models.CharField(max_length=500)
     # Дата приема до
-    time_out = models.DateField(auto_now_add=True)
+    time_out = models.DateField(auto_now_add=True, null=True)
     time1 = models.TimeField(default=datetime.time(hour=16, minute=0, second=0))
-    time2 = models.TimeField(blank=True)
-    time3 = models.TimeField(blank=True)
-    time4 = models.TimeField(blank=True)
-    time5 = models.TimeField(blank=True)
+    time2 = models.TimeField(blank=True, null=True)
+    time3 = models.TimeField(blank=True, null=True)
+    time4 = models.TimeField(blank=True, null=True)
+    time5 = models.TimeField(blank=True, null=True)
     extra = models.CharField(max_length=500, blank=True)
     # Статус, если принимается — то true
     is_taken = models.BooleanField(default=True)
-    typo = models.IntegerField(choices=TYPES)
+    typo = models.IntegerField(choices=TYPES, default=1)
 
     def __str__(self):
         return self.title
