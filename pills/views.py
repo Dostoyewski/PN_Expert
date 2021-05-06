@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Pill, AssignedPill
-from .serializers import PillSerializer
+from .serializers import PillSerializer, AssignedPillSerializer
 
 
 @api_view(['POST'])
@@ -64,7 +64,15 @@ def view_assigned_pills(request):
     for rec in assignee:
         pills.append(rec.pill)
     serializer = PillSerializer(pills, many=True)
-    return Response(serializer.data)
+    serializer2 = AssignedPillSerializer(assignee, many=True)
+    data_pills = serializer.data
+    data_assignee = serializer2.data
+    for i, rec in enumerate(list(data_pills)):
+        rec['time_out'] = data_assignee[i]['time_out']
+        rec['is_taken'] = data_assignee[i]['is_taken']
+        rec['dosege'] = data_assignee[i]['dosege']
+        rec['extra'] = data_assignee[i]['extra']
+    return Response(data_pills)
 
 
 @api_view(['POST'])

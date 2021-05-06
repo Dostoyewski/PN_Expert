@@ -12,4 +12,4 @@ class PillSerializer(ModelSerializer):
 class AssignedPillSerializer(ModelSerializer):
     class Meta:
         model = AssignedPill
-        field = "__all__"
+        fields = '__all__'

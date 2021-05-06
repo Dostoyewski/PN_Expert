@@ -7,14 +7,14 @@ class PillAdmin(admin.ModelAdmin):
     """
     Register Pill to admin profiles
     """
-    list_display = ('title', 'info', 'dosege', 'time_out', 'time', 'extra', 'is_taken', 'typo')
+    list_display = ('title', 'info', 'time', 'typo')
 
 
 class PillAssignedAdmin(admin.ModelAdmin):
     """
     Register Pill to admin profiles
     """
-    list_display = ('pill', 'user')
+    list_display = ('pill', 'user', 'is_taken', 'extra', 'dosege', 'time_out')
 
 
 admin.site.register(Pill, PillAdmin)

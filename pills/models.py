@@ -17,15 +17,9 @@ class Pill(models.Model):
     """
     title = models.CharField(max_length=500)
     info = models.TextField(max_length=1000, blank=True)
-    dosege = models.CharField(max_length=500)
-    # Дата приема до
-    time_out = models.DateField(auto_now_add=True, null=True)
     # time1 = models.TimeField(default=datetime.time(hour=16, minute=0, second=0))
     # time2 = models.TimeField(blank=True, null=True)
     time = models.TextField(max_length=1000, default="")
-    extra = models.CharField(max_length=500, blank=True)
-    # Статус, если принимается — то true
-    is_taken = models.BooleanField(default=True)
     typo = models.IntegerField(choices=TYPES, default=1)
 
     def __str__(self):
@@ -39,3 +33,9 @@ class AssignedPill(models.Model):
     """
     pill = models.ForeignKey(Pill, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Дата приема до
+    time_out = models.DateField(auto_now_add=True, null=True)
+    # Статус, если принимается — то true
+    is_taken = models.BooleanField(default=True)
+    extra = models.CharField(max_length=500, blank=True, default="")
+    dosege = models.CharField(max_length=500, default="")
