@@ -19,6 +19,10 @@ def create_events(pk):
     print("asdasd")
 
 
+def q_test_run_events(a):
+    print(a)
+
+
 class SurveyShedule(models.Model):
     run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
@@ -38,15 +42,15 @@ class SurveyShedule(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.run_interval == 0:
-            schedule(create_events, self.pk,
+            schedule(create_events, 1,
                      schedule_type=Schedule.DAILY,
                      next_run=datetime.datetime.now() + datetime.timedelta(seconds=10))
         elif self.run_interval == 1:
-            schedule(create_events, self.pk,
+            schedule(q_test_run_events, 1,
                      schedule_type=Schedule.WEEKLY)
         elif self.run_interval == 2:
-            schedule(create_events, self.pk,
+            schedule(create_events, 1,
                      schedule_type=Schedule.MONTHLY)
         elif self.run_interval == 3:
-            schedule(create_events, self.pk,
+            schedule(create_events, 1,
                      schedule_type=Schedule.QUARTERLY)
