@@ -45,6 +45,7 @@ class SurveyShedule(models.Model):
                      schedule_type=Schedule.QUARTERLY)
 
 
+# TODO: Rename this to messageShedule
 class MessageSurvey(models.Model):
     run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
     message = models.TextField(default=" ")
