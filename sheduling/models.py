@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django_q.models import Schedule
+from django_q.tasks import async_task
 from django_q.tasks import schedule
 
 from diagnostic.models import Event
@@ -41,6 +42,7 @@ class SurveyShedule(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+        async_task("PN_Expert.sheduling.models.create_events", 10)
         if self.run_interval == 0:
             schedule('create_events', 1,
                      schedule_type=Schedule.DAILY,
