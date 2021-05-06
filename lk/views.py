@@ -140,7 +140,7 @@ def home(request):
                                          'profile': u_profile})
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def get_user_info(request):
     """
     Get user info. Shoud have header 'user' with pk of user instance<br>
@@ -202,6 +202,8 @@ def write_user_info(request):
         serializer = UserProfileSerializer(data=data, instance=up)
         if serializer.is_valid():
             serializer.save()
+            up.isFull = True
+            up.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

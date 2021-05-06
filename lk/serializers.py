@@ -1,3 +1,4 @@
+from allauth.account.admin import EmailAddress
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -48,10 +49,17 @@ class UserProfileAPISerializer(serializers.ModelSerializer):
     """
     UserProfile serializer
     """
+    email_confirmed = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = ['user', 'name', 'vorname', 'fathername', 'gender', 'age',
+                  'parkinson', 'status', 'exp', 'isFull', 'city',
+                  'slug', 'avatar', 'send_push', 'email_confirmed']
+        # fields = '__all__'
+
+    def get_email_confirmed(self, instance):
+        return EmailAddress.objects.get(user=instance.user).verified
 
 
 class UserProfileAvatarSerializer(ModelSerializer):
