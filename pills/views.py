@@ -125,8 +125,9 @@ def delete_pill_assigment(request):
             user = User.objects.get(username=request.data['name'])
         pill = Pill.objects.get(pk=request.data['pill'])
         try:
-            obj = AssignedPill.objects.get(user=user, pill=pill)
-            obj.delete()
+            objs = AssignedPill.objects.filter(user=user, pill=pill)
+            for obj in objs:
+                obj.delete()
             return Response({"message": "Deleted!"}, status=status.HTTP_201_CREATED)
         except:
             return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
