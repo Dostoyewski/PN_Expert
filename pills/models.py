@@ -19,7 +19,6 @@ class Pill(models.Model):
     info = models.TextField(max_length=1000, blank=True)
     # time1 = models.TimeField(default=datetime.time(hour=16, minute=0, second=0))
     # time2 = models.TimeField(blank=True, null=True)
-    time = models.TextField(max_length=1000, default="")
     typo = models.IntegerField(choices=TYPES, default=1)
 
     def __str__(self):
@@ -39,3 +38,4 @@ class AssignedPill(models.Model):
     is_taken = models.BooleanField(default=True)
     extra = models.CharField(max_length=500, blank=True, default="")
     dosege = models.CharField(max_length=500, default="")
+    time = models.TextField(max_length=1000, default="")

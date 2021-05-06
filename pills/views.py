@@ -12,10 +12,22 @@ def create_pill_assigment(request):
     """
     Creates pill assigment. Shoud have header 'user' with pk of user instance or field name, header 'pill' with pk of pill instance:<br>
     <b>Sample</b>:<br>
-    {"name": "fedor",<br>
-    "pill": "1"}<br>
     {"user": 4,<br>
-    "pill": "1"}<br>
+    "pill": "1",<br>
+    "dosege": "тест",<br>
+    "time_out": "2021-05-06",<br>
+    "extra": "тест",<br>
+    "is_taken": true,<br>
+    "time": "12:00::14:00"
+    }<br>
+    {"name": "fedor",<br>
+    "pill": "1",<br>
+    "dosege": "тест",<br>
+    "time_out": "2021-05-06",<br>
+    "extra": "тест",<br>
+    "is_taken": true,<br>
+    "time": "12:00::14:00"
+    }<br>
     :param request:
     :return:
     """
@@ -26,7 +38,14 @@ def create_pill_assigment(request):
             user = User.objects.get(username=request.data['name'])
         pill = Pill.objects.get(pk=request.data['pill'])
         try:
-            AssignedPill.objects.create(user=user, pill=pill)
+            AssignedPill.objects.create(user=user,
+                                        pill=pill,
+                                        dosege=request.data['dosege'],
+                                        time_out=request.data['time_out'],
+                                        extra=request.data['extra'],
+                                        is_taken=request.data['is_taken'],
+                                        time=request.data['time'],
+                                        )
             return Response({"message": "Created"}, status=status.HTTP_201_CREATED)
         except:
             return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
@@ -72,6 +91,7 @@ def view_assigned_pills(request):
         rec['is_taken'] = data_assignee[i]['is_taken']
         rec['dosege'] = data_assignee[i]['dosege']
         rec['extra'] = data_assignee[i]['extra']
+        rec['time'] = data_assignee[i]['time']
     return Response(data_pills)
 
 
