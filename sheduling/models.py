@@ -42,7 +42,7 @@ class SurveyShedule(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        async_task("PN_Expert.sheduling.models.create_events", 10)
+        async_task("sheduling.models.py.create_events", 10)
         if self.run_interval == 0:
             schedule('create_events', 1,
                      schedule_type=Schedule.DAILY,
