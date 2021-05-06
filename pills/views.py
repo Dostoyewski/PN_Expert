@@ -73,16 +73,13 @@ def create_pill(request):
     Creates pill. Should have fields:<br>
     <b>Sample</b>:<br>
     {<br>
-        "title": "Талбетка",<br>
-        "info": "вываыва",<br>
-        "dosege": "вдлалыдавтьы",<br>
+        "id": 1,<br>
+        "title": "Тестовая таблетка",<br>
+        "info": "тест",<br>
+        "dosege": "тест",<br>
         "time_out": "2021-05-06",<br>
-        "time1": "16:00:00",<br>
-        "time2": null,<br>
-        "time3": null,<br>
-        "time4": null,<br>
-        "time5": null,<br>
-        "extra": "ываыа",<br>
+        "time": "",<br>
+        "extra": "тест",<br>
         "is_taken": true,<br>
         "typo": 1<br>
     }<br>
