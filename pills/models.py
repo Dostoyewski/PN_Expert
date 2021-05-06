@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -22,11 +20,9 @@ class Pill(models.Model):
     dosege = models.CharField(max_length=500)
     # Дата приема до
     time_out = models.DateField(auto_now_add=True, null=True)
-    time1 = models.TimeField(default=datetime.time(hour=16, minute=0, second=0))
-    time2 = models.TimeField(blank=True, null=True)
-    time3 = models.TimeField(blank=True, null=True)
-    time4 = models.TimeField(blank=True, null=True)
-    time5 = models.TimeField(blank=True, null=True)
+    # time1 = models.TimeField(default=datetime.time(hour=16, minute=0, second=0))
+    # time2 = models.TimeField(blank=True, null=True)
+    time = models.TextField(max_length=1000, default="")
     extra = models.CharField(max_length=500, blank=True)
     # Статус, если принимается — то true
     is_taken = models.BooleanField(default=True)
