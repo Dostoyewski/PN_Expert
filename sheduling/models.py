@@ -3,7 +3,6 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django_q.models import Schedule
-from django_q.tasks import async_task
 from django_q.tasks import schedule
 
 from diagnostic.models import Event
@@ -16,43 +15,34 @@ SHEDULE_TYPE = (
 )
 
 
-def create_events(pk):
-    print("asdasd")
-
-
-def q_test_run_events(a):
-    print(a)
-
-
 class SurveyShedule(models.Model):
     run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
     users = models.ManyToManyField(User)
 
-    # def create_event(self):
-    #     # for user in self.users.all():
-    #     #     Event.objects.create(description="Пройти тест " + self.survey.title,
-    #     #                          summary="Пройти тест",
-    #     #                          location="",
-    #     #                          end=datetime.datetime.now() + datetime.timedelta(days=1),
-    #     #                          user=user,
-    #     #                          survey_pk=self.survey.pk,
-    #     #                          event_type=4)
-    #     print("lkdflsdjf")
+    def create_event(self):
+        for user in self.users.all():
+            Event.objects.create(description="Пройти тест " + self.survey.title,
+                                 summary="Пройти тест",
+                                 location="",
+                                 end=datetime.datetime.now() + datetime.timedelta(days=1),
+                                 user=user,
+                                 survey_pk=self.survey.pk,
+                                 event_type=4)
+        print("lkdflsdjf")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        async_task("PN_Expert.services.create_events", 10)
         if self.run_interval == 0:
-            schedule('create_events', 1,
+            schedule("PN_Expert.services.create_events", self.pk,
                      schedule_type=Schedule.DAILY,
                      next_run=datetime.datetime.now() + datetime.timedelta(seconds=10))
         elif self.run_interval == 1:
-            schedule('q_test_run_events', 1,
+            schedule("PN_Expert.services.create_events", self.pk,
                      schedule_type=Schedule.WEEKLY)
         elif self.run_interval == 2:
-            schedule(create_events, 1,
+            schedule("PN_Expert.services.create_events", self.pk,
                      schedule_type=Schedule.MONTHLY)
         elif self.run_interval == 3:
-            schedule(create_events, 1,
+            schedule("PN_Expert.services.create_events", self.pk,
                      schedule_type=Schedule.QUARTERLY)
