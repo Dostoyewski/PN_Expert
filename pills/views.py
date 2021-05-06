@@ -65,3 +65,37 @@ def view_assigned_pills(request):
         pills.append(rec.pill)
     serializer = PillSerializer(pills, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def create_pill(request):
+    """
+    Creates pill. Should have fields:<br>
+    <b>Sample</b>:<br>
+    {<br>
+        "title": "Талбетка",<br>
+        "info": "вываыва",<br>
+        "dosege": "вдлалыдавтьы",<br>
+        "time_out": "2021-05-06",<br>
+        "time1": "16:00:00",<br>
+        "time2": null,<br>
+        "time3": null,<br>
+        "time4": null,<br>
+        "time5": null,<br>
+        "extra": "ываыа",<br>
+        "is_taken": true,<br>
+        "typo": 1<br>
+    }<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        serializer = PillSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Pill created!"})
+        else:
+            return Response({"message": "Error!",
+                             "errors": serializer.errors})
+    else:
+        return Response({"message": "Method not allowed!"})
