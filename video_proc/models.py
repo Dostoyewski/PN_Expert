@@ -57,6 +57,7 @@ class CompetitionRecording(models.Model):
         super().save(*args, **kwargs)
         self.process_video()
 
+    # TODO: change PoseDetector to MP_ANN
     @postpone
     def process_video(self):
         output, points = handle_video(self.video.name)
