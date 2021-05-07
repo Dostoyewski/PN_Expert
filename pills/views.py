@@ -153,3 +153,33 @@ def delete_pill_assigment(request):
             return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def mark_as_old_assigment(request):
+    """
+    Marks assigment as is_taken = False. Shoud have header 'user' with pk of user instance or field name, header 'pill' with pk of pill instance:<br>
+    <b>Sample</b>:<br>
+    {"name": "fedor",<br>
+    "pill": "1"}<br>
+    {"user": 4,<br>
+    "pill": "1"}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(pk=request.data['user'])
+        except KeyError:
+            user = User.objects.get(username=request.data['name'])
+        pill = Pill.objects.get(pk=request.data['pill'])
+        try:
+            objs = AssignedPill.objects.filter(user=user, pill=pill)
+            for obj in objs:
+                obj.is_taken = False
+                obj.save()
+            return Response({"message": "Marked as taken!"}, status=status.HTTP_201_CREATED)
+        except:
+            return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({"message": "Method not allowed!"})
