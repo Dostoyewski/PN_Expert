@@ -176,7 +176,7 @@ def mark_as_old_assigment(request):
         try:
             objs = AssignedPill.objects.filter(user=user, pill=pill)
             for obj in objs:
-                obj.is_taken = False
+                obj.is_taken = not obj.is_taken
                 obj.save()
             return Response({"message": "Marked as taken!"}, status=status.HTTP_201_CREATED)
         except:
