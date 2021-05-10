@@ -112,14 +112,37 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_user_profile, sender=User)
 
+TREMOR = (
+    (0, "Голова"),
+    (1, "Шея"),
+    (2, "Туловище"),
+    (3, "Правая рука"),
+    (4, "Левая рука"),
+    (5, "Правая нога"),
+    (6, "Левая нога")
+)
+
+STIMULATORS = (
+    (0, "Medtronic Aktiva PC"),
+    (1, "Medtronic Aktiva RC"),
+    (2, "Abbot Infiniti"),
+    (3, "Abbot Brio"),
+    (4, "Boston Vercise PC"),
+    (5, "Boston Vercise"),
+)
+
 
 class DiaryRecording(models.Model):
     """
     Diary recording model
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    header = models.CharField(max_length=50, blank=True)
     text = models.CharField(max_length=2000, blank=True)
+    tremor = models.IntegerField(choices=TREMOR, default=0)
+    # скованность
+    brake = models.IntegerField(choices=TREMOR, default=0)
+    # Все четные — не перезаряжаемые
+    stimulators = models.IntegerField(choices=STIMULATORS, default=0)
     published = models.DateTimeField(default=timezone.now)
 
 
