@@ -6,8 +6,10 @@ from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from multiselectfield import MultiSelectField
 
 from diagnostic.models import Event, StartEvent
+from sheduling.models import MessageSurvey
 
 TEST = False
 
@@ -100,6 +102,9 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  event_type=0)
         else:
             events = StartEvent.objects.all()
+            mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
+            mes.save()
+            mes.users.add(instance)
             for event in events:
                 Event.objects.create(description=event.description,
                                      summary=event.summary,
@@ -112,14 +117,37 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_user_profile, sender=User)
 
+TREMOR = (
+    (0, "Голова"),
+    (1, "Шея"),
+    (2, "Туловище"),
+    (3, "Правая рука"),
+    (4, "Левая рука"),
+    (5, "Правая нога"),
+    (6, "Левая нога")
+)
+
+STIMULATORS = (
+    (0, "Medtronic Aktiva PC"),
+    (1, "Medtronic Aktiva RC"),
+    (2, "Abbot Infiniti"),
+    (3, "Abbot Brio"),
+    (4, "Boston Vercise PC"),
+    (5, "Boston Vercise"),
+)
+
 
 class DiaryRecording(models.Model):
     """
     Diary recording model
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    header = models.CharField(max_length=50, blank=True)
     text = models.CharField(max_length=2000, blank=True)
+    tremor = MultiSelectField(choices=TREMOR, default=0)
+    # скованность
+    brake = MultiSelectField(choices=TREMOR, default=0)
+    # Все четные — не перезаряжаемые
+    stimulators = models.IntegerField(choices=STIMULATORS, default=0)
     published = models.DateTimeField(default=timezone.now)
 
 

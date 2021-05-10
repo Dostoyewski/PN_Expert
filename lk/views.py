@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status
@@ -93,27 +94,64 @@ def news_list(request):
                                                                                many=True).data})
 
 
-@login_required()
-@api_view(['GET', 'POST'])
-def get_diary_list(request):
+@api_view(['POST'])
+def create_diary_rec(request):
     """
-    Creates new diary recording or returns all recording list
+    Creates diary recording.<br>
+    <b>Sample:</b><br>
+    {<br>
+            "tremor": [2, 4, 5],<br>
+            "brake": [0, 4],<br>
+            "text": "test",<br>
+            "stimulators": 0,<br>
+            "user": 9<br>
+        }<br>
     :param request:
     :return:
     """
-    if request.method == 'GET':
-        return Response({"recordings": DiaryRecordingSerializer(DiaryRecording.objects.filter(user=request.user),
-                                                                many=True).data})
-    elif request.method == 'POST':
+    try:
         serializer = DiaryRecordingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "ok"})
+        else:
+            return Response({"errors": serializer.errors})
+    except:
+        return Response({"message": "incorrect"})
+
+
+@api_view(['POST'])
+def get_diary_list(request):
+    """
+    Returns diary recordings, all or last. Should contain fields "user" or "username" and optional<br>
+    field "last". If last exist it will be return only last recording.<br>
+    <b>Sample:</b><br>
+    {"user": 5,<br>
+    "last": true}<br>
+    {"username": "fedor"}
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except KeyError:
+        user = User.objects.get(username=request.data['username'])
+    last = False
+    try:
+        if request.data['last']:
+            last = True
+    except KeyError:
+        last = False
+    if last:
         try:
-            DiaryRecording.objects.create(user=request.user, header=request.data['header'],
-                                          text=request.data['text'])
-            return Response({"message": "Recording created!"})
-        except KeyError:
-            return Response({"message": "Error!"})
+            obj = DiaryRecordingSerializer(
+                DiaryRecording.objects.filter(user=user).order_by('-id')[0]).data
+        except IndexError:
+            obj = {}
+        return Response({"recordings": obj})
     else:
-        return Response({"message": "Method not allowed!"})
+        return Response({"recordings": DiaryRecordingSerializer(DiaryRecording.objects.filter(user=user),
+                                                                many=True).data})
 
 
 def main_redirect_view(request):

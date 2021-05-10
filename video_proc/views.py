@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from lk.models import UserProfile
 from .forms import CompetitionRecordingForm
 from .models import Competition, CompetitionRecording
-from .serializers import CompetitionSerializer
+from .serializers import CompetitionSerializer, CompetitionRecordingSerializer
 
 
 @login_required()
@@ -45,45 +47,33 @@ def video_recording(request, slug):
                                                            'hasLoaded': has_loaded})
 
 
-def grishas_intro(request):
+@api_view(['GET', 'POST'])
+def competition_list(request):
     """
-    intro for smartphones
+    Returns list of competitions or concrete competition.
+    <b>Sample:</b><br>
+    {"competition": 1}
     :param request:
     :return:
     """
-    return render(request, 'grishas-intro.html', {})
+    if request.method == 'GET':
+        objs = Competition.objects.all()
+        return Response({"competitions": CompetitionSerializer(objs, many=True).data})
+    elif request.method == 'POST':
+        obj = Competition.objects.get(pk=request.data['competition'])
+        return Response({"competitions": CompetitionSerializer(obj).data})
 
 
-def grishas_intro_timer(request):
+@api_view(['POST'])
+def create_recording(request):
     """
-    intro for smartphones
+    Should contain fields 'user', 'video', 'competition'
     :param request:
     :return:
     """
-    return render(request, 'grishas-timer.html', {})
-
-
-def competitions_list(request):
-    """
-    Page with all competitions tasks
-    :param request:
-    :return:
-    """
-    competitions = Competition.objects.all()
-    # Array with serialized competitions
-    comp_arr = []
-    if not request.user.is_anonymous:
-        for obj in competitions:
-            serialized = CompetitionSerializer(obj).data
-            try:
-                rec = get_list_or_404(CompetitionRecording, user=request.user, competition=obj)
-                serialized['ifExist'] = True
-            except:
-                serialized['ifExist'] = False
-            comp_arr.append(serialized)
-        return render(request, 'videos_home.html', {"recordings": comp_arr,
-                                                    "message": "ok"})
+    serializer = CompetitionRecordingSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "ok"})
     else:
-        return render(request, 'videos_home.html', {"recordings": CompetitionSerializer(Competition.objects.all(),
-                                                                                        many=True).data,
-                                                    "message": "Для загрузки видео необходимо войти"})
+        return Response({"error": serializer.errors})

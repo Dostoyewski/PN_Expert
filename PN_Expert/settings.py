@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'sheduling',
     'django_q',
     'pills',
+    'multiselectfield',
 ]
 
 # Убрать перед релизом!!!
