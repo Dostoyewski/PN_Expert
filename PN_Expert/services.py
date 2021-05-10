@@ -26,5 +26,5 @@ def create_events_message(pk):
                              location="",
                              end=datetime.datetime.now() + datetime.timedelta(days=1),
                              user=user,
-                             survey_pk=obj.survey.pk,
+                             survey_pk=1,
                              event_type=obj.typo)
