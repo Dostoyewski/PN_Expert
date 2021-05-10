@@ -8,6 +8,7 @@ urlpatterns = [
     path('account/', views.account, name='account'),
     path('account/update/', views.update_params, name='api_update_params'),
     path('api/diary/get/', views.get_diary_list, name='api_diary'),
+    path('api/diary/create/', views.create_diary_rec, name='create_diary'),
     path('accounts/login/', views.main_redirect_view, name='main_redirect'),
     path('news/', views.news_list, name='news_list'),
     path('api/profile/get/', views.get_user_info, name='profile_info'),

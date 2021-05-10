@@ -95,6 +95,30 @@ def news_list(request):
 
 
 @api_view(['POST'])
+def create_diary_rec(request):
+    """
+    Creates diary recording.<br>
+    <b>Sample:</b><br>
+    {"text": "info",<br>
+    "tremor": 0,<br>
+    "brake": 0,<br>
+    "stimulators": 0,<br>
+    "user": 9}<br>
+    :param request:
+    :return:
+    """
+    try:
+        serializer = DiaryRecordingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "ok"})
+        else:
+            return Response({"errors": serializer.errors})
+    except:
+        return Response({"message": "incorrect"})
+
+
+@api_view(['POST'])
 def get_diary_list(request):
     """
     Returns diary recordings, all or last. Should contain fields "user" or "username" and optional<br>
@@ -126,27 +150,6 @@ def get_diary_list(request):
     else:
         return Response({"recordings": DiaryRecordingSerializer(DiaryRecording.objects.filter(user=user),
                                                                 many=True).data})
-
-
-# def get_diary_list(request):
-#     """
-#     Creates new diary recording or returns all recording list
-#     :param request:
-#     :return:
-#     """
-#     if request.method == 'GET':
-#         return Response({"recordings": DiaryRecordingSerializer(DiaryRecording.objects.filter(user=request.user),
-#                                                                 many=True).data})
-#     elif request.method == 'POST':
-#         serializer = DiaryRecordingSerializer(data=request.data)
-#         try:
-#             DiaryRecording.objects.create(user=request.user, header=request.data['header'],
-#                                           text=request.data['text'])
-#             return Response({"message": "Recording created!"})
-#         except KeyError:
-#             return Response({"message": "Error!"})
-#     else:
-#         return Response({"message": "Method not allowed!"})
 
 
 def main_redirect_view(request):
