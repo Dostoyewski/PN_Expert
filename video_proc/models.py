@@ -36,6 +36,43 @@ class Competition(models.Model):
         return reverse('profile_detail', kwargs={'slug': self.slug})
 
 
+class PhotoCompetition(models.Model):
+    """
+    Competiton model class
+    """
+    # Название испытания
+    header = models.CharField(max_length=50, blank=True)
+    # текстовое описание
+    text = models.CharField(max_length=2000, blank=True)
+
+
+class PhotoCompetitionRecording(models.Model):
+    """
+    Video recording with trajectory and status
+    """
+    published = models.DateTimeField(default=timezone.now)
+    # user video
+    video = models.FileField(upload_to="user_photos", blank=True)
+    trajectory = models.TextField(default='')
+    # Video with trajectory
+    recognition = models.FileField(upload_to="user_photos_recogned", blank=True)
+    # ref to user instance
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # ref to competition instance
+    competition = models.ForeignKey(PhotoCompetition, on_delete=models.CASCADE)
+    # Flag if is recognized
+    recognized = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.process_photo()
+
+    @postpone
+    def process_photo(self):
+        pass
+        super().save()
+
+
 class CompetitionRecording(models.Model):
     """
     Video recording with trajectory and status

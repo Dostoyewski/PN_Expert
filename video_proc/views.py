@@ -8,7 +8,8 @@ from rest_framework.response import Response
 from lk.models import UserProfile
 from .forms import CompetitionRecordingForm
 from .models import Competition, CompetitionRecording
-from .serializers import CompetitionSerializer, CompetitionRecordingSerializer
+from .serializers import CompetitionSerializer, CompetitionRecordingSerializer, \
+    PhotoCompetitionSerializer, PhotoCompetitionRecordingSerializer
 
 
 @login_required()
@@ -72,6 +73,38 @@ def create_recording(request):
     :return:
     """
     serializer = CompetitionRecordingSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "ok"})
+    else:
+        return Response({"error": serializer.errors})
+
+
+@api_view(['GET', 'POST'])
+def photo_competition_list(request):
+    """
+    Returns list of competitions or concrete competition.
+    <b>Sample:</b><br>
+    {"competition": 1}
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        objs = Competition.objects.all()
+        return Response({"competitions": PhotoCompetitionSerializer(objs, many=True).data})
+    elif request.method == 'POST':
+        obj = Competition.objects.get(pk=request.data['competition'])
+        return Response({"competitions": PhotoCompetitionSerializer(obj).data})
+
+
+@api_view(['POST'])
+def photo_create_recording(request):
+    """
+    Should contain fields 'user', 'video', 'competition'
+    :param request:
+    :return:
+    """
+    serializer = PhotoCompetitionRecordingSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response({"message": "ok"})
