@@ -1,0 +1,21 @@
+body {
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.buttonreact{
+    padding: 0 27px;
+    border-radius: 20px;
+}
+
+.sectionreact{
+    border-radius: 20px;
+    box-shadow: 5px 5px 30px rgb(0 0 0 / 15%);
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: white;
+    width: min(90%, 500px);
+}
