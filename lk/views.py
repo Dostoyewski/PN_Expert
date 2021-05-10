@@ -99,11 +99,13 @@ def create_diary_rec(request):
     """
     Creates diary recording.<br>
     <b>Sample:</b><br>
-    {"text": "info",<br>
-    "tremor": 0,<br>
-    "brake": 0,<br>
-    "stimulators": 0,<br>
-    "user": 9}<br>
+    {<br>
+            "tremor": [2, 4, 5],<br>
+            "brake": [0, 4],<br>
+            "text": "test",<br>
+            "stimulators": 0,<br>
+            "user": 9<br>
+        }<br>
     :param request:
     :return:
     """

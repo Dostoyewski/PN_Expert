@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from multiselectfield import MultiSelectField
 
 from diagnostic.models import Event, StartEvent
 
@@ -138,9 +139,9 @@ class DiaryRecording(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField(max_length=2000, blank=True)
-    tremor = models.IntegerField(choices=TREMOR, default=0)
+    tremor = MultiSelectField(choices=TREMOR, default=0)
     # скованность
-    brake = models.IntegerField(choices=TREMOR, default=0)
+    brake = MultiSelectField(choices=TREMOR, default=0)
     # Все четные — не перезаряжаемые
     stimulators = models.IntegerField(choices=STIMULATORS, default=0)
     published = models.DateTimeField(default=timezone.now)

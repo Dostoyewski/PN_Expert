@@ -1,19 +1,20 @@
 from allauth.account.admin import EmailAddress
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from rest_framework.serializers import ModelSerializer
 
-from .models import DiaryRecording, NewsRecording, UserProfile
+from .models import DiaryRecording, NewsRecording, UserProfile, TREMOR
 
 
 class DiaryRecordingSerializer(serializers.ModelSerializer):
     """
     DiaryRecording serializer
     """
+    tremor = fields.MultipleChoiceField(choices=TREMOR)
+    brake = fields.MultipleChoiceField(choices=TREMOR)
 
     class Meta:
         model = DiaryRecording
         fields = '__all__'
-
 
 
 class NewsRecordingSerializer(serializers.Serializer):
