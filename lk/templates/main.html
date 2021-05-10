@@ -12,6 +12,7 @@
 
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}  ?ver=2"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_for_react.css' %}  ?ver=2"/>
 
     {% load i18n %}
     {% load account socialaccount %}
@@ -22,286 +23,289 @@
 <body>
 {% include 'base.html' %}
 
-<div class="hide-on-med-and-down">
-    <div id="main-sections">
-        <div id="menu-section">
-            <div id="logo">
-                <img src="{% static 'images/logo-icon.svg' %}" alt="">
-                <p>PN EXPERT</p>
-            </div>
+<!--<div class="hide-on-med-and-down">-->
+<!--    <div id="main-sections">-->
+<!--        <div id="menu-section">-->
+<!--            <div id="logo">-->
+<!--                <img src="{% static 'images/logo-icon.svg' %}" alt="">-->
+<!--                <p>PN EXPERT</p>-->
+<!--            </div>-->
 
 
-            <div id="menu">
-                <a href="{% url 'account' %}" class="waves-effect waves-dark menu-entry"><i 
-                    class="material-icons left ">account_circle</i>Аккаунт</a>
-                <a href="{% url 'home' %}" class="waves-effect waves-dark menu-entry selected"><i
-                        class="material-icons left selected">dashboard</i>Новости</a>
-                <a href="{% url 'event_list' %}" class="  waves-effect waves-dark menu-entry unassigned"><i 
-                    class="material-icons left ">event_available</i>Задания</a>
-                <a class="waves-effect waves-dark menu-entry unassigned"><i
-                        class="material-icons left">favorite_border</i>О нас</a>
-                <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">settings</i>Настройки</a>
-            </div>
+<!--            <div id="menu">-->
+<!--                <a href="{% url 'account' %}" class="waves-effect waves-dark menu-entry"><i -->
+<!--                    class="material-icons left ">account_circle</i>Аккаунт</a>-->
+<!--                <a href="{% url 'home' %}" class="waves-effect waves-dark menu-entry selected"><i-->
+<!--                        class="material-icons left selected">dashboard</i>Новости</a>-->
+<!--                <a href="{% url 'competition_list' %}" class=" waves-effect waves-dark menu-entry"><i-->
+<!--                        class="material-icons left ">date_range</i>Архив</a>-->
+<!--                <a href="{% url 'event_list' %}" class="  waves-effect waves-dark menu-entry unassigned"><i -->
+<!--                    class="material-icons left ">event_available</i>Задкккания</a>-->
+<!--                <a class="waves-effect waves-dark menu-entry unassigned"><i-->
+<!--                        class="material-icons left">favorite_border</i>О нас</a>-->
+<!--                <a class="waves-effect waves-dark menu-entry unassigned"><i class="material-icons left">settings</i>Настройки</a>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
 
-        <div id="content-section" class="scrollbarless">
-            <div id="content-topbar" style="margin-right: 1.7em;">
-                <input type="text" id="content-search" placeholder="Поиск">
-                <button id="webpush-subscribe-button" data-url="/webpush/save_information" class="btn waves-effect waves-light btn-flat"><i
-                        class="material-icons" style="color: #768492; margin-right: 1.7em;">notifications</i></button>
-                        <!-- {% webpush_button with_class="btn btn-outline-info" %} -->
-            </div>
+<!--        <div id="content-section" class="scrollbarless">-->
+<!--            <div id="content-topbar" style="margin-right: 1.7em;">-->
+<!--                <input type="text" id="content-search" placeholder="Поиск">-->
+<!--                <button id="webpush-subscribe-button" data-url="/webpush/save_information" class="btn waves-effect waves-light btn-flat"><i-->
+<!--                        class="material-icons" style="color: #768492; margin-right: 1.7em;">notifications</i></button>-->
+<!--                        &lt;!&ndash; {% webpush_button with_class="btn btn-outline-info" %} &ndash;&gt;-->
+<!--            </div>-->
 
-            <div id="content-carousel">
-                <div class="carousel carousel-slider center">
-                    <!-- <div class="carousel carousel-slider center"> -->
-                    <!-- <div class="carousel-fixed-item left">
-                        <a class="btn waves-effect white grey-text darken-text-2">button</a>
-                    </div> -->
-                    {% for fd in recordings %}
-                        <div class="carousel-item" style="background-image: url({{ fd.img }});" href="#one!">
-                            <h2 class="black-text">{{ fd.header }}</h2>
-                            <p class="black-text">{{ fd.text }}</p>
-                        </div>
-                    {% endfor %}
-                    <!-- </div> -->
-                    <div class="carousel-item" style="background-image: url({% static 'images/house2.jpg' %});">
-                        <div class="title">НОВОСТИ</div>
-                        <div class="subtitle">Обнаружены самые ранние признаки болезни Паркинсона</div>
-                    </div>
+<!--            <div id="content-carousel">-->
+<!--                <div class="carousel carousel-slider center">-->
+<!--                    &lt;!&ndash; <div class="carousel carousel-slider center"> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="carousel-fixed-item left">-->
+<!--                        <a class="btn waves-effect white grey-text darken-text-2">button</a>-->
+<!--                    </div> &ndash;&gt;-->
+<!--                    {% for fd in recordings %}-->
+    <!--                        <div class="carousel-item" style="background-image: url({{ fd.img }});" href="#one!">-->
+    <!--                            <h2 class="black-text">{{ fd.header }}</h2>-->
+    <!--                            <p class="black-text">{{ fd.text }}</p>-->
+    <!--                        </div>-->
+    <!--                    {% endfor %}-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    <div class="carousel-item" style="background-image: url({% static 'images/house2.jpg' %});">-->
+<!--                        <div class="title">НОВОСТИ</div>-->
+<!--                        <div class="subtitle">Обнаружены самые ранние признаки болезни Паркинсона</div>-->
+<!--                    </div>-->
 
-                    <div class="carousel-item"
-                         style="background-image: url({% static 'images/increase-serotonin.jpg' %});">
-                        <div class="title">НОВОСТИ</div>
-                        <div class="subtitle">Ученые определили механизм разрушения клеток мозга при болезни
-                            Паркинсона
-                        </div>
-                    </div>
+<!--                    <div class="carousel-item"-->
+<!--                         style="background-image: url({% static 'images/increase-serotonin.jpg' %});">-->
+<!--                        <div class="title">НОВОСТИ</div>-->
+<!--                        <div class="subtitle">Ученые определили механизм разрушения клеток мозга при болезни-->
+<!--                            Паркинсона-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    {% comment %} <div class="carousel-item" style="background-image: url('images/test-house.png');">
-                            <div class="title">Header 3</div>
-                            <div class="subtitle">Text 3</div>
-                        </div> {% endcomment %}
-                </div>
-            </div>
+<!--                    {% comment %} <div class="carousel-item" style="background-image: url('images/test-house.png');">-->
+<!--                            <div class="title">Header 3</div>-->
+<!--                            <div class="subtitle">Text 3</div>-->
+<!--                        </div> {% endcomment %}-->
+<!--                </div>-->
+<!--            </div>-->
 
-            <p>
-                Боле́знь Паркинсо́на — медленно прогрессирующее хроническое нейродегенеративное неврологическое
-                заболевание, характерное для лиц старшей возрастной группы.
-                <br><br>Присоединяйтесь к нашему проекту! Вместе мы сможем помочь оцифровать болезнь и обглечить жизнь
-                пациентам!
-                <br><br>Что для этого нужно сделать? Загружайте свои видео, проходите опросы, так мы сможем собрать
-                необходимый датасет!
-                
+<!--            <p>-->
+<!--                Боле́знь Паркинсо́на — медленно прогрессирующее хроническое нейродегенеративное неврологическое-->
+<!--                заболевание, характерное для лиц старшей возрастной группы.-->
+<!--                <br><br>Присоединяйтесь к нашему проекту! Вместе мы сможем помочь оцифровать болезнь и обглечить жизнь-->
+<!--                пациентам!-->
+<!--                <br><br>Что для этого нужно сделать? Загружайте свои видео, проходите опросы, так мы сможем собрать-->
+<!--                необходимый датасет!-->
+<!--                -->
 
-            
-            </p>
+<!--            -->
+<!--            </p>-->
 
-            <div class="padded-content">
-                <h4>Активности</h4>
-            </div>
+<!--            <div class="padded-content">-->
+<!--                <h4>Активности</h4>-->
+<!--            </div>-->
 
-            <p>
-                Что бы принять участие в проекте регистрируйтесь и выполняйте задания. Например, снимите видео как вы
-                сжимаете руку в кулак. У вас это отнимет пару минут, но позволит нам обработать ваше видео и за счёт
-                полученных данных облегчить жизнь сотням паркинсонникам!
-            </p>
+<!--            <p>-->
+<!--                Что бы принять участие в проекте регистрируйтесь и выполняйте задания. Например, снимите видео как вы-->
+<!--                сжимаете руку в кулак. У вас это отнимет пару минут, но позволит нам обработать ваше видео и за счёт-->
+<!--                полученных данных облегчить жизнь сотням паркинсонникам!-->
+<!--            </p>-->
 
-            <div class="padded-content">
-                <div id="big-cards" class="row">
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/video.svg' %}" alt="">
+<!--            <div class="padded-content">-->
+<!--                <div id="big-cards" class="row">-->
+<!--                    <div class="col m6 s12">-->
+<!--                        <div class="col-content">-->
+<!--                            <img src="{% static 'images/video.svg' %}" alt="">-->
 
-                            <div>
-                                <button id="video-button" class="btn waves-effect waves-light unassigned">Видео</button>
-                                <p>
-                                    Снимай видео и обрабатывай на сервере!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/book.svg' %}" alt="">
+<!--                            <div>-->
+<!--                                <button id="video-button" class="btn waves-effect waves-light unassigned">Видео</button>-->
+<!--                                <p>-->
+<!--                                    Снимай видео и обрабатывай на сервере!-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col m6 s12">-->
+<!--                        <div class="col-content">-->
+<!--                            <img src="{% static 'images/book.svg' %}" alt="">-->
 
-                            <div>
-                                <button id="book-button" class="btn waves-effect waves-light lighten-2 unassigned">
-                                    Дневник
-                                </button>
-                                <p>
-                                    Расскажи как прошёл твой день!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/document.svg' %}" alt="">
+<!--                            <div>-->
+<!--                                <button id="book-button" class="btn waves-effect waves-light lighten-2 unassigned">-->
+<!--                                    Дневник-->
+<!--                                </button>-->
+<!--                                <p>-->
+<!--                                    Расскажи как прошёл твой день!-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col m6 s12">-->
+<!--                        <div class="col-content">-->
+<!--                            <img src="{% static 'images/document.svg' %}" alt="">-->
 
-                            <div>
-                                <button id="document-button"
-                                        class="btn waves-effect waves-light cyan lighten-2 unassigned">Опросы
-                                </button>
-                                <p>
-                                    Проходи опросы и мини-тесты!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col m6 s12">
-                        <div class="col-content">
-                            <img src="{% static 'images/joystick.svg' %}" alt="">
+<!--                            <div>-->
+<!--                                <button id="document-button"-->
+<!--                                        class="btn waves-effect waves-light cyan lighten-2 unassigned">Опросы-->
+<!--                                </button>-->
+<!--                                <p>-->
+<!--                                    Проходи опросы и мини-тесты!-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col m6 s12">-->
+<!--                        <div class="col-content">-->
+<!--                            <img src="{% static 'images/joystick.svg' %}" alt="">-->
 
-                            <div>
-                                <button id="joystick-button"
-                                        class="btn waves-effect waves-light green lighten-2 unassigned">Игры
-                                </button>
-                                <p>
-                                    Играй и развивайся одновремеено!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% if user.is_authenticated %}
-            <div id="profile-section">
-                <div id="title-section">
-                    <img src={{ profile.avatar.url }} alt="">
-                    <div>
-                        <p class="name">{{ profile.name }} {{ profile.vorname }}</p>
-                        <p class="status">{{ user.get_username }}</p>
-                    </div>
-                    <!-- <button class="btn-flat waves-effect waves-dark">
-                        <i class="material-icons">cloud</i>
-                    </button> -->
-                </div>
+<!--                            <div>-->
+<!--                                <button id="joystick-button"-->
+<!--                                        class="btn waves-effect waves-light green lighten-2 unassigned">Игры-->
+<!--                                </button>-->
+<!--                                <p>-->
+<!--                                    Играй и развивайся одновремеено!-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% if user.is_authenticated %}-->
+    <!--            <div id="profile-section">-->
+    <!--                <div id="title-section">-->
+    <!--                    <img src={{ profile.avatar.url }} alt="">-->
+    <!--                    <div>-->
+    <!--                        <p class="name">{{ profile.name }} {{ profile.vorname }}</p>-->
+    <!--                        <p class="status">{{ user.get_username }}</p>-->
+    <!--                    </div>-->
+    <!--                    &lt;!&ndash; <button class="btn-flat waves-effect waves-dark">-->
+    <!--                        <i class="material-icons">cloud</i>-->
+    <!--                    </button> &ndash;&gt;-->
+    <!--                </div>-->
 
-                <div id="non-title-section" class="scrollbarless">
-                    <section id="common-options">
-                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">
-                            <img src="{% static 'images/message.svg' %}" alt="">
-                            <div>
-                                <p class="upper">Сообщения</p>
-                                <p class="lower">+10</p>
-                            </div>
-                        </div>
-                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">
-                            <img src="{% static 'images/friends.svg' %}" alt="">
-                            <div>
-                                <p class="upper">Друзья</p>
-                                <p class="lower">+1</p>
-                            </div>
-                        </div>
-                    </section>
+    <!--                <div id="non-title-section" class="scrollbarless">-->
+    <!--                    <section id="common-options">-->
+    <!--                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">-->
+    <!--                            <img src="{% static 'images/message.svg' %}" alt="">-->
+    <!--                            <div>-->
+    <!--                                <p class="upper">Сообщения</p>-->
+    <!--                                <p class="lower">+10</p>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">-->
+    <!--                            <img src="{% static 'images/friends.svg' %}" alt="">-->
+    <!--                            <div>-->
+    <!--                                <p class="upper">Друзья</p>-->
+    <!--                                <p class="lower">+1</p>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </section>-->
 
-                    <section id="progress-options">
-                        <!-- Setting the margin for the header directly will
-                            depend on the font-size for some reason. That's
-                            why we introduce additional abstraction for
-                            our left & right margins. -->
-                        <div class="padded-content">
-                            <div class="small-header">Прогресс</div>
-                        </div>
+    <!--                    <section id="progress-options">-->
+    <!--                        &lt;!&ndash; Setting the margin for the header directly will-->
+    <!--                            depend on the font-size for some reason. That's-->
+    <!--                            why we introduce additional abstraction for-->
+    <!--                            our left & right margins. &ndash;&gt;-->
+    <!--                        <div class="padded-content">-->
+    <!--                            <div class="small-header">Прогресс</div>-->
+    <!--                        </div>-->
 
-                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">
-                            <img src="{% static 'images/video1.svg' %}" alt="">
-                            <div>
-                                <p class="upper">Видео</p>
-                                <p class="lower">Профессионал</p>
-                            </div>
-                            <div class="progress purple lighten-5">
-                                <div class="determinate purple lighten-2" style="width: 80%"></div>
-                            </div>
-                        </div>
-                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">
-                            <img src="{% static 'images/document1.svg' %}" alt="">
-                            <div>
-                                <p class="upper">Опросы</p>
-                                <p class="lower">Любитель</p>
-                            </div>
-                            <div class="progress cyan lighten-5">
-                                <div class="determinate cyan lighten-2" style="width: 30%"></div>
-                            </div>
-                        </div>
-                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">
-                            <img src="{% static 'images/book1.svg' %}" alt="">
-                            <div>
-                                <p class="upper">Дневник</p>
-                                <p class="lower">Профессионал</p>
-                            </div>
-                            <div class="progress yellow lighten-5">
-                                <div class="determinate yellow lighten-2" style="width: 65%"></div>
-                            </div>
-                        </div>
-                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">
-                            <img src="{% static 'images/joystick1.svg' %}" alt="">
-                            <div>
-                                <p class="upper">Игры</p>
-                                <p class="lower">Новичок</p>
-                            </div>
-                            <div class="progress green lighten-5">
-                                <div class="determinate green lighten-2" style="width: 20%"></div>
-                            </div>
-                        </div>
-                    </section>
+    <!--                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">-->
+    <!--                            <img src="{% static 'images/video1.svg' %}" alt="">-->
+    <!--                            <div>-->
+    <!--                                <p class="upper">Видео</p>-->
+    <!--                                <p class="lower">Профессионал</p>-->
+    <!--                            </div>-->
+    <!--                            <div class="progress purple lighten-5">-->
+    <!--                                <div class="determinate purple lighten-2" style="width: 80%"></div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">-->
+    <!--                            <img src="{% static 'images/document1.svg' %}" alt="">-->
+    <!--                            <div>-->
+    <!--                                <p class="upper">Опросы</p>-->
+    <!--                                <p class="lower">Любитель</p>-->
+    <!--                            </div>-->
+    <!--                            <div class="progress cyan lighten-5">-->
+    <!--                                <div class="determinate cyan lighten-2" style="width: 30%"></div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">-->
+    <!--                            <img src="{% static 'images/book1.svg' %}" alt="">-->
+    <!--                            <div>-->
+    <!--                                <p class="upper">Дневник</p>-->
+    <!--                                <p class="lower">Профессионал</p>-->
+    <!--                            </div>-->
+    <!--                            <div class="progress yellow lighten-5">-->
+    <!--                                <div class="determinate yellow lighten-2" style="width: 65%"></div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                        <div class="thing-with-image-and-2-texts waves-effect waves-dark unassigned">-->
+    <!--                            <img src="{% static 'images/joystick1.svg' %}" alt="">-->
+    <!--                            <div>-->
+    <!--                                <p class="upper">Игры</p>-->
+    <!--                                <p class="lower">Новичок</p>-->
+    <!--                            </div>-->
+    <!--                            <div class="progress green lighten-5">-->
+    <!--                                <div class="determinate green lighten-2" style="width: 20%"></div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </section>-->
 
-                    <form id="logout-form" class="ajax-post" role="form" action="{% url 'rest_logout' %}">
+    <!--                    <form id="logout-form" class="ajax-post" role="form" action="{% url 'rest_logout' %}">-->
+    <!--                        {% csrf_token %}-->
+    <!--                        <div class="simple-form login-form" style="margin-top: 1.5em;">-->
+    <!--                            <button class="btn waves-effect waves-light" id="logout-button" type="submit">ВЫЙТИ</button>-->
+    <!--                        </div>-->
+    <!--                    </form>-->
+
+    <!--                    <img src="{% static 'images/qr-add.png' %}" alt="" class="advertising-block">-->
+
+    <!--                </div>-->
+    <!--            </div>-->
+
+    <!--        {% else %}-->
+
+    <!--            <div id="profile-section" class="scrollbarless">-->
+    <div class="valign-wrapper" style="height: 100%">
+        <div class="sectionreact valign-wrapper">
+            <div id="2" style="display:block">
+
+                <div id="4" style="display:block">
+                    <form id="form1" class="ajax-post" role="form" action="{% url 'rest_login' %}">
                         {% csrf_token %}
-                        <div class="simple-form login-form" style="margin-top: 1.5em;">
-                            <button class="btn waves-effect waves-light" id="logout-button" type="submit">ВЫЙТИ</button>
-                        </div>
-                    </form>
-
-                    <img src="{% static 'images/qr-add.png' %}" alt="" class="advertising-block">
-
-                </div>
-            </div>
-
-        {% else %}
-
-            <div id="profile-section" class="scrollbarless">
-
-                <div id="2" style="display:block">
-
-                    <div id="4" style="display:block">
-                        <form id="form1" class="ajax-post" role="form" action="{% url 'rest_login' %}">
-                            {% csrf_token %}
-                            <div class="simple-form login-form">
+                        <div class="simple-form login-form">
                                 <div class="title">ВОЙТИ</div>
 
                                 <label for="username">Имя пользователя</label>
                                 <input name="username" type="text" id="username" placeholder="Имя пользователя" tabindex="1">
 
                                 <label for="password">Пароль</label>
-                                <input name="password" type="password" id="password" placeholder="Пароль" tabindex="2">
+                            <input name="password" type="password" id="password" placeholder="Пароль" tabindex="2">
 
-                                <div style="text-align: right;">
-                                    <a href="#" onClick="show2();" style="color:  #6c5394;">Забыли пароль?</a>  
-                                </div>
-
-                                <div class="error">
-                                    <p class="flow-text red-text api-response"></p>
-                                </div>
-
-                                <button class="btn waves-effect waves-light" type="submit"
-                                        onclick="" id="submit1">Вход
-                                </button>
+                            <div style="text-align: right;">
+                                <a href="#" onClick="show2();" style="color:  #6c5394;">Забыли пароль?</a>
                             </div>
-                        </form>
 
-                        <div class="center">
-                            <p>Нет аккаунта?</p>
-                            <a href="#" onClick="show1();" style="color:  #6c5394;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+                            <div class="error">
+                                <p class="flow-text red-text api-response"></p>
+                            </div>
+
+                            <button class="btn waves-effect waves-light buttonreact" type="submit"
+                                    onclick="" id="submit1">Вход
+                            </button>
                         </div>
+                    </form>
 
-                    </div>                    
+                    <div class="center">
+                        <p>Нет аккаунта?</p>
+                        <a href="#" onClick="show1();" style="color:  #6c5394;">РЕГИСТРАЦИЯ</a>
+                    </div>
 
-                    <div id="5" style="display:none">
-                        <form method="POST" action="{% url 'account_reset_password' %}" class="password_reset">
+                </div>
+
+                <div id="5" style="display:none">
+                    <form method="POST" action="{% url 'account_reset_password' %}" class="password_reset">
                             {% csrf_token %}
                             <div class="simple-form register-form">
                                 <div class="title center">СБРОС</div>
@@ -312,20 +316,20 @@
                 
                                 {% csrf_token %}
                                 <label for="email">Почта</label>
-                                <input  type="text" name="email" id="id_email" placeholder="example@yandex.ru" required/>    
+                                <input type="text" name="email" id="id_email" placeholder="example@yandex.ru" required/>
 
-                                <button class="btn waves-effect waves-light center" type="submit">Сбросить
+                                <button class="btn waves-effect waves-light center buttonreact" type="submit">Сбросить
                                 </button>
 
                                 <div class="center">
                                     <a href="#" onClick="show2();" style="color:  #6c5394;">Назад</a>
                                 </div>
 
-                            </div>    
-                        </form>
-                    </div>
-
+                            </div>
+                    </form>
                 </div>
+
+            </div>
 
                 <div id="3" style="display:none">
                     <form id="form2" id="signup" role="form" action="{% url 'rest_register' %}">
@@ -343,13 +347,15 @@
                             <input name="password1" type="password" id="password1" placeholder="Пароль" required>
 
                             <label for="password2">Еще раз пароль</label>
-                            <input name="password2" type="password" id="password2" placeholder="Повторите пароль" required>
+                            <input name="password2" type="password" id="password2" placeholder="Повторите пароль"
+                                   required>
 
                             <div class="error">
                                 <p class="flow-text red-text api-response"></p>
                             </div>
 
-                            <button type="submit" id="submit2" class="btn waves-effect waves-light">Зарегистрироваться
+                            <button type="submit" id="submit2" class="btn waves-effect waves-light buttonreact">
+                                Зарегистрироваться
                             </button>
                         </div>
 
@@ -362,21 +368,21 @@
 
                 </div>
 
-                
 
-                <img src="{% static 'images/qr-add.png' %}" alt="" class="advertising-block">
-            </div>
-        {% endif %}
-
-
+            <!--                <img src="{% static 'images/qr-add.png' %}" alt="" class="advertising-block">-->
+        </div>
     </div>
-</div>
+    <!--     {% endif %}-->
 
-<div class="hide-on-large-only">
-    <div class="container fullscreen-message">
-        <h1>Here the dragons be...</h1>
-    </div>
-</div>
+
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="hide-on-large-only">-->
+<!--    <div class="container fullscreen-message">-->
+<!--        <h1>Here the dragons be...</h1>-->
+<!--    </div>-->
+<!--</div>-->
 
 <script src="{% static 'js/script.js' %}"></script>
 
