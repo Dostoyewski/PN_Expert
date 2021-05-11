@@ -37,16 +37,19 @@ class SurveyShedule(models.Model):
         if self.run_interval == 0:
             schedule("PN_Expert.services.create_events", self.pk,
                      schedule_type=Schedule.DAILY,
-                     next_run=datetime.datetime.now() + datetime.timedelta(seconds=10))
+                     next_run=datetime.datetime.now() + datetime.timedelta(seconds=20))
         elif self.run_interval == 1:
             schedule("PN_Expert.services.create_events", self.pk,
-                     schedule_type=Schedule.WEEKLY)
+                     schedule_type=Schedule.WEEKLY,
+                     next_run=datetime.datetime.now() + datetime.timedelta(seconds=20))
         elif self.run_interval == 2:
             schedule("PN_Expert.services.create_events", self.pk,
-                     schedule_type=Schedule.MONTHLY)
+                     schedule_type=Schedule.MONTHLY,
+                     next_run=datetime.datetime.now() + datetime.timedelta(seconds=20))
         elif self.run_interval == 3:
             schedule("PN_Expert.services.create_events", self.pk,
-                     schedule_type=Schedule.QUARTERLY)
+                     schedule_type=Schedule.QUARTERLY,
+                     next_run=datetime.datetime.now() + datetime.timedelta(seconds=20))
 
 
 # TODO: Rename this to messageShedule

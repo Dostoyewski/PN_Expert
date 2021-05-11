@@ -8,8 +8,8 @@ from django.utils import timezone
 from django.utils.text import slugify
 from multiselectfield import MultiSelectField
 
-from diagnostic.models import Event, StartEvent
-from sheduling.models import MessageSurvey
+from diagnostic.models import Event, StartEvent, StartShedule
+from sheduling.models import MessageSurvey, SurveyShedule
 
 TEST = False
 
@@ -113,6 +113,13 @@ def create_user_profile(sender, instance, created, **kwargs):
                                      user=instance,
                                      survey_pk=event.survey.pk,
                                      event_type=event.event_type)
+            # Создание объектов расписания
+            shedules = StartShedule.objects.all()
+            for shedule in shedules:
+                surv = SurveyShedule(run_interval=shedule.run_interval,
+                                     survey=shedule.survey)
+                surv.save()
+                surv.users.add(instance)
 
 
 post_save.connect(create_user_profile, sender=User)

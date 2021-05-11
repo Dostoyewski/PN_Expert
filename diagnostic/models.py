@@ -116,3 +116,20 @@ class StartEvent(models.Model):
     day_delta = models.IntegerField(default=2)
     event_type = models.IntegerField(choices=TYPES, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
+
+
+SHEDULE_TYPE = (
+    (0, 'Ежедневно'),
+    (1, 'Раз в неделю'),
+    (2, 'Раз в месяц'),
+    (3, 'Раз в квартал')
+)
+
+
+class StartShedule(models.Model):
+    """
+    Объект с расписанием, который создается всем пользователям при старте.
+    """
+    run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
+    survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
+    description = models.TextField(max_length=1000, default=" ")
