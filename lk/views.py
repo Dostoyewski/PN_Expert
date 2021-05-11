@@ -113,6 +113,10 @@ def create_diary_rec(request):
         serializer = DiaryRecordingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            user = User.objects.get(pk=request.data['user'])
+            up = UserProfile.objects.get(user=user)
+            up.isDiary = True
+            up.save()
             return Response({"message": "ok"})
         else:
             return Response({"errors": serializer.errors})

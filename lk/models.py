@@ -26,6 +26,7 @@ STATUS = (
 )
 
 
+# TODO: Add diary flag
 class UserProfile(models.Model):
     """
     Extended user model
@@ -47,6 +48,7 @@ class UserProfile(models.Model):
     exp = models.IntegerField(default=0)
     # Флаг, указывающий на заполненные дополнительные поля
     isFull = models.BooleanField(default=False)
+    isDiary = models.BooleanField(default=False)
     # Город проживания
     city = models.CharField(max_length=50, blank=True)
     # URL на личную страницу
