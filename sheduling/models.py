@@ -24,9 +24,13 @@ TYPES = (
 
 
 class SurveyShedule(models.Model):
+    """
+    Класс расписания опросов
+    """
     run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
     users = models.ManyToManyField(User)
+    forall = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -51,6 +55,7 @@ class MessageSurvey(models.Model):
     message = models.TextField(default=" ")
     users = models.ManyToManyField(User)
     typo = models.IntegerField(choices=TYPES)
+    forall = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
