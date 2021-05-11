@@ -37,7 +37,7 @@ def create_events_message(pk):
         for user in obj.users.all():
             Event.objects.create(description=obj.message,
                                  summary="Внимание!",
-                                 location="",
+                                 location=obj.location,
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
                                  survey_pk=1,
@@ -47,7 +47,7 @@ def create_events_message(pk):
         for user in users:
             Event.objects.create(description=obj.message,
                                  summary="Внимание!",
-                                 location="",
+                                 location=obj.location,
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
                                  survey_pk=1,
