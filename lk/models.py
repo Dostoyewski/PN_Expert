@@ -26,7 +26,6 @@ STATUS = (
 )
 
 
-# TODO: Add diary flag
 class UserProfile(models.Model):
     """
     Extended user model
