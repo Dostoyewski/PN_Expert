@@ -207,3 +207,25 @@ def update_time_taken(request):
             return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def reset_time_taken(request):
+    """
+    Updates taken time in PillAssigment. Should have headers 'time' and 'id' with obj pk.
+    <br>
+    <b>Sample:</b><br>
+    {"id": 5}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            assigment = AssignedPill.objects.get(pk=request.data['id'])
+            assigment.time_taken = ""
+            assigment.save()
+            return Response({"message": "Reseted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({"message": "Method not allowed!"})
