@@ -60,19 +60,23 @@ class MessageSurvey(models.Model):
     typo = models.IntegerField(choices=TYPES)
     forall = models.BooleanField(default=False)
     location = models.CharField(max_length=1000, default=" ")
+    day_delta = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.run_interval == 0:
             schedule("PN_Expert.services.create_events_message", self.pk,
                      schedule_type=Schedule.DAILY,
-                     next_run=datetime.datetime.now() + datetime.timedelta(seconds=10))
+                     next_run=datetime.datetime.now() + datetime.timedelta(days=self.day_delta, seconds=10))
         elif self.run_interval == 1:
             schedule("PN_Expert.services.create_events_message", self.pk,
-                     schedule_type=Schedule.WEEKLY)
+                     schedule_type=Schedule.WEEKLY,
+                     next_run=datetime.datetime.now() + datetime.timedelta(days=self.day_delta, seconds=10))
         elif self.run_interval == 2:
             schedule("PN_Expert.services.create_events_message", self.pk,
-                     schedule_type=Schedule.MONTHLY)
+                     schedule_type=Schedule.MONTHLY,
+                     next_run=datetime.datetime.now() + datetime.timedelta(days=self.day_delta, seconds=10))
         elif self.run_interval == 3:
             schedule("PN_Expert.services.create_events_message", self.pk,
-                     schedule_type=Schedule.QUARTERLY)
+                     schedule_type=Schedule.QUARTERLY,
+                     next_run=datetime.datetime.now() + datetime.timedelta(days=self.day_delta, seconds=10))

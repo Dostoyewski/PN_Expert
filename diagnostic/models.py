@@ -133,3 +133,15 @@ class StartShedule(models.Model):
     run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
     description = models.TextField(max_length=1000, default=" ")
+
+
+class MessageShedule(models.Model):
+    """
+    Объект с расписанием сообщений, который создается всем пользователям при старте.
+    """
+    run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
+    message = models.TextField(default=" ")
+    typo = models.IntegerField(choices=TYPES)
+    forall = models.BooleanField(default=False)
+    location = models.CharField(max_length=1000, default=" ")
+    day_delta = models.IntegerField(default=0)
