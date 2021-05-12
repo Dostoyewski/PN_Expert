@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, DataRecording, DailyActivity, StartEvent, StartShedule
+from .models import Event, DataRecording, DailyActivity, StartEvent, StartShedule, MessageShedule
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -51,3 +51,4 @@ admin.site.register(DataRecording, DataRecordingAdmin)
 admin.site.register(DailyActivity, DailyActivityAdmin)
 admin.site.register(StartEvent, StartAdmin)
 admin.site.register(StartShedule, StartSheduleAdmin)
+admin.site.register(MessageShedule, MesageSheduleAdmin)
