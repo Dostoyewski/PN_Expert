@@ -92,6 +92,7 @@ def view_assigned_pills(request):
         rec['dosege'] = data_assignee[i]['dosege']
         rec['extra'] = data_assignee[i]['extra']
         rec['time'] = data_assignee[i]['time']
+        rec['time_taken'] = data_assignee[i]['time_taken']
     return Response(data_pills)
 
 
