@@ -39,6 +39,13 @@ class StartSheduleAdmin(admin.ModelAdmin):
     list_display = ('description', 'run_interval', 'survey')
 
 
+class MesageSheduleAdmin(admin.ModelAdmin):
+    """
+    Register User Profiles to admin profiles
+    """
+    list_display = ('description', 'run_interval', 'typo')
+
+
 admin.site.register(Event, EventAdmin)
 admin.site.register(DataRecording, DataRecordingAdmin)
 admin.site.register(DailyActivity, DailyActivityAdmin)
