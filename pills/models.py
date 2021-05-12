@@ -39,3 +39,4 @@ class AssignedPill(models.Model):
     extra = models.CharField(max_length=500, blank=True, default="")
     dosege = models.CharField(max_length=500, default="")
     time = models.TextField(max_length=1000, default="")
+    time_taken = models.TextField(max_length=1000, default="")
