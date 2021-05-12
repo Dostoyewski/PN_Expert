@@ -29,7 +29,7 @@ def create_events(pk):
                                  user=user,
                                  survey_pk=obj.survey.pk,
                                  event_type=4)
-    time.sleep(1)
+    time.sleep(3)
 
 
 def create_events_message(pk):
@@ -54,4 +54,4 @@ def create_events_message(pk):
                                  user=user,
                                  survey_pk=1,
                                  event_type=obj.typo)
-    time.sleep(1)
+    time.sleep(3)
