@@ -1,5 +1,6 @@
 import datetime
-import time
+from random import randint
+from time import sleep
 
 from django.contrib.auth.models import User
 
@@ -12,6 +13,7 @@ def create_events(pk):
     obj = SurveyShedule.objects.get(pk=pk)
     if not obj.forall:
         for user in obj.users.all():
+            sleep(randint(5, 100))
             Event.objects.create(description="Пройти тест " + obj.survey.title,
                                  summary="Пройти тест",
                                  location="",
@@ -22,6 +24,7 @@ def create_events(pk):
     else:
         users = User.objects.all()
         for user in users:
+            sleep(randint(5, 100))
             Event.objects.create(description="Пройти тест " + obj.survey.title,
                                  summary="Пройти тест",
                                  location="",
@@ -29,7 +32,6 @@ def create_events(pk):
                                  user=user,
                                  survey_pk=obj.survey.pk,
                                  event_type=4)
-    time.sleep(3)
 
 
 def create_events_message(pk):
@@ -37,6 +39,7 @@ def create_events_message(pk):
     obj = MessageSurvey.objects.get(pk=pk)
     if not obj.forall:
         for user in obj.users.all():
+            sleep(randint(5, 100))
             Event.objects.create(description=obj.message,
                                  summary="Внимание!",
                                  location=obj.location,
@@ -47,6 +50,7 @@ def create_events_message(pk):
     else:
         users = User.objects.all()
         for user in users:
+            sleep(randint(5, 100))
             Event.objects.create(description=obj.message,
                                  summary="Внимание!",
                                  location=obj.location,
@@ -54,4 +58,3 @@ def create_events_message(pk):
                                  user=user,
                                  survey_pk=1,
                                  event_type=obj.typo)
-    time.sleep(3)
