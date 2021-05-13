@@ -192,14 +192,16 @@ def update_time_taken(request):
     Updates taken time in PillAssigment. Should have headers 'time' and 'id' with obj pk.
     <br>
     <b>Sample:</b><br>
-    {"id": 5,<br>
+    {"pill_id": 5,<br>
+    "user_id": 1,<br>
     "time": "12:00"}<br>
     :param request:
     :return:
     """
     if request.method == 'POST':
         try:
-            assigment = AssignedPill.objects.get(pk=request.data['id'])
+            assigment = AssignedPill.objects.get(pill_id=request.data['pill_id'],
+                                                 user_id=request.data['user_id'])
             assigment.time_taken += str(request.data['time']) + "::"
             assigment.save()
             return Response({"message": "Updated"}, status=status.HTTP_200_OK)
@@ -215,13 +217,15 @@ def reset_time_taken(request):
     Updates taken time in PillAssigment. Should have headers 'time' and 'id' with obj pk.
     <br>
     <b>Sample:</b><br>
-    {"id": 5}<br>
+    {"pill_id": 5,<br>
+    "user_id": 1}<br>
     :param request:
     :return:
     """
     if request.method == 'POST':
         try:
-            assigment = AssignedPill.objects.get(pk=request.data['id'])
+            assigment = AssignedPill.objects.get(pill_id=request.data['pill_id'],
+                                                 user_id=request.data['user_id'])
             assigment.time_taken = ""
             assigment.save()
             return Response({"message": "Reseted"}, status=status.HTTP_200_OK)
