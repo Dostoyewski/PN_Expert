@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 SITE_ID = 1
+SITE_NAME = 'dev.parkinson.expert'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
