@@ -8,6 +8,7 @@ from django.dispatch import receiver
 
 from PN_Expert.settings import MEDIA_ROOT as media
 from diagnostic.models import Event, DataRecording
+from lk.models import UserProfile
 
 
 class Survey(models.Model):
@@ -74,6 +75,18 @@ class SurveyAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
+        if '№1' in self.survey.title:
+            up = UserProfile.objects.get(user=self.user)
+            up.isSurvey1 = True
+            up.save()
+        elif '№2' in self.survey.title:
+            up = UserProfile.objects.get(user=self.user)
+            up.isSurvey2 = True
+            up.save()
+        elif '№0' in self.survey.title:
+            up = UserProfile.objects.get(user=self.user)
+            up.isSurvey0 = True
+            up.save()
         answers = Answer.objects.filter(question__survey=self.survey,
                                         user=self.user)
         super().save(*args, **kwargs)

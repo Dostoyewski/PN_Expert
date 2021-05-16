@@ -46,4 +46,5 @@ class AssignedPill(models.Model):
     def save(self, *args, **kwargs):
         up = UserProfile.objects.get(user=self.user)
         up.isPills = True
+        up.save()
         super().save(*args, **kwargs)
