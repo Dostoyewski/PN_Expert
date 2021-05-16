@@ -59,7 +59,7 @@ class MessageSurvey(models.Model):
     users = models.ManyToManyField(User)
     typo = models.IntegerField(choices=TYPES)
     forall = models.BooleanField(default=False)
-    location = models.CharField(max_length=1000, default=" ")
+    location = models.CharField(max_length=2000, default=" ")
     day_delta = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):

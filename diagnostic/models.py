@@ -61,9 +61,9 @@ TYPES = (
 
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.CharField(max_length=1000, default="")
+    description = models.CharField(max_length=2000, default="")
     summary = models.CharField(max_length=100, default="")
-    location = models.CharField(max_length=100, default="")
+    location = models.CharField(max_length=2000, default="")
     start = models.DateTimeField(default=datetime.datetime.now)
     end = models.DateTimeField(default=datetime.datetime.now)
     event_type = models.IntegerField(choices=TYPES, default=0)
@@ -110,9 +110,9 @@ class StartEvent(models.Model):
     """
     Event, который назначается всем пользователям при старте
     """
-    description = models.CharField(max_length=1000, default="")
+    description = models.CharField(max_length=2000, default="")
     summary = models.CharField(max_length=100, default="")
-    location = models.CharField(max_length=100, default="")
+    location = models.CharField(max_length=2000, default="")
     day_delta = models.IntegerField(default=2)
     event_type = models.IntegerField(choices=TYPES, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
@@ -132,7 +132,7 @@ class StartShedule(models.Model):
     """
     run_interval = models.IntegerField(choices=SHEDULE_TYPE, default=0)
     survey = models.ForeignKey('survey.Survey', on_delete=models.CASCADE)
-    description = models.TextField(max_length=1000, default=" ")
+    description = models.TextField(max_length=2000, default=" ")
 
 
 class MessageShedule(models.Model):
@@ -143,6 +143,6 @@ class MessageShedule(models.Model):
     message = models.TextField(default=" ")
     typo = models.IntegerField(choices=TYPES)
     forall = models.BooleanField(default=False)
-    location = models.CharField(max_length=1000, default=" ")
+    location = models.CharField(max_length=2000, default=" ")
     day_delta = models.IntegerField(default=0)
-    description = models.CharField(max_length=1000, default=" ")
+    description = models.CharField(max_length=2000, default=" ")
