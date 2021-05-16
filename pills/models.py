@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from lk.models import UserProfile
+
 TYPES = (
     (0, "Таблетка"),
     (1, "Капсула"),
@@ -40,3 +42,8 @@ class AssignedPill(models.Model):
     dosege = models.CharField(max_length=500, default="")
     time = models.TextField(max_length=1000, default="")
     time_taken = models.TextField(max_length=1000, default="")
+
+    def save(self, *args, **kwargs):
+        up = UserProfile.objects.get(user=self.user)
+        up.isPills = True
+        super().save(*args, **kwargs)
