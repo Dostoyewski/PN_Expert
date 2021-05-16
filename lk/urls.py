@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/profile/get/', views.get_user_info, name='profile_info'),
     path("api/profile/avatar/", views.UserAvatarUpload.as_view(), name="rest_user_avatar_upload"),
     path('api/profile/update/', views.write_user_info, name='profile_info_write'),
+    path('api/profile/flags/', views.set_user_flags, name='set_user_flags'),
 ]

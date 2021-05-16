@@ -48,6 +48,10 @@ class UserProfile(models.Model):
     # Флаг, указывающий на заполненные дополнительные поля
     isFull = models.BooleanField(default=False)
     isDiary = models.BooleanField(default=False)
+    isSurvey1 = models.BooleanField(default=False)
+    isSurvey2 = models.BooleanField(default=False)
+    isSurvey0 = models.BooleanField(default=False)
+    isPills = models.BooleanField(default=False)
     # Город проживания
     city = models.CharField(max_length=50, blank=True)
     # URL на личную страницу

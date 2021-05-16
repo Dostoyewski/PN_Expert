@@ -251,3 +251,42 @@ def write_user_info(request):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def set_user_flags(request):
+    """
+    Sets different user flags. Shoud have header 'user' with pk of user instance and name of flag:<br>
+    <b>List of flags:</b>
+    1. isFull<br>
+    2. isSurvey0<br>
+    3. isSurvey1<br>
+    4. isSurvey2<br>
+    5. isPills<br>
+    <b>Sample</b>:<br>
+    {"user": 4,<br>
+    "isFull": ""}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        up = UserProfile.objects.get(user__pk=request.data['user'])
+        if 'isFull' in request.data:
+            up.isFull = True
+            return Response({"message": "updated"})
+        elif 'isSurvey0' in request.data:
+            up.isSurvey0 = True
+            return Response({"message": "updated"})
+        elif 'isSurvey1' in request.data:
+            up.isSurvey1 = True
+            return Response({"message": "updated"})
+        elif 'isSurvey2' in request.data:
+            up.isSurvey2 = True
+            return Response({"message": "updated"})
+        elif 'isPills' in request.data:
+            up.isPills = True
+            return Response({"message": "updated"})
+        else:
+            return Response({"message": "error"})
+    else:
+        return Response({"message": "Method not allowed!"})
