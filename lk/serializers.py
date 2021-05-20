@@ -47,10 +47,10 @@ class UserProfileAPISerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['user', 'name', 'vorname', 'fathername', 'gender', 'age',
-                  'parkinson', 'status', 'exp', 'isFull', 'city',
-                  'slug', 'avatar', 'send_push', 'email_confirmed']
-        # fields = '__all__'
+        # fields = ['user', 'name', 'vorname', 'fathername', 'gender', 'age',
+        #           'parkinson', 'status', 'exp', 'isFull', 'city',
+        #           'slug', 'avatar', 'send_push', 'email_confirmed']
+        fields = '__all__'
 
     def get_email_confirmed(self, instance):
         return EmailAddress.objects.get(user=instance.user).verified

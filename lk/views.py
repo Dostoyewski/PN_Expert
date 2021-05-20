@@ -273,18 +273,27 @@ def set_user_flags(request):
         up = UserProfile.objects.get(user__pk=request.data['user'])
         if 'isFull' in request.data:
             up.isFull = True
+            up.save()
             return Response({"message": "updated"})
         elif 'isSurvey0' in request.data:
             up.isSurvey0 = True
+            up.save()
             return Response({"message": "updated"})
         elif 'isSurvey1' in request.data:
             up.isSurvey1 = True
+            up.save()
             return Response({"message": "updated"})
         elif 'isSurvey2' in request.data:
             up.isSurvey2 = True
+            up.save()
             return Response({"message": "updated"})
         elif 'isPills' in request.data:
             up.isPills = True
+            up.save()
+            return Response({"message": "updated"})
+        elif 'isSick' in request.data:
+            up.isSick = True
+            up.save()
             return Response({"message": "updated"})
         else:
             return Response({"message": "error"})
