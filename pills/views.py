@@ -199,10 +199,11 @@ def update_time_taken(request):
     :return:
     """
     if request.method == 'POST':
-        assigment = AssignedPill.objects.get(pill_id=request.data['pill_id'],
-                                             user_id=request.data['user_id'])
-        assigment.time_taken += str(request.data['time']) + "::"
-        assigment.save()
+        assigments = AssignedPill.objects.filter(pill_id=request.data['pill_id'],
+                                                 user_id=request.data['user_id'])
+        for assigment in assigments:
+            assigment.time_taken += str(request.data['time']) + "::"
+            assigment.save()
         return Response({"message": "Updated"}, status=status.HTTP_200_OK)
         # except:
         #     return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
