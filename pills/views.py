@@ -224,10 +224,11 @@ def reset_time_taken(request):
     """
     if request.method == 'POST':
         try:
-            assigment = AssignedPill.objects.get(pill_id=request.data['pill_id'],
-                                                 user_id=request.data['user_id'])
-            assigment.time_taken = ""
-            assigment.save()
+            assigments = AssignedPill.objects.filter(pill_id=request.data['pill_id'],
+                                                     user_id=request.data['user_id'])
+            for assigment in assigments:
+                assigment.time_taken = ""
+                assigment.save()
             return Response({"message": "Reseted"}, status=status.HTTP_200_OK)
         except:
             return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
