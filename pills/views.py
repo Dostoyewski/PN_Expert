@@ -189,7 +189,7 @@ def mark_as_old_assigment(request):
 @api_view(['POST'])
 def update_time_taken(request):
     """
-    Updates taken time in PillAssigment. Should have headers 'time' and 'id' with obj pk.
+    Updates taken time in PillAssigment. Should have headers 'time', 'user_id' and 'pill_id' with obj pk.
     <br>
     <b>Sample:</b><br>
     {"pill_id": 5,<br>
@@ -214,7 +214,7 @@ def update_time_taken(request):
 @api_view(['POST'])
 def reset_time_taken(request):
     """
-    Updates taken time in PillAssigment. Should have headers 'time' and 'id' with obj pk.
+    Updates taken time in PillAssigment. Should have headers 'pill_id' and 'user_id'.
     <br>
     <b>Sample:</b><br>
     {"pill_id": 5,<br>
