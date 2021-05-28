@@ -29,6 +29,17 @@ def get_survey(request):
         return Response({"message": "Method not allowed!"})
 
 
+@api_view(['GET'])
+def get_survey_list(request):
+    """
+    Returns list with all surveys, needs to match corespondicies with pk and survey name
+    :param request: request
+    :return: 
+    """
+    surveys = Survey.objects.all()
+    return Response({"surveys": SurveySerializer(surveys, many=True).data})
+
+
 @api_view(['POST'])
 def create_question(request):
     """

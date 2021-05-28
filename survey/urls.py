@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/answer/get/', views.get_answer, name='get_answer'),
     path('api/survey/attend/', views.attendee_survey, name='attendee_survey'),
     path('api/survey/answer/', views.create_survey_answer, name='surv_answer_create'),
+    path('api/survey/list/', views.get_survey_list, name='surv_list'),
 ]
