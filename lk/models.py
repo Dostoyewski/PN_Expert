@@ -183,3 +183,15 @@ class NewsRecording(models.Model):
     text = models.CharField(max_length=2000, blank=True)
     published = models.DateTimeField(default=timezone.now)
     img = models.ImageField(upload_to='news')
+
+
+class StepsCounter(models.Model):
+    """
+    Counts steps per day.<br>
+    <b>Sample</b><br>
+    {"user": 5,<br>
+    "steps": 1000}<br>
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    steps = models.IntegerField(default=-1)

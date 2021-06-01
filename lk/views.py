@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
-    UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer
+    UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer
 
 
 def profile(request, slug):
@@ -299,3 +299,21 @@ def set_user_flags(request):
             return Response({"message": "error"})
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def create_steps(request):
+    """
+    Counts steps per day.<br>
+    <b>Sample</b><br>
+    {"user": 5,<br>
+    "steps": 1000}<br>
+    :param request:
+    :return:
+    """
+    serializer = StepsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "ok"})
+    else:
+        return Response({"errors": serializer.errors})
