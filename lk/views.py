@@ -201,6 +201,22 @@ def get_user_info(request):
         return Response({"message": "Method not allowed!"})
 
 
+@api_view(['POST'])
+def get_user_id(request):
+    """
+    Get pk from email, should have field 'email' with user email.<br>
+    <b>Sample:</b><br>
+    {"email": "dostoyewski@yandex.ru"}
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        user = User.objects.get(email=request.data['email'])
+        return Response({"id": user.pk, "status": "ok"})
+    else:
+        return Response({"status": "fail"})
+
+
 class UserAvatarUpload(APIView):
     """
     Should contain fieds 'avatar' with an image, 'user' with user pk

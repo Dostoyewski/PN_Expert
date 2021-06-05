@@ -16,4 +16,5 @@ urlpatterns = [
     path('api/profile/update/', views.write_user_info, name='profile_info_write'),
     path('api/profile/flags/', views.set_user_flags, name='set_user_flags'),
     path('api/steps/create/', views.create_steps, name='create_steps'),
+    path('api/user/id/', views.get_user_id, name='get_id_by_email'),
 ]
