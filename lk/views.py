@@ -14,6 +14,7 @@ from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
     UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer
 
 
+# TODO: add API method for email —> pk
 def profile(request, slug):
     """
     This function return user profile that contains slug
