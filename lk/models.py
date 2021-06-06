@@ -152,6 +152,7 @@ TREMOR = (
 )
 
 STIMULATORS = (
+    (-1, "Nothing"),
     (0, "Medtronic Aktiva PC"),
     (1, "Medtronic Aktiva RC"),
     (2, "Abbot Infiniti"),
