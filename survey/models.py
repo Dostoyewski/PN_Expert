@@ -102,7 +102,8 @@ class SurveyAnswer(models.Model):
         for answer in self.answers.all():
             df = df.append({"Вопрос": answer.question.question,
                             "Ответ": answer.answer}, ignore_index=True)
-        name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title) + ".xlsx"
+        name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title) + "_" \
+               + str(datetime.datetime.now()) + ".xlsx"
         df.to_excel(name)
         self.file.name = name
         super().save()
