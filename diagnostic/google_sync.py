@@ -27,9 +27,9 @@ def construct_payload(summary='Google I/O 2015', location='Vladivostok',
             'dateTime': end,
             'timeZone': 'Europe/Moscow',
         },
-        'recurrence': [
-            'RRULE:FREQ=DAILY;COUNT=2'
-        ],
+        # 'recurrence': [
+        #     'RRULE:FREQ=DAILY;COUNT=2'
+        # ],
         'attendees': attendees,
         'reminders': {
             'useDefault': False,
