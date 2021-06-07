@@ -319,6 +319,24 @@ def set_user_flags(request):
 
 
 @api_view(['POST'])
+def create_steps(request):
+    """
+    Counts steps per day.<br>
+    <b>Sample</b><br>
+    {"user": 5,<br>
+    "steps": 1000}<br>
+    :param request:
+    :return:
+    """
+    serializer = StepsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "ok"})
+    else:
+        return Response({"errors": serializer.errors})
+
+
+@api_view(['POST'])
 def get_steps(request):
     """
     Returns steps per day.<br>
