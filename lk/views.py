@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import UserProfileForm
-from .models import UserProfile, DiaryRecording, NewsRecording
+from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
     UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer
 
@@ -319,18 +319,14 @@ def set_user_flags(request):
 
 
 @api_view(['POST'])
-def create_steps(request):
+def get_steps(request):
     """
-    Counts steps per day.<br>
+    Returns steps per day.<br>
     <b>Sample</b><br>
-    {"user": 5,<br>
-    "steps": 1000}<br>
+    {"user": 5}<br>
     :param request:
     :return:
     """
-    serializer = StepsSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({"message": "ok"})
-    else:
-        return Response({"errors": serializer.errors})
+    steps = StepsCounter.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = StepsSerializer(steps, many=True)
+    return Response({"steps": serializer.data})
