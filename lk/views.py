@@ -339,7 +339,7 @@ def create_steps(request):
 @api_view(['POST'])
 def get_steps(request):
     """
-    Returns steps per day.<br>
+    Returns all steps for user.<br>
     <b>Sample</b><br>
     {"user": 5}<br>
     :param request:
