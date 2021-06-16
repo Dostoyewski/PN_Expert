@@ -35,7 +35,7 @@ class AssignedPill(models.Model):
     pill = models.ForeignKey(Pill, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Дата приема до
-    time_out = models.DateField(auto_now_add=True, null=True)
+    time_out = models.DateField(null=True)
     # Статус, если принимается — то true
     is_taken = models.BooleanField(default=True)
     extra = models.CharField(max_length=500, blank=True, default="")
