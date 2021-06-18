@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -328,12 +330,15 @@ def create_steps(request):
     :param request:
     :return:
     """
-    serializer = StepsSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
+    day = datetime.datetime.now()
+    try:
+        steps_o = StepsCounter.objects.get_or_create(day=day,
+                                                     user=User.objects.get(pk=request.data['user']))
+        steps_o.steps = request.data['steps']
+        steps_o.save()
         return Response({"message": "ok"})
-    else:
-        return Response({"errors": serializer.errors})
+    except:
+        return Response({"errors": "error"})
 
 
 @api_view(['POST'])
