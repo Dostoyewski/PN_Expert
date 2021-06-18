@@ -50,6 +50,7 @@ class Question(models.Model):
     typo = models.IntegerField(choices=TYPES, default=1)
     # Should be separated using ::
     choices = models.TextField(max_length=2000, blank=True)
+    extra_placeholder = models.TextField(max_length=1000, default="")
 
 
 class Answer(models.Model):

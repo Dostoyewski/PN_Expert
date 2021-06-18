@@ -61,7 +61,7 @@ TYPES = (
 
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.CharField(max_length=2000, default="")
+    description = models.CharField(max_length=5000, default="")
     summary = models.CharField(max_length=100, default="")
     location = models.CharField(max_length=2000, default="")
     start = models.DateTimeField(default=datetime.datetime.now)
