@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -119,18 +119,18 @@ def get_user_events(request):
     :return:
     """
     if request.method == 'POST':
-        # tomorrow = date.today() + dt.timedelta(days=1)
         try:
             events = Event.objects.filter(isDone=False, user__pk=request.data['user'])
             # TODO: remove this part with tomorrow events
-            # tevents = Event.objects.filter(start__date=tomorrow, user__pk=request.data['user'])
+            devents = Event.objects.filter(isDone=True, user__pk=request.data['user'],
+                                           start__date=date.today())
         except KeyError:
-            # tevents = Event.objects.filter(start__date=tomorrow,
-            #                                user__username=request.data['username'])
+            devents = Event.objects.filter(isDone=True, user__username=request.data['username'],
+                                           start__date=date.today())
             events = Event.objects.filter(isDone=False,
                                           user__username=request.data['username'])
         return Response({"events": EventSerializer(events, many=True).data,
-                         "tomorrow_events": "",
+                         "done_events": EventSerializer(devents, many=True).data,
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})
