@@ -217,6 +217,12 @@ def mark_as_done(request):
         try:
             event = Event.objects.get(pk=request.data['event'])
             event.isDone = True
+            try:
+                note = PushNotification.objects.get(event=event)
+                note.is_shown = True
+                note.save()
+            except:
+                pass
             event.save()
             return Response({"message": "ok"})
         except KeyError:

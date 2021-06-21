@@ -79,6 +79,8 @@ class Event(models.Model):
                      start=self.start.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
                      end=self.end.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
                      attendee=[{'email': self.user.email}])
+        note = PushNotification(event=self, is_shown=False)
+        note.save()
         super().save(*args, **kwargs)
 
 
