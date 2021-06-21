@@ -108,9 +108,10 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  event_type=0)
         else:
             events = StartEvent.objects.all()
-            mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
-            mes.save()
-            mes.users.add(instance)
+            # Uncomment if pills notification is needed
+            # mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
+            # mes.save()
+            # mes.users.add(instance)
             for event in events:
                 Event.objects.create(description=event.description,
                                      summary=event.summary,
