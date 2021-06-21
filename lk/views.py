@@ -334,8 +334,8 @@ def create_steps(request):
     try:
         steps_o = StepsCounter.objects.get_or_create(day=day,
                                                      user=User.objects.get(pk=request.data['user']))
-        steps_o.steps = request.data['steps']
-        steps_o.save()
+        steps_o[0].steps = request.data['steps']
+        steps_o[0].save()
         return Response({"message": "ok"})
     except:
         return Response({"errors": "error"})
