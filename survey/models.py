@@ -51,6 +51,7 @@ class Question(models.Model):
     # Should be separated using ::
     choices = models.TextField(max_length=2000, blank=True)
     extra_placeholder = models.TextField(max_length=1000, default="")
+    image = models.ImageField(upload_to="surveys", default="lk/static/images/noimg.jpg")
 
 
 class Answer(models.Model):
