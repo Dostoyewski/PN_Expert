@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, DataRecording
+from .models import Event, DataRecording, PushNotification
 
 
 class EventSerializer(serializers.Serializer):
@@ -81,5 +81,5 @@ class PushSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = DataRecording
+        model = PushNotification
         fields = '__all__'
