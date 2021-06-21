@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 
 from django.contrib.auth.models import User
@@ -107,37 +108,42 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  survey_pk=2,
                                  event_type=0)
         else:
-            events = StartEvent.objects.all()
-            # Uncomment if pills notification is needed
-            # mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
-            # mes.save()
-            # mes.users.add(instance)
-            for event in events:
-                Event.objects.create(description=event.description,
-                                     summary=event.summary,
-                                     location=event.location,
-                                     end=datetime.datetime.now() + datetime.timedelta(days=event.day_delta),
-                                     user=instance,
-                                     survey_pk=event.survey.pk,
-                                     event_type=event.event_type)
-            # Создание объектов расписания
-            shedules = StartShedule.objects.all()
-            for shedule in shedules:
-                surv = SurveyShedule(run_interval=shedule.run_interval,
-                                     survey=shedule.survey)
-                surv.save()
-                surv.users.add(instance)
-            # Создание объектов сообщений
-            shedules = MessageShedule.objects.all()
-            for shedule in shedules:
-                surv = MessageSurvey(run_interval=shedule.run_interval,
-                                     message=shedule.message,
-                                     typo=shedule.typo,
-                                     forall=shedule.forall,
-                                     location=shedule.location,
-                                     day_delta=shedule.day_delta)
-                surv.save()
-                surv.users.add(instance)
+            create_events(instance)
+
+
+async def create_events(instance):
+    await asyncio.sleep(120)
+    events = StartEvent.objects.all()
+    # Uncomment if pills notification is needed
+    # mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
+    # mes.save()
+    # mes.users.add(instance)
+    for event in events:
+        Event.objects.create(description=event.description,
+                             summary=event.summary,
+                             location=event.location,
+                             end=datetime.datetime.now() + datetime.timedelta(days=event.day_delta),
+                             user=instance,
+                             survey_pk=event.survey.pk,
+                             event_type=event.event_type)
+    # Создание объектов расписания
+    shedules = StartShedule.objects.all()
+    for shedule in shedules:
+        surv = SurveyShedule(run_interval=shedule.run_interval,
+                             survey=shedule.survey)
+        surv.save()
+        surv.users.add(instance)
+    # Создание объектов сообщений
+    shedules = MessageShedule.objects.all()
+    for shedule in shedules:
+        surv = MessageSurvey(run_interval=shedule.run_interval,
+                             message=shedule.message,
+                             typo=shedule.typo,
+                             forall=shedule.forall,
+                             location=shedule.location,
+                             day_delta=shedule.day_delta)
+        surv.save()
+        surv.users.add(instance)
 
 
 post_save.connect(create_user_profile, sender=User)
