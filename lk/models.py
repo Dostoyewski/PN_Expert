@@ -26,6 +26,11 @@ STATUS = (
     (3, "Исследователь")
 )
 
+REGIONS = (
+    (0, "Центральный регион"),
+    (7, "Дальневосточный федеральный округ")
+)
+
 
 class UserProfile(models.Model):
     """
@@ -56,6 +61,8 @@ class UserProfile(models.Model):
     isSick = models.BooleanField(default=False)
     # Город проживания
     city = models.CharField(max_length=50, blank=True)
+    # Регион
+    region = models.IntegerField(choices=REGIONS, default=0)
     # URL на личную страницу
     slug = models.SlugField(null=True)
     # Avatar
@@ -112,6 +119,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 async def create_events(instance):
+    shift = instance.region * 3600
+    # TODO: add normal time shift calculation
     await asyncio.sleep(120)
     events = StartEvent.objects.all()
     # Uncomment if pills notification is needed
