@@ -146,3 +146,11 @@ class MessageShedule(models.Model):
     location = models.CharField(max_length=2000, default=" ")
     day_delta = models.IntegerField(default=0)
     description = models.CharField(max_length=2000, default=" ")
+
+
+class PushNotification(models.Model):
+    """
+    Push notifications for our mobile APP
+    """
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    is_shown = models.BooleanField(default=False)

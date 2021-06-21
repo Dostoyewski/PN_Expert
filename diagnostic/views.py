@@ -12,9 +12,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import DataRecordingForm
-from .models import Event, DataRecording, DailyActivity
+from .models import Event, DataRecording, DailyActivity, PushNotification
 from .serializers import EventSerializer, DataRecordingSerializer, \
-    DataRecordingCreateSerializer
+    DataRecordingCreateSerializer, PushSerializer
 
 
 # TODO: Add username to pk API
@@ -223,3 +223,49 @@ def mark_as_done(request):
             return Response({"message": "Check your format!"})
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def get_user_notifications(request):
+    """
+    Returns all actual user notifications. Should have header 'user' with user id or header 'username'.<br>
+    <b>Sample</b>:<br>
+    {"user": 5}<br>
+    {"username": "fedor"}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+        notifications = PushNotification.objects.filter(event__user=user,
+                                                        is_shown=False)
+    except KeyError:
+        user = User.objects.get(username=request.data['username'])
+        notifications = PushNotification.objects.filter(event__user=user,
+                                                        is_shown=False)
+    payload = []
+    for p in notifications:
+        data = PushSerializer(p).data
+        data['description'] = p.event.description
+        data['summary'] = p.event.summary
+        data['event_type'] = p.event.event_type
+        payload.append(data)
+    return Response({"push": payload})
+
+
+@api_view(['POST'])
+def mark_notification_as_shown(request):
+    """
+    Marks notification as shown. Should have header 'id' with notification id.<br>
+    <b>Sample</b>:<br>
+    {"id": 5}<br>
+    :param request:
+    :return:
+    """
+    try:
+        note = PushNotification.objects.get(pk=request.data['id'])
+        note.is_shown = True
+        note.save()
+        return Response({"message": "ok"})
+    except:
+        return Response({"message": "error"})

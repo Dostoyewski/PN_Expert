@@ -73,3 +73,13 @@ class DataSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataRecording
         fields = ('file', 'user')
+
+
+class PushSerializer(serializers.ModelSerializer):
+    """
+    Drecording serializer
+    """
+
+    class Meta:
+        model = DataRecording
+        fields = '__all__'
