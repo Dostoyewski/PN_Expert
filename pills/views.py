@@ -204,6 +204,17 @@ def update_time_taken(request):
         for assigment in assigments:
             assigment.time_taken += str(request.data['time']) + "::"
             assigment.save()
+            time_split = assigment.time.split(sep="::")
+            time_t_split = assigment.time_taken.split(sep="::")
+            all_in = False
+            for i in time_t_split:
+                if i != "" and i in time_split:
+                    all_in = True
+                elif i != "":
+                    all_in = False
+            if all_in:
+                assigment.time_taken = ""
+                assigment.save()
         return Response({"message": "Updated"}, status=status.HTTP_200_OK)
         # except:
         #     return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
