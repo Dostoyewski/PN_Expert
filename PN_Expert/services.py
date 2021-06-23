@@ -41,7 +41,7 @@ def create_events_message(pk):
         for user in obj.users.all():
             sleep(randint(5, 100))
             Event.objects.create(description=obj.message,
-                                 summary="Внимание!",
+                                 summary="——",
                                  location=obj.location,
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
@@ -52,7 +52,7 @@ def create_events_message(pk):
         for user in users:
             sleep(randint(5, 100))
             Event.objects.create(description=obj.message,
-                                 summary="Внимание!",
+                                 summary="——",
                                  location=obj.location,
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
