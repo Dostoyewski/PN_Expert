@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -12,9 +12,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import DataRecordingForm
-from .models import Event, DataRecording, DailyActivity
+from .models import Event, DataRecording, DailyActivity, PushNotification
 from .serializers import EventSerializer, DataRecordingSerializer, \
-    DataRecordingCreateSerializer
+    DataRecordingCreateSerializer, PushSerializer
 
 
 # TODO: Add username to pk API
@@ -119,18 +119,18 @@ def get_user_events(request):
     :return:
     """
     if request.method == 'POST':
-        # tomorrow = date.today() + dt.timedelta(days=1)
         try:
             events = Event.objects.filter(isDone=False, user__pk=request.data['user'])
             # TODO: remove this part with tomorrow events
-            # tevents = Event.objects.filter(start__date=tomorrow, user__pk=request.data['user'])
+            devents = Event.objects.filter(isDone=True, user__pk=request.data['user'],
+                                           start__date=date.today())
         except KeyError:
-            # tevents = Event.objects.filter(start__date=tomorrow,
-            #                                user__username=request.data['username'])
+            devents = Event.objects.filter(isDone=True, user__username=request.data['username'],
+                                           start__date=date.today())
             events = Event.objects.filter(isDone=False,
                                           user__username=request.data['username'])
         return Response({"events": EventSerializer(events, many=True).data,
-                         "tomorrow_events": "",
+                         "done_events": EventSerializer(devents, many=True).data,
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})
@@ -217,9 +217,61 @@ def mark_as_done(request):
         try:
             event = Event.objects.get(pk=request.data['event'])
             event.isDone = True
+            try:
+                note = PushNotification.objects.get(event=event)
+                note.is_shown = True
+                note.save()
+            except:
+                pass
             event.save()
             return Response({"message": "ok"})
         except KeyError:
             return Response({"message": "Check your format!"})
     else:
         return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def get_user_notifications(request):
+    """
+    Returns all actual user notifications. Should have header 'user' with user id or header 'username'.<br>
+    <b>Sample</b>:<br>
+    {"user": 5}<br>
+    {"username": "fedor"}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+        notifications = PushNotification.objects.filter(event__user=user,
+                                                        is_shown=False)
+    except KeyError:
+        user = User.objects.get(username=request.data['username'])
+        notifications = PushNotification.objects.filter(event__user=user,
+                                                        is_shown=False)
+    payload = []
+    for p in notifications:
+        data = PushSerializer(p).data
+        data['description'] = p.event.description
+        data['summary'] = p.event.summary
+        data['event_type'] = p.event.event_type
+        payload.append(data)
+    return Response({"push": payload})
+
+
+@api_view(['POST'])
+def mark_notification_as_shown(request):
+    """
+    Marks notification as shown. Should have header 'id' with notification id.<br>
+    <b>Sample</b>:<br>
+    {"id": 5}<br>
+    :param request:
+    :return:
+    """
+    try:
+        note = PushNotification.objects.get(pk=request.data['id'])
+        note.is_shown = True
+        note.save()
+        return Response({"message": "ok"})
+    except:
+        return Response({"message": "error"})

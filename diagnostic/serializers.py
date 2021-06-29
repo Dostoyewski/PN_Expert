@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, DataRecording
+from .models import Event, DataRecording, PushNotification
 
 
 class EventSerializer(serializers.Serializer):
@@ -73,3 +73,13 @@ class DataSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataRecording
         fields = ('file', 'user')
+
+
+class PushSerializer(serializers.ModelSerializer):
+    """
+    Drecording serializer
+    """
+
+    class Meta:
+        model = PushNotification
+        fields = '__all__'
