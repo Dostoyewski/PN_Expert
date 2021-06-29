@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 
 from django.contrib.auth.models import User
@@ -126,9 +127,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 async def create_events(instance):
-    shift = instance.region * 3600
-    # TODO: add normal time shift calculation
-    await asyncio.sleep(120)
+    current_hour = datetime.datetime.now().hour
+    shift = 0
+    if 8 < (current_hour + instance.timeshift) < 12:
+        pass
+    else:
+        shift = 24 - (current_hour - 8)
+    await asyncio.sleep(shift * 3600)
     events = StartEvent.objects.all()
     # Uncomment if pills notification is needed
     # mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
