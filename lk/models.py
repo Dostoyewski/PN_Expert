@@ -25,6 +25,20 @@ STATUS = (
     (3, "Исследователь")
 )
 
+TIMESHIFT = (
+    (-1, ' MSK−1'),
+    (0, 'MSK'),
+    (1, 'MSK+1'),
+    (2, 'MSK+2'),
+    (3, 'MSK+3'),
+    (4, 'MSK+4'),
+    (5, 'MSK+5'),
+    (6, 'MSK+6'),
+    (7, 'MSK+7'),
+    (8, 'MSK+8'),
+    (9, 'MSK+9'),
+)
+
 
 class UserProfile(models.Model):
     """
@@ -59,6 +73,7 @@ class UserProfile(models.Model):
     slug = models.SlugField(null=True)
     # Avatar
     avatar = models.ImageField(upload_to="avatars", default="lk/static/images/noimg.jpg")
+    timeshift = models.IntegerField(choices=TIMESHIFT, default=0)
     send_push = models.BooleanField(default=True)
 
     def __str__(self):
