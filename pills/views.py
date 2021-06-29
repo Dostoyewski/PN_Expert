@@ -204,17 +204,31 @@ def update_time_taken(request):
         for assigment in assigments:
             assigment.time_taken += str(request.data['time']) + "::"
             assigment.save()
-            time_split = assigment.time.split(sep="::")
-            time_t_split = assigment.time_taken.split(sep="::")
-            all_in = False
-            for i in time_t_split:
-                if i != "" and i in time_split:
-                    all_in = True
-                elif i != "":
-                    all_in = False
-            if all_in:
-                assigment.time_taken = ""
-                assigment.save()
+        return Response({"message": "Updated"}, status=status.HTTP_200_OK)
+        # except:
+        #     return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def update_time_out(request):
+    """
+    Updates time_out in PillAssigment. Should have headers 'time', 'user_id' and 'pill_id' with obj pk.
+    <br>
+    <b>Sample:</b><br>
+    {"pill_id": 5,<br>
+    "user_id": 1,<br>
+    "time": "12:00"}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        assigments = AssignedPill.objects.filter(pill_id=request.data['pill_id'],
+                                                 user_id=request.data['user_id'])
+        for assigment in assigments:
+            assigment.time_out += str(request.data['time']) + "::"
+            assigment.save()
         return Response({"message": "Updated"}, status=status.HTTP_200_OK)
         # except:
         #     return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
