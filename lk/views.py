@@ -249,6 +249,7 @@ def write_user_info(request):
     "age": "2000-01-01",<br>
     "exp": 0,<br>
     "isFull": false,<br>
+    "timeshift": 1,<br>
     "city": "SPb",<br>
     "send_push": true,<br>
     "user": 2,<br>
