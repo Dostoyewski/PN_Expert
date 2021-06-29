@@ -34,6 +34,19 @@ def create_events(pk):
                                  event_type=4)
 
 
+def construct_string(typo):
+    if typo == 0:
+        return 'Мероприятие'
+    elif typo == 1:
+        return 'Прием лекарств'
+    elif typo == 2:
+        return 'Видео тест'
+    elif typo == 3:
+        return 'Отправка фотографии'
+    elif typo == 4:
+        return 'Опрос'
+
+
 def create_events_message(pk):
     print("Creating messages for object ", pk)
     obj = MessageSurvey.objects.get(pk=pk)
@@ -41,7 +54,7 @@ def create_events_message(pk):
         for user in obj.users.all():
             sleep(randint(5, 100))
             Event.objects.create(description=obj.message,
-                                 summary="——",
+                                 summary=construct_string(obj.typo),
                                  location=obj.location,
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
@@ -52,7 +65,7 @@ def create_events_message(pk):
         for user in users:
             sleep(randint(5, 100))
             Event.objects.create(description=obj.message,
-                                 summary="——",
+                                 summary=construct_string(obj.typo),
                                  location=obj.location,
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
