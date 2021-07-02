@@ -68,6 +68,7 @@ class UserProfile(models.Model):
     isSurvey0 = models.BooleanField(default=False)
     isPills = models.BooleanField(default=False)
     isSick = models.BooleanField(default=False)
+    region = models.IntegerField(choices=TIMESHIFT, null=True)
     # Город проживания
     city = models.CharField(max_length=50, blank=True)
     # URL на личную страницу
