@@ -170,7 +170,7 @@ def get_event_by_date(request):
 
 class FileView(APIView):
     """
-    Should contain fieds 'file' with a file, 'user' with user pk, 'name' with filename
+    Should contain fieds 'file' with a file, 'user' with user pk, 'name' with filename, 'typo' with file type
     """
     parser_classes = (MultiPartParser, FormParser)
 

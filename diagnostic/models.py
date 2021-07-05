@@ -84,11 +84,22 @@ class Event(models.Model):
         note.save()
 
 
+TYPES_FILES = (
+    (0, "Обследование"),
+    (1, "Операция"),
+    (2, "Тест"),
+    (3, "Препараты"),
+    (4, "Анализы"),
+    (5, "Другое")
+)
+
+
 class DataRecording(models.Model):
     file = models.FileField(upload_to="user_files", blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(default="File", max_length=100)
     date = models.DateTimeField(auto_now_add=True, blank=True)
+    typo = models.IntegerField(choices=TYPES_FILES, default=5)
 
 
 # @receiver(post_save, sender=DataRecording)

@@ -63,7 +63,7 @@ class DataRecordingCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DataRecording
-        fields = ('file', 'user', 'name')
+        fields = ('file', 'user', 'name', 'typo')
 
         def create(self, validated_data):
             return DataRecording.objects.create(**validated_data)
