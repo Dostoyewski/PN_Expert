@@ -125,14 +125,14 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  survey_pk=2,
                                  event_type=0)
         else:
-            create_events(instance)
+            create_events(instance, profile)
 
 
 @postpone
-def create_events(instance):
+def create_events(instance, profile):
     current_hour = datetime.datetime.now().hour
     shift = 0
-    if 8 < (current_hour + instance.timeshift) < 12:
+    if 8 < (current_hour + profile.timeshift) < 12:
         pass
     else:
         shift = 24 - (current_hour - 8)
