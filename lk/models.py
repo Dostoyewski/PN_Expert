@@ -1,5 +1,5 @@
-import asyncio
 import datetime
+import time
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -11,6 +11,7 @@ from multiselectfield import MultiSelectField
 
 from diagnostic.models import Event, StartEvent, StartShedule, MessageShedule
 from sheduling.models import MessageSurvey, SurveyShedule
+from video_proc.decorators import postpone
 
 TEST = False
 
@@ -127,7 +128,8 @@ def create_user_profile(sender, instance, created, **kwargs):
             create_events(instance)
 
 
-async def create_events(instance):
+@postpone
+def create_events(instance):
     current_hour = datetime.datetime.now().hour
     shift = 0
     if 8 < (current_hour + instance.timeshift) < 12:
@@ -135,7 +137,7 @@ async def create_events(instance):
     else:
         shift = 24 - (current_hour - 8)
     print("DELAY ", str(shift))
-    await asyncio.sleep(shift * 3600)
+    time.sleep(shift * 3600)
     events = StartEvent.objects.all()
     # Uncomment if pills notification is needed
     # mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
