@@ -134,6 +134,7 @@ async def create_events(instance):
         pass
     else:
         shift = 24 - (current_hour - 8)
+    print("DELAY ", str(shift))
     await asyncio.sleep(shift * 3600)
     events = StartEvent.objects.all()
     # Uncomment if pills notification is needed
