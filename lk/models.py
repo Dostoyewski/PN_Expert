@@ -1,5 +1,4 @@
 import datetime
-import time
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -137,7 +136,7 @@ def create_events(instance, profile):
     else:
         shift = 24 - (current_hour - 8)
     print("DELAY ", str(shift))
-    time.sleep(shift * 3600)
+    # time.sleep(shift * 3600)
     events = StartEvent.objects.all()
     # Uncomment if pills notification is needed
     # mes = MessageSurvey(run_interval=0, message="Принять таблетки!", typo=1)
