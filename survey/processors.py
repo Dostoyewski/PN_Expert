@@ -159,6 +159,7 @@ def process_test(survey_answer):
     @param survey_answer: SurveyAnswer object
     @return:
     """
+    print(survey_answer.survey.title)
     if '№0' in survey_answer.survey.title:
         process_HADS_test(survey_answer)
     if '№1' in survey_answer.survey.title:
