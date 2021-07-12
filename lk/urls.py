@@ -19,4 +19,5 @@ urlpatterns = [
     path('api/steps/get/', views.get_steps, name='get_steps'),
     path('api/user/id/', views.get_user_id, name='get_id_by_email'),
     path('api/hads/depression/', views.get_depression, name='get_depression'),
+    path('api/hads/alarm/', views.get_alarm, name='get_alarm'),
 ]
