@@ -11,9 +11,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import UserProfileForm
-from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result
+from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result, HADS_Alarm
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
-    UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer
+    UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer, \
+    ALARMSerializer
 
 
 # TODO: add API method for email —> pk
@@ -368,3 +369,17 @@ def get_depression(request):
     steps = HADS_Result.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = HADSSerializer(steps, many=True)
     return Response({"depression": serializer.data})
+
+
+@api_view(['POST'])
+def get_alarm(request):
+    """
+    Returns all depression recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    steps = HADS_Alarm.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = ALARMSerializer(steps, many=True)
+    return Response({"alarm": serializer.data})
