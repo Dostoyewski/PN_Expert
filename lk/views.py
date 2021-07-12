@@ -353,11 +353,10 @@ def get_steps(request):
     """
     steps = StepsCounter.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = StepsSerializer(steps, many=True)
-    return Response({"steps": serializer.data}
-
-                    @ api_view(['POST'])
+    return Response({"steps": serializer.data})
 
 
+@api_view(['POST'])
 def get_depression(request):
     """
     Returns all depression recordings for user.<br>
