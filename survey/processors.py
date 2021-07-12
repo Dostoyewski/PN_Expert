@@ -146,11 +146,11 @@ def process_ALARM_test(survey_answer):
             elif "часто" in answer.answer:
                 summary += 0
     if summary <= 7:
-        HADS_Alarm.objects.create(user=user, depression=0)
+        HADS_Alarm.objects.create(user=user, alarm=0)
     elif 10 >= summary >= 8:
-        HADS_Alarm.objects.create(user=user, depression=1)
+        HADS_Alarm.objects.create(user=user, alarm=1)
     elif summary >= 11:
-        HADS_Alarm.objects.create(user=user, depression=2)
+        HADS_Alarm.objects.create(user=user, alarm=2)
 
 
 def process_test(survey_answer):
