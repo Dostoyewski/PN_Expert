@@ -97,6 +97,7 @@ class SurveyAnswer(models.Model):
         for answer in answers:
             self.answers.add(answer)
         super().save()
+        process_test(self)
         self.process_answers()
 
     # @postpone
@@ -116,4 +117,3 @@ class SurveyAnswer(models.Model):
         dr.user = self.user
         dr.name = "Ответы на тест " + str(self.survey.title)
         dr.save()
-        process_test(self)
