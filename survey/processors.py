@@ -5,7 +5,7 @@ def process_HADS_test(survey_answer):
     survey = survey_answer.survey
     user = survey_answer.user
     summary = 0
-    for answer in survey_answer.answers:
+    for answer in survey_answer.answers.all():
         if "Я испытываю напряжение, мне не по себе" in answer.question.question:
             if "все время" in answer.answer:
                 summary += 3
@@ -81,7 +81,7 @@ def process_ALARM_test(survey_answer):
     survey = survey_answer.survey
     user = survey_answer.user
     summary = 0
-    for answer in survey_answer.answers:
+    for answer in survey_answer.answers.all():
         if "То, что приносило мне большое удовольствие, и сейчас вызывает у меня такое же чувство" in answer.question.question:
             if "это совсем не так" in answer.answer:
                 summary += 3
