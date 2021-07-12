@@ -11,9 +11,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import UserProfileForm
-from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter
+from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
-    UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer
+    UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer
 
 
 # TODO: add API method for email —> pk
@@ -353,4 +353,19 @@ def get_steps(request):
     """
     steps = StepsCounter.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = StepsSerializer(steps, many=True)
-    return Response({"steps": serializer.data})
+    return Response({"steps": serializer.data}
+
+                    @ api_view(['POST'])
+
+
+def get_depression(request):
+    """
+    Returns all depression recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    steps = HADS_Result.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = HADSSerializer(steps, many=True)
+    return Response({"depression": serializer.data})
