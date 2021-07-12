@@ -68,7 +68,6 @@ class UserProfile(models.Model):
     isSurvey0 = models.BooleanField(default=False)
     isPills = models.BooleanField(default=False)
     isSick = models.BooleanField(default=False)
-    region = models.IntegerField(choices=TIMESHIFT, null=True)
     # Город проживания
     city = models.CharField(max_length=50, blank=True)
     # URL на личную страницу
@@ -125,6 +124,22 @@ def create_user_profile(sender, instance, created, **kwargs):
                                  event_type=0)
         else:
             create_events(instance, profile)
+
+
+DEPRESSION = (
+    (0, "«норма» (отсутствие достоверно выраженных симптомов тревоги и депрессии)"),
+    (1, "«субклинически выраженная тревога / депрессия»"),
+    (2, "«клинически выраженная тревога / депрессия»")
+)
+
+
+class HADS_Result(models.Model):
+    """
+    Class with HADS test result
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    depression = models.IntegerField(choices=DEPRESSION, default=0)
 
 
 @postpone

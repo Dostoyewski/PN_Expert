@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from PN_Expert.settings import MEDIA_ROOT as media
 from diagnostic.models import Event, DataRecording
 from lk.models import UserProfile
+from .processors import process_test
 
 
 class Survey(models.Model):
@@ -114,3 +115,4 @@ class SurveyAnswer(models.Model):
         dr.user = self.user
         dr.name = "Ответы на тест " + str(self.survey.title)
         dr.save()
+        process_test(self)
