@@ -132,6 +132,12 @@ DEPRESSION = (
     (2, "«клинически выраженная тревога / депрессия»")
 )
 
+ALARM = (
+    (0, '«норма» (отсутствие достоверно выраженных симптомов тревоги и депрессии)'),
+    (1, "«субклинически выраженная тревога / депрессия»"),
+    (2, "«клинически выраженная тревога / депрессия»")
+)
+
 
 class HADS_Result(models.Model):
     """
@@ -140,6 +146,15 @@ class HADS_Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.DateField(default=timezone.now)
     depression = models.IntegerField(choices=DEPRESSION, default=0)
+
+
+class HADS_Alarm(models.Model):
+    """
+    Class with HADS test result
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    depression = models.IntegerField(choices=ALARM, default=0)
 
 
 @postpone

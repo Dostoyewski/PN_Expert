@@ -2,7 +2,7 @@ from allauth.account.admin import EmailAddress
 from rest_framework import serializers, fields
 from rest_framework.serializers import ModelSerializer
 
-from .models import DiaryRecording, NewsRecording, UserProfile, TREMOR, StepsCounter, HADS_Result
+from .models import DiaryRecording, NewsRecording, UserProfile, TREMOR, StepsCounter, HADS_Result, HADS_Alarm
 
 
 class DiaryRecordingSerializer(serializers.ModelSerializer):
@@ -71,4 +71,10 @@ class StepsSerializer(serializers.ModelSerializer):
 class HADSSerializer(serializers.ModelSerializer):
     class Meta:
         model = HADS_Result
+        fields = '__all__'
+
+
+class ALARMSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HADS_Alarm
         fields = '__all__'
