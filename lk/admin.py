@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import UserProfile, NewsRecording, DiaryRecording, StepsCounter, HADS_Result
+from .models import UserProfile, NewsRecording, DiaryRecording, StepsCounter, HADS_Result, HADS_Alarm
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -39,8 +39,16 @@ class HADSAdmin(admin.ModelAdmin):
     list_display = ('user', 'depression', 'day')
 
 
+class AlarmAdmin(admin.ModelAdmin):
+    """
+    register steps counter
+    """
+    list_display = ('user', 'alarm', 'day')
+
+
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(NewsRecording, NewsAdmin)
 admin.site.register(DiaryRecording, DiaryAdmin)
 admin.site.register(StepsCounter, StepAdmin)
 admin.site.register(HADS_Result, HADSAdmin)
+admin.site.register(HADS_Alarm, AlarmAdmin)
