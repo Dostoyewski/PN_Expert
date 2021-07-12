@@ -1,4 +1,5 @@
 import datetime
+import os
 
 import pandas as pd
 from django.contrib.auth.models import User
@@ -107,7 +108,7 @@ class SurveyAnswer(models.Model):
                             "Ответ": answer.answer}, ignore_index=True)
         name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title) + "_" \
                + str(datetime.datetime.now()) + ".xlsx"
-        df.to_excel(name)
+        df.to_excel(os.path.abspath(name))
         self.file.name = name
         super().save()
         dr = DataRecording()
