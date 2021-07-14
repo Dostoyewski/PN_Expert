@@ -36,7 +36,7 @@ class NewsRecordingSerializer(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        exclude = ['status', 'avatar', 'user', 'slug', 'id']
+        exclude = ['avatar', 'user', 'slug', 'id']
 
 
 class UserProfileAPISerializer(serializers.ModelSerializer):
