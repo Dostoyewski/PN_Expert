@@ -280,6 +280,7 @@ def mark_notification_as_shown(request):
         return Response({"message": "error"})
 
 
+@api_view(['POST'])
 def get_push_period(request):
     """
     Return period of push notifications. Should have header `user` or `username`<br>
