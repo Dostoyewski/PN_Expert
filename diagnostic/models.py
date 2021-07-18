@@ -71,6 +71,7 @@ class Event(models.Model):
     isDone = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if type(self.start) is not datetime.datetime:
             self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
         if type(self.end) is not datetime.datetime:
@@ -79,7 +80,6 @@ class Event(models.Model):
                      start=self.start.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
                      end=self.end.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
                      attendee=[{'email': self.user.email}])
-        super().save(*args, **kwargs)
         note = PushNotification(event=self, is_shown=False)
         note.save()
 
