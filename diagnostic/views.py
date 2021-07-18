@@ -288,7 +288,11 @@ def get_push_period(request):
     {"user": 69}<br>
 
     :param request:
-    :return:
+    :return:<br>
+    (0, '1 час'),<br>
+    (1, '3 часа'),<br>
+    (2, '5 часов'),<br>
+    (3, '7 часов')<br>
     """
     up = None
     try:
