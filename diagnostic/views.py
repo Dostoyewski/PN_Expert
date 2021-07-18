@@ -11,6 +11,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from lk.models import UserProfile
 from .forms import DataRecordingForm
 from .models import Event, DataRecording, DailyActivity, PushNotification
 from .serializers import EventSerializer, DataRecordingSerializer, \
@@ -255,6 +256,8 @@ def get_user_notifications(request):
         data['description'] = p.event.description
         data['summary'] = p.event.summary
         data['event_type'] = p.event.event_type
+        data['start'] = str(p.event.start)
+        data['end'] = str(p.event.end)
         payload.append(data)
     return Response({"push": payload})
 
@@ -275,3 +278,22 @@ def mark_notification_as_shown(request):
         return Response({"message": "ok"})
     except:
         return Response({"message": "error"})
+
+
+def get_push_period(request):
+    """
+    Return period of push notifications. Should have header `user` or `username`<br>
+    <b>Sample</b>:<br>
+    {"user": 69}<br>
+
+    :param request:
+    :return:
+    """
+    up = None
+    try:
+        user = User.objects.get(pk=request.data['user'])
+        up = UserProfile.objects.get(user=user)
+    except KeyError:
+        user = User.objects.get(username=request.data['username'])
+        up = UserProfile.objects.get(user=user)
+    return Response({"period": up.reminders})

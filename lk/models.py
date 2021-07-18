@@ -40,6 +40,13 @@ TIMESHIFT = (
     (9, 'MSK+9'),
 )
 
+PUSH_DELAY = (
+    (0, '1 час'),
+    (1, '3 часа'),
+    (2, '5 часов'),
+    (3, '7 часов')
+)
+
 
 class UserProfile(models.Model):
     """
@@ -76,6 +83,7 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to="avatars", default="lk/static/images/noimg.jpg")
     timeshift = models.IntegerField(choices=TIMESHIFT, default=0)
     send_push = models.BooleanField(default=True)
+    reminders = models.IntegerField(choices=PUSH_DELAY, default=1)
 
     def __str__(self):
         return "%s's profile" % self.user

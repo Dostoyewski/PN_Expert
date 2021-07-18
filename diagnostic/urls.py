@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/event/by_date/', views.get_event_by_date, name='file_get'),
     path('api/event/mark_as_done/', views.mark_as_done, name='done_event'),
     path('api/notification/get/', views.get_user_notifications, name='notifications'),
+    path('api/notification/period/', views.get_push_period, name='period'),
     path('api/notification/mark_as_shown/', views.mark_notification_as_shown,
          name='note_shown'),
 ]
