@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Pill, AssignedPill
+from .models import Pill, AssignedPill, PillsReseter
 
 
 class PillAdmin(admin.ModelAdmin):
@@ -17,5 +17,10 @@ class PillAssignedAdmin(admin.ModelAdmin):
     list_display = ('pill', 'user', 'is_taken', 'extra', 'dosege', 'time_out', 'time')
 
 
+class PillResetAdmin(admin.ModelAdmin):
+    list_display = ('time', 'pk')
+
+
+admin.site.register(PillsReseter, PillResetAdmin)
 admin.site.register(Pill, PillAdmin)
 admin.site.register(AssignedPill, PillAssignedAdmin)

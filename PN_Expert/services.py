@@ -5,7 +5,15 @@ from time import sleep
 from django.contrib.auth.models import User
 
 from diagnostic.models import Event
+from pills.models import AssignedPill
 from sheduling.models import SurveyShedule, MessageSurvey
+
+
+def reset_pills(a):
+    assigments = AssignedPill.objects.all()
+    for assigment in assigments:
+        assigment.time_taken = ""
+        assigment.save()
 
 
 def create_events(pk):

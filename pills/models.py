@@ -1,5 +1,8 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
+from django_q.tasks import schedule, Schedule
 
 from lk.models import UserProfile
 
@@ -47,4 +50,18 @@ class AssignedPill(models.Model):
         up = UserProfile.objects.get(user=self.user)
         # up.isPills = True
         up.save()
+        super().save(*args, **kwargs)
+
+
+class PillsReseter(models.Model):
+    time = models.DateTimeField(default=datetime.datetime.now)
+
+    def save(self, *args, **kwargs):
+        to_del = Schedule.objects.filter(func="PN_Expert.services.reset_pills")
+        if len(to_del) > 0:
+            for obj in to_del:
+                obj.delete()
+        schedule("PN_Expert.services.reset_pills", self.pk,
+                 schedule_type=Schedule.DAILY,
+                 next_run=self.time)
         super().save(*args, **kwargs)
