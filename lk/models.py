@@ -20,8 +20,8 @@ GENDER = (
 )
 
 STATUS = (
-    (0, "Врач"),
-    (1, "Пациент"),
+    (0, "Пациент"),
+    (1, "Врач"),
     (2, "Тестировщик"),
     (3, "Исследователь")
 )
@@ -79,6 +79,8 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=50, blank=True)
     # URL на личную страницу
     slug = models.SlugField(null=True)
+    # Флаг блокаировки врача
+    isBlocked = models.BooleanField(default=False)
     # Avatar
     avatar = models.ImageField(upload_to="avatars", default="lk/static/images/noimg.jpg")
     timeshift = models.IntegerField(choices=TIMESHIFT, default=0)
@@ -108,6 +110,8 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = UserProfile.objects.get_or_create(user=instance)
         profile.slug = slugify(profile.user.get_username())
+        if profile.status == 1:
+            profile.isBlocked = True
         profile.save()
         if TEST:
             Event.objects.create(description="Снимок в полный рост",
