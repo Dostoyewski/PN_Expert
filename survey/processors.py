@@ -70,11 +70,11 @@ def process_HADS_test(survey_answer):
             elif "совсем не бывает" in answer.answer:
                 summary += 0
     if summary <= 7:
-        HADS_Result.objects.create(user=user, depression=0)
+        HADS_Result.objects.create(user=user, depression=0, value=summary)
     elif 10 >= summary >= 8:
-        HADS_Result.objects.create(user=user, depression=1)
+        HADS_Result.objects.create(user=user, depression=1, value=summary)
     elif summary >= 11:
-        HADS_Result.objects.create(user=user, depression=2)
+        HADS_Result.objects.create(user=user, depression=2, value=summary)
 
 
 def process_ALARM_test(survey_answer):
@@ -146,11 +146,11 @@ def process_ALARM_test(survey_answer):
             elif "часто" in answer.answer:
                 summary += 0
     if summary <= 7:
-        HADS_Alarm.objects.create(user=user, alarm=0)
+        HADS_Alarm.objects.create(user=user, alarm=0, value=summary)
     elif 10 >= summary >= 8:
-        HADS_Alarm.objects.create(user=user, alarm=1)
+        HADS_Alarm.objects.create(user=user, alarm=1, value=summary)
     elif summary >= 11:
-        HADS_Alarm.objects.create(user=user, alarm=2)
+        HADS_Alarm.objects.create(user=user, alarm=2, value=summary)
 
 
 def process_test(survey_answer):

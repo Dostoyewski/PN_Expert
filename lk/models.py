@@ -154,6 +154,7 @@ class HADS_Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.DateField(default=timezone.now)
     depression = models.IntegerField(choices=DEPRESSION, default=0)
+    value = models.IntegerField(default=0)
 
 
 class HADS_Alarm(models.Model):
@@ -163,6 +164,7 @@ class HADS_Alarm(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.DateField(default=timezone.now)
     alarm = models.IntegerField(choices=ALARM, default=0)
+    value = models.IntegerField(default=0)
 
 
 @postpone
