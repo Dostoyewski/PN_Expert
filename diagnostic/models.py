@@ -1,10 +1,12 @@
 import datetime
+import time
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from googleapiclient.errors import HttpError
 
 from .google_sync import create_event
 
@@ -76,10 +78,15 @@ class Event(models.Model):
             self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
         if type(self.end) is not datetime.datetime:
             self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
-        create_event(summary=self.summary, location=self.location, description=self.description,
-                     start=self.start.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
-                     end=self.end.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
-                     attendee=[{'email': self.user.email}])
+        while True:
+            try:
+                create_event(summary=self.summary, location=self.location, description=self.description,
+                             start=self.start.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
+                             end=self.end.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
+                             attendee=[{'email': self.user.email}])
+                break
+            except HttpError:
+                time.sleep(5)
         note = PushNotification(event=self, is_shown=False)
         note.save()
 
