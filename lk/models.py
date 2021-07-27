@@ -1,4 +1,5 @@
 import datetime
+import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -47,6 +48,10 @@ PUSH_DELAY = (
 )
 
 
+def generate_pin_string():
+    return uuid.uuid4().hex[:6].upper()
+
+
 class UserProfile(models.Model):
     """
     Extended user model
@@ -80,6 +85,8 @@ class UserProfile(models.Model):
     slug = models.SlugField(null=True)
     # Флаг блокаировки врача
     isBlocked = models.BooleanField(default=False)
+    # PIN for patients
+    pincode = models.TextField(default=generate_pin_string, max_length=10)
     # Avatar
     avatar = models.ImageField(upload_to="avatars", default="lk/static/images/noimg.jpg")
     timeshift = models.IntegerField(choices=TIMESHIFT, default=0)
