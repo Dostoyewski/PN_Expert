@@ -1,4 +1,4 @@
-from lk.models import HADS_Result, HADS_Alarm
+from lk.models import HADS_Result, HADS_Alarm, SmileStats
 
 
 def process_HADS_test(survey_answer):
@@ -153,6 +153,12 @@ def process_ALARM_test(survey_answer):
         HADS_Alarm.objects.create(user=user, alarm=2, value=summary)
 
 
+def process_Smile_test(survey_answer):
+    value = survey_answer.answers.all()[0].answer
+    user = survey_answer.user
+    SmileStats.objects.create(user=user, value=value)
+
+
 def process_test(survey_answer):
     """
     Processes string and addes statistics to Statistics object
@@ -164,3 +170,5 @@ def process_test(survey_answer):
         process_HADS_test(survey_answer)
     if '№1' in survey_answer.survey.title:
         process_ALARM_test(survey_answer)
+    if '№8' in survey_answer.survey.title:
+        process_Smile_test(survey_answer)

@@ -177,6 +177,12 @@ class HADS_Alarm(models.Model):
     value = models.IntegerField(default=0)
 
 
+class SmileStats(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    value = models.IntegerField(default=0)
+
+
 @postpone
 def create_events(instance, profile):
     current_hour = datetime.datetime.now().hour
