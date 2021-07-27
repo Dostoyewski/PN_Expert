@@ -20,4 +20,5 @@ urlpatterns = [
     path('api/user/id/', views.get_user_id, name='get_id_by_email'),
     path('api/hads/depression/', views.get_depression, name='get_depression'),
     path('api/hads/alarm/', views.get_alarm, name='get_alarm'),
+    path('api/search/user/', views.search_user, name='search_user'),
 ]

@@ -383,3 +383,25 @@ def get_alarm(request):
     steps = HADS_Alarm.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = ALARMSerializer(steps, many=True)
     return Response({"alarm": serializer.data})
+
+
+@api_view(['POST'])
+def search_user(request):
+    data_s = str(request.data['text'])
+    context = {'email': [],
+               'username': [],
+               'name': [],
+               'fathername': [],
+               'vorname': []}
+    for word in data_s.split():
+        context_e = UserProfile.objects.filter(user__email__icontains=word)
+        context_u = UserProfile.objects.filter(user__username__icontains=word)
+        context_n = UserProfile.objects.filter(name__icontains=word)
+        context_f = UserProfile.objects.filter(fathername__icontains=word)
+        context_v = UserProfile.objects.filter(vorname__icontains=word)
+        context['name'].append(UserProfileAPISerializer(context_n, many=True).data)
+        context['vorname'].append(UserProfileAPISerializer(context_v, many=True).data)
+        context['fathername'].append(UserProfileAPISerializer(context_f, many=True).data)
+        context['username'].append(UserProfileAPISerializer(context_u, many=True).data)
+        context['email'].append(UserProfileAPISerializer(context_e, many=True).data)
+    return Response(context)
