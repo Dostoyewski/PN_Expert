@@ -107,9 +107,9 @@ class SurveyAnswer(models.Model):
         for answer in self.answers.all():
             df = df.append({"Вопрос": answer.question.question,
                             "Ответ": answer.answer}, ignore_index=True)
-        name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title) + "_" \
-               + str(datetime.datetime.now()) + ".xlsx"
-        df.to_excel(os.path.abspath(name))
+        name = path + "Answers_" + str(self.user.pk) + "_" + str(self.survey.title.split()[1]) + "_" \
+               + str(datetime.date.today()) + ".xlsx"
+        df.to_excel(os.path.abspath(name), engine='openpyxl')
         self.file.name = name
         super().save()
         dr = DataRecording()

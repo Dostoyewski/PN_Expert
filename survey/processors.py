@@ -11,7 +11,7 @@ def process_HADS_test(survey_answer):
                 summary += 3
             elif "часто" in answer.answer:
                 summary += 2
-            elif "время от времени, иногда" in answer.answer:
+            elif "время от времени" in answer.answer or "иногда" in answer.answer:
                 summary += 1
             elif "совсем не испытываю" in answer.answer:
                 summary += 0
@@ -167,8 +167,8 @@ def process_test(survey_answer):
     """
     print(survey_answer.survey.title)
     if '№0' in survey_answer.survey.title:
-        process_HADS_test(survey_answer)
-    if '№1' in survey_answer.survey.title:
         process_ALARM_test(survey_answer)
+    if '№1' in survey_answer.survey.title:
+        process_HADS_test(survey_answer)
     if '№8' in survey_answer.survey.title:
         process_Smile_test(survey_answer)
