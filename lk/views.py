@@ -420,3 +420,44 @@ def search_user(request):
         context['username'].append(UserProfileAPISerializer(context_u, many=True).data)
         context['email'].append(UserProfileAPISerializer(context_e, many=True).data)
     return Response(context)
+
+
+@api_view(['POST'])
+def connect_patient_to_arzt(request):
+    """
+    Connects patient to doctor. Should have header `user` with doctor id and header `pincode`<br>
+    with patients pincode.<br>
+    <b>Sample:</b><br>
+    {"user": 44,<br>
+    "pincode": "43DA82"}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except:
+        return Response({"message": "User not found"})
+    try:
+        patient = UserProfile.objects.get(pincode=request.data['pincode'])
+    except:
+        return Response({"message": "Patient with this pincode not found"})
+    patient.doctor = user
+    patient.save()
+    return Response({"message": "ok"})
+
+
+@api_view(['POST'])
+def get_current_doctor(request):
+    """
+    Get info about doctor<br>
+    <b>Sample:</b><br>
+    {"user": 44}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except:
+        return Response({"message": "User not found"})
+    up = UserProfile.objects.get(user=user)
+    return Response({"doctor": UserProfileAPISerializer(up).data})

@@ -22,4 +22,6 @@ urlpatterns = [
     path('api/hads/alarm/', views.get_alarm, name='get_alarm'),
     path('api/smiles/', views.get_smiles, name='get_smiles'),
     path('api/search/user/', views.search_user, name='search_user'),
+    path('api/profile/doctor/set/', views.connect_patient_to_arzt, name='set_doctor'),
+    path('api/profile/doctor/get/', views.get_current_doctor, name='get_doctor'),
 ]
