@@ -12,10 +12,10 @@ from rest_framework.views import APIView
 
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats
+    SmileStats, MemoryStatistics, ReactionStatistics
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
     UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer, \
-    ALARMSerializer, SmileSerializer
+    ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer
 
 
 # TODO: add API method for email —> pk
@@ -461,3 +461,67 @@ def get_current_doctor(request):
         return Response({"message": "User not found"})
     up = UserProfile.objects.get(user=user)
     return Response({"doctor": UserProfileAPISerializer(up).data})
+
+
+@api_view(['POST'])
+def create_mem_stats(request):
+    """
+    Creates statistics for memory game.<br>
+    <b>Sample:</b><br>
+    {"user": 69,<br>
+    "value": 3}
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except:
+        return Response({"error": "User not found"})
+    MemoryStatistics.objects.create(user=user, value=request.data['value'])
+    return Response({"message": "ok"})
+
+
+@api_view(['POST'])
+def create_react_stats(request):
+    """
+    Creates statistics for reaction game.<br>
+    <b>Sample:</b><br>
+    {"user": 69,<br>
+    "value": 0.6}
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except:
+        return Response({"error": "User not found"})
+    ReactionStatistics.objects.create(user=user, value=request.data['value'])
+    return Response({"message": "ok"})
+
+
+@api_view(['POST'])
+def get_reaction_stats(request):
+    """
+    Returns all reaction statistic recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    steps = ReactionStatistics.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = ReactionSerializer(steps, many=True)
+    return Response({"data": serializer.data})
+
+
+@api_view(['POST'])
+def get_memory_stats(request):
+    """
+    Returns all memory statistic recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    steps = MemoryStatistics.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = MemorySerializer(steps, many=True)
+    return Response({"data": serializer.data})
