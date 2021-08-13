@@ -169,6 +169,32 @@ class HADS_Result(models.Model):
     value = models.IntegerField(default=0)
 
 
+class ReactionStatistics(models.Model):
+    """
+    Reaction statistics with reaction time for sniper game
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    value = models.FloatField(default=0)
+
+    def __str__(self):
+        return "Статистика игры `снайпер` для пользователя " + self.user.username + \
+               ", дата " + str(self.day)
+
+
+class MemoryStatistics(models.Model):
+    """
+    Reaction statistics with reaction time for sniper game
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    value = models.FloatField(default=0)
+
+    def __str__(self):
+        return "Статистика игры `карточки` для пользователя " + self.user.username + \
+               ", дата " + str(self.day)
+
+
 class HADS_Alarm(models.Model):
     """
     Class with HADS test result

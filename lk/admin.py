@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import UserProfile, NewsRecording, DiaryRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats
+    SmileStats, ReactionStatistics, MemoryStatistics
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -10,6 +10,8 @@ class UserProfileAdmin(admin.ModelAdmin):
     """
     list_display = ('user', 'name', 'vorname', 'fathername',
                     'gender', 'age', 'status', 'exp', 'isFull', 'slug')
+    list_filter = ('user', 'name', 'gender', 'status', 'doctor')
+    search_fields = ['user', 'doctor__user__username', 'doctor__user', 'doctor_name', 'name']
 
 
 class NewsAdmin(admin.ModelAdmin):
@@ -54,6 +56,20 @@ class SmileAdmin(admin.ModelAdmin):
     list_display = ('user', 'value', 'day')
 
 
+class ReactionAdmin(admin.ModelAdmin):
+    """
+    register steps counter
+    """
+    list_display = ('user', 'value', 'day')
+
+
+class MemoryAdmin(admin.ModelAdmin):
+    """
+    register steps counter
+    """
+    list_display = ('user', 'value', 'day')
+
+
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(NewsRecording, NewsAdmin)
 admin.site.register(DiaryRecording, DiaryAdmin)
@@ -61,3 +77,5 @@ admin.site.register(StepsCounter, StepAdmin)
 admin.site.register(HADS_Result, HADSAdmin)
 admin.site.register(HADS_Alarm, AlarmAdmin)
 admin.site.register(SmileStats, SmileAdmin)
+admin.site.register(ReactionStatistics, ReactionAdmin)
+admin.site.register(MemoryStatistics, MemoryAdmin)
