@@ -216,15 +216,15 @@ def mark_as_done(request):
     """
     if request.method == 'POST':
         try:
-            event = Event.objects.get(pk=request.data['event'])
-            event.isDone = True
+            event = Event.objects.filter(pk=request.data['event']).update(isDone=True)
+            # event.isDone = True
+            # event.save()
             try:
                 note = PushNotification.objects.get(event=event)
                 note.is_shown = True
                 note.save()
             except:
                 pass
-            event.save()
             return Response({"message": "ok"})
         except KeyError:
             return Response({"message": "Check your format!"})
