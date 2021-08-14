@@ -159,6 +159,10 @@ def process_Smile_test(survey_answer):
     SmileStats.objects.create(user=user, value=value)
 
 
+def process_Shwab_test(survey_answer):
+    pass
+
+
 def process_test(survey_answer):
     """
     Processes string and addes statistics to Statistics object
@@ -172,3 +176,5 @@ def process_test(survey_answer):
         process_HADS_test(survey_answer)
     if '№8' in survey_answer.survey.title:
         process_Smile_test(survey_answer)
+    if 'N2' in survey_answer.survey.title:
+        process_Shwab_test(survey_answer)
