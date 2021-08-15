@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/game/reaction/create/', views.create_react_stats, name='create_react'),
     path('api/game/memory/get/', views.get_memory_stats, name='get_mem'),
     path('api/game/reaction/get/', views.get_reaction_stats, name='get_react'),
+    path('api/schwabe/get/', views.get_schwabe, name='get_schwabe'),
 ]

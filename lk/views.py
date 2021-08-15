@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats, MemoryStatistics, ReactionStatistics
+    SmileStats, MemoryStatistics, ReactionStatistics, ShwabStats
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
     UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer, \
     ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer
@@ -396,6 +396,20 @@ def get_smiles(request):
     :return:
     """
     steps = SmileStats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = SmileSerializer(steps, many=True)
+    return Response({"alarm": serializer.data})
+
+
+@api_view(['POST'])
+def get_schwabe(request):
+    """
+    Returns all Schwabe&England test recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    steps = ShwabStats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = SmileSerializer(steps, many=True)
     return Response({"alarm": serializer.data})
 
