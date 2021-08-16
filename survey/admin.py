@@ -29,6 +29,7 @@ class SurveyAnswerAdmin(admin.ModelAdmin):
     Register User Profiles to admin profiles
     """
     list_display = ('survey', 'user', 'file')
+    list_filter = ('user', 'survey')
 
 
 admin.site.register(Survey, SurveyAdmin)

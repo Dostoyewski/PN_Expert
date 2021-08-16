@@ -78,6 +78,9 @@ class SurveyAnswer(models.Model):
     file = models.FileField(upload_to="user_surveys", blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return "Ответ пользователя " + self.user.username + " на тест " + self.survey.title
+
     def save(self, *args, **kwargs):
         if '№1' in self.survey.title:
             up = UserProfile.objects.get(user=self.user)
