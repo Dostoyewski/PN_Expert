@@ -75,7 +75,7 @@ class Answer(models.Model):
 class SurveyAnswer(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     answers = models.ManyToManyField(Answer, blank=True)
-    file = models.FileField(upload_to="user_surveys", blank=True)
+    file = models.FileField(upload_to="user_surveys", blank=True, max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
