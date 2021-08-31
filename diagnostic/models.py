@@ -102,7 +102,7 @@ TYPES_FILES = (
 
 
 class DataRecording(models.Model):
-    file = models.FileField(upload_to="user_files", blank=True)
+    file = models.FileField(upload_to="user_files", blank=True, max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(default="File", max_length=100)
     date = models.DateTimeField(auto_now_add=True, blank=True)
