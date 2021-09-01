@@ -470,10 +470,10 @@ def detach_arzt(request):
     :return:
     """
     try:
-        user = User.objects.get(pk=request.data['user'])
+        user = UserProfile.objects.get(user__pk=request.data['user'])
     except:
         return Response({"message": "User not found"})
-    user.doctor = User.objects.get(pk=1)
+    user.doctor = None
     user.save()
     return Response({"message": "ok"})
 
