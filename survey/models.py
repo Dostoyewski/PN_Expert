@@ -103,7 +103,7 @@ class SurveyAnswer(models.Model):
         elif 'роль' in self.survey.title:
             up = UserProfile.objects.get(user=self.user)
             up.isStatus = True
-            answer = self.answers.all()[0]
+            answer = self.answers.all()[-1]
             print(answer.answer)
             if answer.answer == 'Врач':
                 up.status = 1
