@@ -557,3 +557,35 @@ def get_memory_stats(request):
     steps = MemoryStatistics.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = MemorySerializer(steps, many=True)
     return Response({"data": serializer.data})
+
+
+@api_view(['POST'])
+def search_user_doctor(request):
+    """
+    Searches patients in attached peoples. Should have header `text` with search text and <br>
+    header `doctor` with doctor user__pk.<br>
+    <b>Sample:</b><br>
+    {"text": "iuhiuh",
+    "doctor": 44}
+    :param request:
+    :return:
+    """
+    data_s = str(request.data['text'])
+    doctor = User.objects.get(pk=request.data['doctor'])
+    context = {'email': [],
+               'username': [],
+               'name': [],
+               'fathername': [],
+               'vorname': []}
+    for word in data_s.split():
+        context_e = UserProfile.objects.filter(user__email__icontains=word, doctor=doctor)
+        context_u = UserProfile.objects.filter(user__username__icontains=word, doctor=doctor)
+        context_n = UserProfile.objects.filter(name__icontains=word, doctor=doctor)
+        context_f = UserProfile.objects.filter(fathername__icontains=word, doctor=doctor)
+        context_v = UserProfile.objects.filter(vorname__icontains=word, doctor=doctor)
+        context['name'].append(UserProfileAPISerializer(context_n, many=True).data)
+        context['vorname'].append(UserProfileAPISerializer(context_v, many=True).data)
+        context['fathername'].append(UserProfileAPISerializer(context_f, many=True).data)
+        context['username'].append(UserProfileAPISerializer(context_u, many=True).data)
+        context['email'].append(UserProfileAPISerializer(context_e, many=True).data)
+    return Response(context)
