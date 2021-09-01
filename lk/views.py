@@ -473,7 +473,7 @@ def detach_arzt(request):
         user = User.objects.get(pk=request.data['user'])
     except:
         return Response({"message": "User not found"})
-    user.doctor.set(None)
+    user.doctor = User.objects.get(pk=1)
     user.save()
     return Response({"message": "ok"})
 
