@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/search/user/', views.search_user, name='search_user'),
     path('api/profile/doctor/set/', views.connect_patient_to_arzt, name='set_doctor'),
     path('api/profile/doctor/get/', views.get_current_doctor, name='get_doctor'),
+    path('api/profile/doctor/detach/', views.detach_arzt, name='detach_doctor'),
     path('api/game/memory/create/', views.create_mem_stats, name='create_mem'),
     path('api/game/reaction/create/', views.create_react_stats, name='create_react'),
     path('api/game/memory/get/', views.get_memory_stats, name='get_mem'),

@@ -461,6 +461,24 @@ def connect_patient_to_arzt(request):
 
 
 @api_view(['POST'])
+def detach_arzt(request):
+    """
+    Detach patient to doctor. Should have header `user` with user id.<br>
+    <b>Sample:</b><br>
+    {"user": 44}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except:
+        return Response({"message": "User not found"})
+    user.doctor = None
+    user.save()
+    return Response({"message": "ok"})
+
+
+@api_view(['POST'])
 def get_current_doctor(request):
     """
     Get info about doctor<br>
