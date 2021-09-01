@@ -82,6 +82,12 @@ class SurveyAnswer(models.Model):
         return "Ответ пользователя " + self.user.username + " на тест " + self.survey.title
 
     def save(self, *args, **kwargs):
+        answers = Answer.objects.filter(question__survey=self.survey,
+                                        user=self.user)
+        super().save(*args, **kwargs)
+        for answer in answers:
+            self.answers.add(answer)
+        super().save()
         if '№1' in self.survey.title:
             up = UserProfile.objects.get(user=self.user)
             up.isSurvey1 = True
@@ -94,12 +100,17 @@ class SurveyAnswer(models.Model):
             up = UserProfile.objects.get(user=self.user)
             up.isSurvey0 = True
             up.save()
-        answers = Answer.objects.filter(question__survey=self.survey,
-                                        user=self.user)
-        super().save(*args, **kwargs)
-        for answer in answers:
-            self.answers.add(answer)
-        super().save()
+        elif 'роль' in self.survey.title:
+            up = UserProfile.objects.get(user=self.user)
+            up.isStatus = True
+            answer = self.answers.all()[0]
+            if answer.answer == 'Врач':
+                up.status = 1
+            elif answer.answer == 'Пациент':
+                up.status = 0
+            elif answer.answer == 'Родственник':
+                up.status = 2
+            up.save()
         process_test(self)
         self.process_answers()
 
