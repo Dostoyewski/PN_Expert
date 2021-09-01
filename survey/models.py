@@ -107,6 +107,7 @@ class SurveyAnswer(models.Model):
             print(answer.answer)
             if answer.answer == 'Врач':
                 up.status = 1
+                up.isPills = True
             elif answer.answer == 'Пациент':
                 up.status = 0
             elif answer.answer == 'Родственник':
