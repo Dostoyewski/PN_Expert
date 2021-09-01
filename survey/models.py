@@ -104,6 +104,7 @@ class SurveyAnswer(models.Model):
             up = UserProfile.objects.get(user=self.user)
             up.isStatus = True
             answer = self.answers.all()[0]
+            print(answer.answer)
             if answer.answer == 'Врач':
                 up.status = 1
             elif answer.answer == 'Пациент':
