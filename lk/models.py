@@ -77,6 +77,7 @@ class UserProfile(models.Model):
     isSurvey1 = models.BooleanField(default=False)
     isSurvey2 = models.BooleanField(default=False)
     isSurvey0 = models.BooleanField(default=False)
+    isStatus = models.BooleanField(default=False)
     isPills = models.BooleanField(default=False)
     isSick = models.BooleanField(default=False)
     # Город проживания
