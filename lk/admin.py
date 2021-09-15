@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import UserProfile, NewsRecording, DiaryRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats, ReactionStatistics, MemoryStatistics, ShwabStats, PDQ39Stats
+    SmileStats, ReactionStatistics, MemoryStatistics, ShwabStats, PDQ39Stats, DailyActivityStats
 
 
 class ShwabAdmin(admin.ModelAdmin):
@@ -91,5 +91,6 @@ admin.site.register(HADS_Alarm, AlarmAdmin)
 admin.site.register(SmileStats, SmileAdmin)
 admin.site.register(ShwabStats, ShwabAdmin)
 admin.site.register(PDQ39Stats, PDQ39Admin)
+admin.site.register(DailyActivityStats, DailyActivityAdmin)
 admin.site.register(ReactionStatistics, ReactionAdmin)
 admin.site.register(MemoryStatistics, MemoryAdmin)
