@@ -71,6 +71,10 @@ class ReactionAdmin(admin.ModelAdmin):
     list_display = ('user', 'value', 'day')
 
 
+class DailyActivityAdmin(admin.ModelAdmin):
+    list_display = ('user', 'day', 'sleep_time', 'no_hom_time', 'work_time', 'sport_time')
+
+
 class MemoryAdmin(admin.ModelAdmin):
     """
     register steps counter

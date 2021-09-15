@@ -207,12 +207,30 @@ class HADS_Alarm(models.Model):
 
 
 class SmileStats(models.Model):
+    """
+    Smile statistics
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.DateField(default=timezone.now)
     value = models.IntegerField(default=0)
 
 
+class DailyActivityStats(models.Model):
+    """
+    Daily activity stats
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    sleep_time = models.FloatField(default=0)
+    no_hom_time = models.FloatField(default=0)
+    work_time = models.FloatField(default=0)
+    sport_time = models.FloatField(default=0)
+
+
 class ShwabStats(models.Model):
+    """
+    Schwab&England stats
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.DateField(default=timezone.now)
     value = models.IntegerField(default=0)

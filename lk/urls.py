@@ -32,4 +32,5 @@ urlpatterns = [
     path('api/game/reaction/get/', views.get_reaction_stats, name='get_react'),
     path('api/schwabe/get/', views.get_schwabe, name='get_schwabe'),
     path('api/pdq/get/', views.get_PDQ_39, name='get_pdq'),
+    path('api/daily_activity/get/', views.get_daily_activity, name='get_daily'),
 ]

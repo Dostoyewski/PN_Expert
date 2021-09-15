@@ -12,10 +12,10 @@ from rest_framework.views import APIView
 
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats, MemoryStatistics, ReactionStatistics, ShwabStats, PDQ39Stats
+    SmileStats, MemoryStatistics, ReactionStatistics, ShwabStats, PDQ39Stats, DailyActivityStats
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
     UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer, \
-    ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer, PDQSerializer
+    ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer, PDQSerializer, DailyActivitySerializer
 
 
 # TODO: add API method for email —> pk
@@ -568,8 +568,22 @@ def get_PDQ_39(request):
     :param request:
     :return:
     """
-    steps = PDQ39Stats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
-    serializer = PDQSerializer(steps, many=True)
+    pdq = PDQ39Stats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = PDQSerializer(pdq, many=True)
+    return Response({"data": serializer.data})
+
+
+@api_view(['POST'])
+def get_daily_activity(request):
+    """
+    Returns all daily activity statistic recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    act = DailyActivityStats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = DailyActivitySerializer(act, many=True)
     return Response({"data": serializer.data})
 
 
