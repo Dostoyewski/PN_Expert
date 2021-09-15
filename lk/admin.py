@@ -1,7 +1,15 @@
 from django.contrib import admin
 
 from .models import UserProfile, NewsRecording, DiaryRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats, ReactionStatistics, MemoryStatistics
+    SmileStats, ReactionStatistics, MemoryStatistics, ShwabStats, PDQ39Stats
+
+
+class ShwabAdmin(admin.ModelAdmin):
+    list_display = ('user', 'value', 'day')
+
+
+class PDQ39Admin(admin.ModelAdmin):
+    list_display = ('user', 'value', 'day')
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -77,5 +85,7 @@ admin.site.register(StepsCounter, StepAdmin)
 admin.site.register(HADS_Result, HADSAdmin)
 admin.site.register(HADS_Alarm, AlarmAdmin)
 admin.site.register(SmileStats, SmileAdmin)
+admin.site.register(ShwabStats, ShwabAdmin)
+admin.site.register(PDQ39Stats, PDQ39Admin)
 admin.site.register(ReactionStatistics, ReactionAdmin)
 admin.site.register(MemoryStatistics, MemoryAdmin)
