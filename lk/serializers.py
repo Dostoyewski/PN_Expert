@@ -3,7 +3,7 @@ from rest_framework import serializers, fields
 from rest_framework.serializers import ModelSerializer
 
 from .models import DiaryRecording, NewsRecording, UserProfile, TREMOR, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats, MemoryStatistics, ReactionStatistics
+    SmileStats, MemoryStatistics, ReactionStatistics, PDQ39Stats
 
 
 class DiaryRecordingSerializer(serializers.ModelSerializer):
@@ -96,4 +96,10 @@ class MemorySerializer(serializers.ModelSerializer):
 class SmileSerializer(serializers.ModelSerializer):
     class Meta:
         model = SmileStats
+        fields = '__all__'
+
+
+class PDQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PDQ39Stats
         fields = '__all__'

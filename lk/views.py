@@ -12,10 +12,10 @@ from rest_framework.views import APIView
 
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats, MemoryStatistics, ReactionStatistics, ShwabStats
+    SmileStats, MemoryStatistics, ReactionStatistics, ShwabStats, PDQ39Stats
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
     UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer, \
-    ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer
+    ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer, PDQSerializer
 
 
 # TODO: add API method for email —> pk
@@ -411,7 +411,7 @@ def get_schwabe(request):
     """
     steps = ShwabStats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = SmileSerializer(steps, many=True)
-    return Response({"alarm": serializer.data})
+    return Response({"data": serializer.data})
 
 
 @api_view(['POST'])
@@ -556,6 +556,20 @@ def get_memory_stats(request):
     """
     steps = MemoryStatistics.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = MemorySerializer(steps, many=True)
+    return Response({"data": serializer.data})
+
+
+@api_view(['POST'])
+def get_PDQ_39(request):
+    """
+    Returns all PDQ39 statistic recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    steps = PDQ39Stats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = PDQSerializer(steps, many=True)
     return Response({"data": serializer.data})
 
 

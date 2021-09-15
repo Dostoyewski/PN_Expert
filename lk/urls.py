@@ -31,4 +31,5 @@ urlpatterns = [
     path('api/game/memory/get/', views.get_memory_stats, name='get_mem'),
     path('api/game/reaction/get/', views.get_reaction_stats, name='get_react'),
     path('api/schwabe/get/', views.get_schwabe, name='get_schwabe'),
+    path('api/pdq/get/', views.get_PDQ_39, name='get_pdq'),
 ]
