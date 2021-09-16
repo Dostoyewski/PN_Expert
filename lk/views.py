@@ -591,7 +591,8 @@ def get_daily_activity(request):
 @api_view(['POST'])
 def get_UPDRS_stats(request):
     """
-    Returns all daily activity statistic recordings for user.<br>
+    Returns all UPDRS activity statistic recordings for user. Fields
+    are going in the same order, as in google docs table<br>
     <b>Sample</b><br>
     {"user": 5}<br>
     :param request:
