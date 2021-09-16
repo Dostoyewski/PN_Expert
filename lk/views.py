@@ -12,10 +12,11 @@ from rest_framework.views import APIView
 
 from .forms import UserProfileForm
 from .models import UserProfile, DiaryRecording, NewsRecording, StepsCounter, HADS_Result, HADS_Alarm, \
-    SmileStats, MemoryStatistics, ReactionStatistics, ShwabStats, PDQ39Stats, DailyActivityStats
+    SmileStats, MemoryStatistics, ReactionStatistics, ShwabStats, PDQ39Stats, DailyActivityStats, UPDRSStats
 from .serializers import DiaryRecordingSerializer, NewsRecordingSerializer, \
     UserProfileSerializer, UserProfileAPISerializer, UserProfileAvatarSerializer, StepsSerializer, HADSSerializer, \
-    ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer, PDQSerializer, DailyActivitySerializer
+    ALARMSerializer, SmileSerializer, ReactionSerializer, MemorySerializer, PDQSerializer, DailyActivitySerializer, \
+    UPDRSSerializer
 
 
 # TODO: add API method for email —> pk
@@ -584,6 +585,20 @@ def get_daily_activity(request):
     """
     act = DailyActivityStats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
     serializer = DailyActivitySerializer(act, many=True)
+    return Response({"data": serializer.data})
+
+
+@api_view(['POST'])
+def get_UPDRS_stats(request):
+    """
+    Returns all daily activity statistic recordings for user.<br>
+    <b>Sample</b><br>
+    {"user": 5}<br>
+    :param request:
+    :return:
+    """
+    act = UPDRSStats.objects.filter(user=User.objects.get(pk=request.data['user'])).order_by('-day')
+    serializer = UPDRSSerializer(act, many=True)
     return Response({"data": serializer.data})
 
 

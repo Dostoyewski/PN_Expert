@@ -215,6 +215,48 @@ class SmileStats(models.Model):
     value = models.IntegerField(default=0)
 
 
+class UPDRSStats(models.Model):
+    """
+    UPDRS answer stats
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField(default=timezone.now)
+    cognitive = models.FloatField(default=0)
+    gallutination = models.FloatField(default=0)
+    depression = models.FloatField(default=0)
+    danger = models.FloatField(default=0)
+    apation = models.FloatField(default=0)
+    dofamin = models.FloatField(default=0)
+    sleep = models.FloatField(default=0)
+    day_sleep = models.FloatField(default=0)
+    pain = models.FloatField(default=0)
+    urina = models.FloatField(default=0)
+    kal = models.FloatField(default=0)
+    helicopters = models.FloatField(default=0)
+    tired = models.FloatField(default=0)
+
+    speak = models.FloatField(default=0)
+    eat_liquid = models.FloatField(default=0)
+    jummy = models.FloatField(default=0)
+    eating = models.FloatField(default=0)
+    dressing = models.FloatField(default=0)
+    hyhien = models.FloatField(default=0)
+    writing = models.FloatField(default=0)
+    hobby = models.FloatField(default=0)
+    bed = models.FloatField(default=0)
+    tremor = models.FloatField(default=0)
+    standup = models.FloatField(default=0)
+    going = models.FloatField(default=0)
+    freezing = models.FloatField(default=0)
+
+    discinesing = models.FloatField(default=0)
+    disc_f = models.FloatField(default=0)
+    off_time = models.FloatField(default=0)
+    fluctuation = models.FloatField(default=0)
+    flucation_difficulty = models.FloatField(default=0)
+    distony = models.FloatField(default=0)
+
+
 class DailyActivityStats(models.Model):
     """
     Daily activity stats
