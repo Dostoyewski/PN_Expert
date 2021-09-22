@@ -90,6 +90,8 @@ class UserProfile(models.Model):
     pincode = models.TextField(default=generate_pin_string, max_length=10)
     # Link to doctor account
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor', default=1, null=True)
+    # Link to relative
+    relative = models.ForeignKey(User, on_delete=models.CASCADE, related_name='relative', default=1, null=True)
     # Avatar
     avatar = models.ImageField(upload_to="avatars", default="lk/static/images/noimg.jpg")
     timeshift = models.IntegerField(choices=TIMESHIFT, default=0)

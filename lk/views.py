@@ -493,7 +493,70 @@ def get_current_doctor(request):
     except:
         return Response({"message": "User not found"})
     up = UserProfile.objects.get(user=user)
-    return Response({"doctor": UserProfileAPISerializer(up).data})
+    d_user = User.objects.get(pk=up.doctor.pk)
+    up_d = UserProfile.objects.get(user=d_user)
+    return Response({"doctor": UserProfileAPISerializer(up_d).data})
+
+
+@api_view(['POST'])
+def connect_patient_to_relative(request):
+    """
+    Connects patient to relative. Should have header `user` with doctor id and header `pincode`<br>
+    with patients pincode.<br>
+    <b>Sample:</b><br>
+    {"user": 44,<br>
+    "pincode": "43DA82"}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except:
+        return Response({"message": "User not found"})
+    try:
+        patient = UserProfile.objects.get(pincode=request.data['pincode'])
+    except:
+        return Response({"message": "Patient with this pincode not found"})
+    patient.relative = user
+    patient.save()
+    return Response({"message": "ok"})
+
+
+@api_view(['POST'])
+def detach_relative(request):
+    """
+    Detach patient to relative. Should have header `user` with user id.<br>
+    <b>Sample:</b><br>
+    {"user": 44}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = UserProfile.objects.get(user__pk=request.data['user'])
+    except:
+        return Response({"message": "User not found"})
+    user.relative = User.objects.get(pk=1)
+    user.save()
+    return Response({"message": "ok"})
+
+
+@api_view(['POST'])
+def get_current_relative(request):
+    """
+    Get info about doctor<br>
+    <b>Sample:</b><br>
+    {"user": 44}<br>
+    :param request:
+    :return:
+    """
+    try:
+        user = User.objects.get(pk=request.data['user'])
+    except:
+        return Response({"message": "User not found"})
+    up = UserProfile.objects.get(user=user)
+    d_user = User.objects.get(pk=up.relative.pk)
+    up_d = UserProfile.objects.get(user=d_user)
+    return Response({"relative": UserProfileAPISerializer(up_d).data})
 
 
 @api_view(['POST'])

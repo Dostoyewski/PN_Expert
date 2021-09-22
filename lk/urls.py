@@ -34,4 +34,7 @@ urlpatterns = [
     path('api/pdq/get/', views.get_PDQ_39, name='get_pdq'),
     path('api/UPDRS/get/', views.get_UPDRS_stats, name='get_updrs'),
     path('api/daily_activity/get/', views.get_daily_activity, name='get_daily'),
+    path('api/profile/relative/set/', views.connect_patient_to_relative, name='set_rel'),
+    path('api/profile/relative/get/', views.get_current_relative, name='get_rel'),
+    path('api/profile/relative/detach/', views.detach_relative, name='detach_rel'),
 ]
