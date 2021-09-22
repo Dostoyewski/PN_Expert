@@ -91,6 +91,12 @@ class Event(models.Model):
         note.save()
 
 
+DOCTOR_TYPES = (
+    (0, "Оценивание видео"),
+    (1, "Оценивание фотографии"),
+    (2, "Оценивание фототеста")
+)
+
 TYPES_FILES = (
     (0, "Обследование"),
     (1, "Операция"),
@@ -98,6 +104,12 @@ TYPES_FILES = (
     (3, "Препараты"),
     (4, "Анализы"),
     (5, "Другое")
+)
+
+MEDIA_TYPES = (
+    (0, "Видео"),
+    (1, "Фотогафия"),
+    (2, "Фототест")
 )
 
 
@@ -109,10 +121,46 @@ class DataRecording(models.Model):
     typo = models.IntegerField(choices=TYPES_FILES, default=5)
 
 
-# @receiver(post_save, sender=DataRecording)
-# def update_data(sender, instance, **kwargs):
-#     instance.date = timezone.now()
-#     instance.save()
+class MediaRecording(models.Model):
+    file = models.FileField(upload_to="user_files", blank=True, max_length=500)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(default="File", max_length=100)
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    typo = models.IntegerField(choices=MEDIA_TYPES, default=0)
+    mark = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # TODO: Add doctor events creating
+
+
+class DoctorEvent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.CharField(max_length=5000, default="")
+    summary = models.CharField(max_length=100, default="")
+    video = models.ForeignKey(MediaRecording, on_delete=models.CASCADE)
+    start = models.DateTimeField(default=datetime.datetime.now)
+    end = models.DateTimeField(default=datetime.datetime.now)
+    event_type = models.IntegerField(choices=DOCTOR_TYPES, default=0)
+    isDone = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if type(self.start) is not datetime.datetime:
+            self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
+        if type(self.end) is not datetime.datetime:
+            self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
+        while True:
+            try:
+                create_event(summary=self.summary, location="SPB", description=self.description,
+                             start=self.start.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
+                             end=self.end.strftime('%Y-%m-%dT%H:%M:%S-23:59'),
+                             attendee=[{'email': self.user.email}])
+                break
+            except HttpError:
+                time.sleep(5)
+        note = PushNotification(event=self, is_shown=False)
+        note.save()
 
 
 class DailyActivity(models.Model):

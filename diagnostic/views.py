@@ -2,9 +2,7 @@ from datetime import datetime, date
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -12,10 +10,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from lk.models import UserProfile
-from .forms import DataRecordingForm
-from .models import Event, DataRecording, DailyActivity, PushNotification
+from .models import Event, DataRecording, DailyActivity, PushNotification, MediaRecording
 from .serializers import EventSerializer, DataRecordingSerializer, \
-    DataRecordingCreateSerializer, PushSerializer
+    DataRecordingCreateSerializer, PushSerializer, MediaRecordingCreateSerializer
 
 
 # TODO: Add username to pk API
@@ -51,31 +48,6 @@ def get_all_events(request):
     usr = request.user
     events = Event.objects.filter(user=usr)
     return render(request, 'events.html', {'events': EventSerializer(events, many=True).data})
-
-
-@login_required()
-def load_file(request):
-    user = request.user
-    if request.method == 'POST':
-        form = DataRecordingForm(request.POST, request.FILES)
-        if form.is_valid():
-            recording = DataRecording()
-            recording.file = form.cleaned_data['file']
-            recording.user = user
-            recording.save()
-            return HttpResponseRedirect(reverse('file_list'))
-
-    else:
-        form = DataRecordingForm()
-    return render(request, 'load_file.html', {'form': form})
-
-
-@login_required()
-def file_list(request):
-    user = request.user
-    files = DataRecording.objects.filter(user=user)
-    return render(request, 'file_list.html',
-                  {'files': DataRecordingSerializer(files, many=True).data})
 
 
 @login_required()
@@ -184,6 +156,42 @@ class FileView(APIView):
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class MediaView(APIView):
+    """
+    Should contain fieds 'file' with a file, 'user' with user pk, 'name' with filename, 'typo' with file type
+    """
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = MediaRecordingCreateSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def get_user_medias(request):
+    """
+    Get user Media files. Shoud have header 'user' with pk of user instance or header 'username' with username<br>
+    <b>Samples</b>:<br>
+    {"user": 5}<br>
+    {"username": "admin"}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            files = MediaRecording.objects.filter(user__pk=request.data['user'])
+        except KeyError:
+            files = MediaRecording.objects.filter(user__username=request.data['username'])
+        return Response({"files": DataRecordingSerializer(files, many=True).data,
+                         "message": "ok"})
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
 @api_view(['POST'])
 def get_user_files(request):
     """
@@ -217,8 +225,6 @@ def mark_as_done(request):
     if request.method == 'POST':
         try:
             event = Event.objects.filter(pk=request.data['event']).update(isDone=True)
-            # event.isDone = True
-            # event.save()
             try:
                 note = PushNotification.objects.get(event=event)
                 note.is_shown = True

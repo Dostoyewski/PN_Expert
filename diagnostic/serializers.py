@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, DataRecording, PushNotification
+from .models import Event, DataRecording, PushNotification, MediaRecording
 
 
 class EventSerializer(serializers.Serializer):
@@ -56,6 +56,19 @@ class DataRecordingSerializer(serializers.ModelSerializer):
             return DataRecording.objects.create(**validated_data)
 
 
+class MediaRecordingSerializer(serializers.ModelSerializer):
+    """
+    MediaRecoedinf serializer
+    """
+
+    class Meta:
+        model = MediaRecording
+        fields = '__all__'
+
+        def create(self, validated_data):
+            return MediaRecording.objects.create(**validated_data)
+
+
 class DataRecordingCreateSerializer(serializers.ModelSerializer):
     """
     Drecording serializer
@@ -67,6 +80,19 @@ class DataRecordingCreateSerializer(serializers.ModelSerializer):
 
         def create(self, validated_data):
             return DataRecording.objects.create(**validated_data)
+
+
+class MediaRecordingCreateSerializer(serializers.ModelSerializer):
+    """
+    Drecording serializer
+    """
+
+    class Meta:
+        model = MediaRecording
+        fields = ('file', 'user', 'name', 'typo')
+
+        def create(self, validated_data):
+            return MediaRecording.objects.create(**validated_data)
 
 
 class DataSerializer(serializers.ModelSerializer):
