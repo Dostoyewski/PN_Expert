@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, DataRecording, PushNotification, MediaRecording
+from .models import Event, DataRecording, PushNotification, MediaRecording, DoctorEvent
 
 
 class EventSerializer(serializers.Serializer):
@@ -80,6 +80,19 @@ class DataRecordingCreateSerializer(serializers.ModelSerializer):
 
         def create(self, validated_data):
             return DataRecording.objects.create(**validated_data)
+
+
+class DoctorEventSeralizer(serializers.ModelSerializer):
+    """
+    Drecording serializer
+    """
+
+    class Meta:
+        model = DoctorEvent
+        fields = '__all__'
+
+        def create(self, validated_data):
+            return DoctorEvent.objects.create(**validated_data)
 
 
 class MediaRecordingCreateSerializer(serializers.ModelSerializer):

@@ -10,9 +10,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from lk.models import UserProfile
-from .models import Event, DataRecording, DailyActivity, PushNotification, MediaRecording
+from .models import Event, DataRecording, DailyActivity, PushNotification, MediaRecording, DoctorEvent
 from .serializers import EventSerializer, DataRecordingSerializer, \
-    DataRecordingCreateSerializer, PushSerializer, MediaRecordingCreateSerializer
+    DataRecordingCreateSerializer, PushSerializer, MediaRecordingCreateSerializer, DoctorEventSeralizer
 
 
 # TODO: Add username to pk API
@@ -104,6 +104,34 @@ def get_user_events(request):
                                           user__username=request.data['username'])
         return Response({"events": EventSerializer(events, many=True).data,
                          "done_events": EventSerializer(devents, many=True).data,
+                         "message": "ok"})
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def get_doctor_events(request):
+    """
+    Get user events. Shoud have header 'user' with pk of user instance or header 'username' with username<br>
+    <b>Samples</b>:<br>
+    {"user": 5}<br>
+    {"username": "fedor"}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            events = DoctorEvent.objects.filter(isDone=False, user__pk=request.data['user'])
+            # TODO: remove this part with tomorrow events
+            devents = DoctorEvent.objects.filter(isDone=True, user__pk=request.data['user'],
+                                                 start__date=date.today())
+        except KeyError:
+            devents = DoctorEvent.objects.filter(isDone=True, user__username=request.data['username'],
+                                                 start__date=date.today())
+            events = DoctorEvent.objects.filter(isDone=False,
+                                                user__username=request.data['username'])
+        return Response({"events": DoctorEventSeralizer(events, many=True).data,
+                         "done_events": DoctorEventSeralizer(devents, many=True).data,
                          "message": "ok"})
     else:
         return Response({"message": "Method not allowed!"})
@@ -231,6 +259,27 @@ def mark_as_done(request):
                 note.save()
             except:
                 pass
+            return Response({"message": "ok"})
+        except KeyError:
+            return Response({"message": "Check your format!"})
+    else:
+        return Response({"message": "Method not allowed!"})
+
+
+@api_view(['POST'])
+def doctor_mark_as_done(request):
+    """
+    Marks doctor event as done and updates video mark. Shoud have header 'event' with pk of event instance ans header `mark`<br>
+    <b>Sample</b>:<br>
+    {"event": 5,<br>
+    "mark": 4}<br>
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        try:
+            event = DoctorEvent.objects.filter(pk=request.data['event']).update(isDone=True)
+            media_rec = MediaRecording.objects.get(pk=event.video.pk).update(mark=int(request.data['mark']))
             return Response({"message": "ok"})
         except KeyError:
             return Response({"message": "Check your format!"})
