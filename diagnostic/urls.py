@@ -19,4 +19,5 @@ urlpatterns = [
          name='note_shown'),
     path('api/media/upload/', views.MediaView.as_view(), name='media_upload'),
     path('api/media/get/', views.get_user_medias, name='media_get'),
+    path('api/media/get/url', views.get_video_url, name='video_url')
 ]

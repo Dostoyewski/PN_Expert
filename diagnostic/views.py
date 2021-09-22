@@ -242,6 +242,19 @@ def get_user_files(request):
 
 
 @api_view(['POST'])
+def get_video_url(request):
+    """
+    Returns URL to video/photo. Should have header "media" with `MediaRecording` pk.<br>
+    <b>Sample</b>:<br>
+    {"media": 5}<br>
+    :param request:
+    :return:
+    """
+    media = MediaRecording.objects.get(pk=request.data['media'])
+    return Response({"url": media.file.url})
+
+
+@api_view(['POST'])
 def mark_as_done(request):
     """
     Marks event as done. Shoud have header 'event' with pk of event instance<br>

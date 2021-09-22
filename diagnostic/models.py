@@ -130,8 +130,22 @@ class MediaRecording(models.Model):
     mark = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
+        from lk.models import UserProfile
         super().save(*args, **kwargs)
-        # TODO: Add doctor events creating
+        info = ""
+        if self.typo == 0:
+            info = "видеотеста по системе UPDRS"
+        elif self.typo == 1:
+            info = "фотографии пациента по системе UPDRS"
+        elif self.typo == 2:
+            info = "фототеста"
+        doctor = UserProfile.objects.get(user=self.user).doctor
+        DoctorEvent.objects.create(description="Оценить результаты",
+                                   summary="Оценить результаты " + info,
+                                   end=datetime.datetime.now() + datetime.timedelta(days=1),
+                                   user=doctor,
+                                   event_type=self.typo,
+                                   video=self)
 
 
 class DoctorEvent(models.Model):
