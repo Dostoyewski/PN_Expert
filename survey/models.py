@@ -108,10 +108,19 @@ class SurveyAnswer(models.Model):
             if answer.answer == 'Врач':
                 up.status = 1
                 up.isPills = True
+                up.isSurvey1 = True
+                up.isSurvey0 = True
+                up.isSurvey2 = True
+                up.isDiary = True
             elif answer.answer == 'Пациент':
                 up.status = 0
             elif answer.answer == 'Родственник':
                 up.status = 2
+                up.isPills = True
+                up.isSurvey1 = True
+                up.isSurvey0 = True
+                up.isSurvey2 = True
+                up.isDiary = True
             up.save()
         process_test(self)
         self.process_answers()
