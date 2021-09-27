@@ -68,7 +68,7 @@ class ReactionAdmin(admin.ModelAdmin):
     """
     register steps counter
     """
-    list_display = ('user', 'value', 'day')
+    list_display = ('user', 'time', 'move', 'day')
 
 
 class DailyActivityAdmin(admin.ModelAdmin):
@@ -79,7 +79,7 @@ class MemoryAdmin(admin.ModelAdmin):
     """
     register steps counter
     """
-    list_display = ('user', 'value', 'day')
+    list_display = ('user', 'turn', 'pairs', 'day')
 
 
 admin.site.register(UserProfile, UserProfileAdmin)

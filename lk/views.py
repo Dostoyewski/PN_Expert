@@ -565,7 +565,8 @@ def create_mem_stats(request):
     Creates statistics for memory game.<br>
     <b>Sample:</b><br>
     {"user": 69,<br>
-    "value": 3}
+    "turn": 3, <br>
+    "pairs": 4}
     :param request:
     :return:
     """
@@ -573,7 +574,7 @@ def create_mem_stats(request):
         user = User.objects.get(pk=request.data['user'])
     except:
         return Response({"error": "User not found"})
-    MemoryStatistics.objects.create(user=user, value=request.data['value'])
+    MemoryStatistics.objects.create(user=user, pairs=request.data['pairs'], turn=request.data['turn'])
     return Response({"message": "ok"})
 
 
@@ -583,7 +584,8 @@ def create_react_stats(request):
     Creates statistics for reaction game.<br>
     <b>Sample:</b><br>
     {"user": 69,<br>
-    "value": 0.6}
+    "time": 0.6,<br>
+    "move": 1.1}
     :param request:
     :return:
     """
@@ -591,7 +593,7 @@ def create_react_stats(request):
         user = User.objects.get(pk=request.data['user'])
     except:
         return Response({"error": "User not found"})
-    ReactionStatistics.objects.create(user=user, value=request.data['value'])
+    ReactionStatistics.objects.create(user=user, move=request.data['move'], time=request.data['time'])
     return Response({"message": "ok"})
 
 

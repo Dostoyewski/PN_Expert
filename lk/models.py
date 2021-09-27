@@ -178,7 +178,8 @@ class ReactionStatistics(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.DateField(default=timezone.now)
-    value = models.FloatField(default=0)
+    time = models.FloatField(default=0)
+    move = models.FloatField(default=0)
 
     def __str__(self):
         return "Статистика игры `снайпер` для пользователя " + self.user.username + \
@@ -191,7 +192,8 @@ class MemoryStatistics(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.DateField(default=timezone.now)
-    value = models.FloatField(default=0)
+    turn = models.FloatField(default=0)
+    pairs = models.FloatField(default=0)
 
     def __str__(self):
         return "Статистика игры `карточки` для пользователя " + self.user.username + \
