@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Event, DataRecording, DailyActivity, StartEvent, StartShedule, MessageShedule, PushNotification
+from .models import Event, DataRecording, DailyActivity, StartEvent, StartShedule, MessageShedule, PushNotification, \
+    MediaRecording, DoctorEvent
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -10,11 +11,25 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('description', 'summary', 'location', 'start', 'end', 'user', 'event_type')
 
 
+class DoctorEventAdmin(admin.ModelAdmin):
+    """
+    Register User Profiles to admin profiles
+    """
+    list_display = ('description', 'summary', 'start', 'end', 'user', 'event_type', 'isDone')
+
+
 class DataRecordingAdmin(admin.ModelAdmin):
     """
     Register User Profiles to admin profiles
     """
     list_display = ('user', 'file')
+
+
+class MediaRecordingAdmin(admin.ModelAdmin):
+    """
+    Register User Profiles to admin profiles
+    """
+    list_display = ('user', 'name', 'date', 'typo', 'mark')
 
 
 class DailyActivityAdmin(admin.ModelAdmin):
@@ -57,3 +72,5 @@ admin.site.register(StartEvent, StartAdmin)
 admin.site.register(StartShedule, StartSheduleAdmin)
 admin.site.register(MessageShedule, MesageSheduleAdmin)
 admin.site.register(PushNotification, PushNotificationAdmin)
+admin.site.register(MediaRecording, MediaRecordingAdmin)
+admin.site.register(DoctorEvent, DoctorEventAdmin)
