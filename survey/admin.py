@@ -15,6 +15,7 @@ class QuestionAdmin(admin.ModelAdmin):
     Register User Profiles to admin profiles
     """
     list_display = ('survey', 'question', 'typo', 'choices', 'extra_placeholder')
+    list_filter = ('survey', 'typo')
 
 
 class SurveyAdmin(admin.ModelAdmin):
