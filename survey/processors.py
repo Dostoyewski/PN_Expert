@@ -1,4 +1,4 @@
-from lk.models import HADS_Result, HADS_Alarm, SmileStats, ShwabStats
+from lk.models import HADS_Result, HADS_Alarm, SmileStats, ShwabStats, DailyActivityStats
 
 
 def process_HADS_test(survey_answer):
@@ -197,6 +197,27 @@ def process_Shwab_test(survey_answer):
     ShwabStats.objects.create(user=user, value=percent)
 
 
+def process_daily_activity_test(survey_answer):
+    survey = survey_answer.survey
+    user = survey_answer.user
+    activity = DailyActivityStats()
+    activity.user = user
+    for answer in survey_answer.answers.all():
+        if "Сколько часов вы Спали" in answer.question.question:
+            activity.sleep_time = answer.answer
+        elif "Сколько времени вы потратили на занятия физкультурой и спортом" in answer.question.question:
+            activity.sport_time = answer.answer
+        elif "Сколько времени вы потратили на работу" in answer.question.question:
+            activity.work_time = answer.answer
+        elif "Сколько времени Вы провели вне дома" in answer.question.question:
+            activity.no_hom_time = answer.answer
+    activity.save()
+
+
+def process_PDQ_test(survey_answer):
+    pass
+
+
 def process_test(survey_answer):
     """
     Processes string and addes statistics to Statistics object
@@ -206,9 +227,13 @@ def process_test(survey_answer):
     print(survey_answer.survey.title)
     if '№0' in survey_answer.survey.title:
         process_ALARM_test(survey_answer)
-    if '№1' in survey_answer.survey.title:
+    elif '№1' in survey_answer.survey.title:
         process_HADS_test(survey_answer)
-    if '№8' in survey_answer.survey.title:
+    elif '№8' in survey_answer.survey.title:
         process_Smile_test(survey_answer)
-    if 'N2' in survey_answer.survey.title:
+    elif '№2' in survey_answer.survey.title:
         process_Shwab_test(survey_answer)
+    elif '№6' in survey_answer.survey.title:
+        process_daily_activity_test(survey_answer)
+    elif '№7' in survey_answer.survey.title:
+        process_PDQ_test(survey_answer)
