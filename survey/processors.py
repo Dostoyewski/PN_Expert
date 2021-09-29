@@ -254,4 +254,5 @@ def process_test(survey_answer):
     elif '№6' in survey_answer.survey.title:
         process_daily_activity_test(survey_answer)
     elif '№7' in survey_answer.survey.title:
+        print("Processing_PDQ")
         process_PDQ_test(survey_answer)
