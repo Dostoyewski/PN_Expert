@@ -1,4 +1,4 @@
-from lk.models import HADS_Result, HADS_Alarm, SmileStats, ShwabStats, DailyActivityStats
+from lk.models import HADS_Result, HADS_Alarm, SmileStats, ShwabStats, DailyActivityStats, PDQ39Stats
 
 
 def process_HADS_test(survey_answer):
@@ -214,8 +214,26 @@ def process_daily_activity_test(survey_answer):
     activity.save()
 
 
+def get_PDQ_points(answer):
+    if "Никогда" in answer.answer:
+        return 1
+    elif "Редко" in answer.answer:
+        return 2
+    elif "Временами" in answer.answer:
+        return 3
+    elif "Часто" in answer.answer:
+        return 4
+    elif "Всегда" in answer.answer:
+        return 5
+
+
 def process_PDQ_test(survey_answer):
-    pass
+    survey = survey_answer.survey
+    user = survey_answer.user
+    summary = 0
+    for answer in survey_answer.answers.all():
+        summary += get_PDQ_points(answer)
+    PDQ39Stats.objects.create(user=user, value=summary)
 
 
 def process_test(survey_answer):
