@@ -158,7 +158,7 @@ class DoctorEvent(models.Model):
     end = models.DateTimeField(default=datetime.datetime.now)
     event_type = models.IntegerField(choices=DOCTOR_TYPES, default=0)
     isDone = models.BooleanField(default=False)
-    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient',
+    patient = models.ForeignKey("lk.UserProfile", on_delete=models.CASCADE, related_name='patient',
                                 default=1)
 
     def save(self, *args, **kwargs):
