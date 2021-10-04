@@ -294,7 +294,8 @@ def doctor_mark_as_done(request):
     if request.method == 'POST':
         try:
             event = DoctorEvent.objects.filter(pk=request.data['event']).update(isDone=True)
-            media_rec = MediaRecording.objects.get(pk=event.video.pk).update(mark=int(request.data['mark']))
+            event = DoctorEvent.objects.filter(pk=request.data['event'])
+            media_rec = MediaRecording.objects.filter(pk=event[0].video.pk).update(mark=int(request.data['mark']))
             return Response({"message": "ok"})
         except KeyError:
             return Response({"message": "Check your format!"})
