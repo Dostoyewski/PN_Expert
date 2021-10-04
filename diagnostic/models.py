@@ -145,11 +145,12 @@ class MediaRecording(models.Model):
                                    end=datetime.datetime.now() + datetime.timedelta(days=1),
                                    user=doctor,
                                    event_type=self.typo,
-                                   video=self)
+                                   video=self,
+                                   patient=UserProfile.objects.get(user=self.user))
 
 
 class DoctorEvent(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     description = models.CharField(max_length=5000, default="")
     summary = models.CharField(max_length=100, default="")
     video = models.ForeignKey(MediaRecording, on_delete=models.CASCADE)
@@ -157,6 +158,8 @@ class DoctorEvent(models.Model):
     end = models.DateTimeField(default=datetime.datetime.now)
     event_type = models.IntegerField(choices=DOCTOR_TYPES, default=0)
     isDone = models.BooleanField(default=False)
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient',
+                                default=1)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
