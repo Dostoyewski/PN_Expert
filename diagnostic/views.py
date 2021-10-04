@@ -12,7 +12,8 @@ from rest_framework.views import APIView
 from lk.models import UserProfile
 from .models import Event, DataRecording, DailyActivity, PushNotification, MediaRecording, DoctorEvent
 from .serializers import EventSerializer, DataRecordingSerializer, \
-    DataRecordingCreateSerializer, PushSerializer, MediaRecordingCreateSerializer, DoctorEventSeralizer
+    DataRecordingCreateSerializer, PushSerializer, MediaRecordingCreateSerializer, DoctorEventSeralizer, \
+    MediaRecordingSerializer
 
 
 # TODO: Add username to pk API
@@ -244,14 +245,15 @@ def get_user_files(request):
 @api_view(['POST'])
 def get_video_url(request):
     """
-    Returns URL to video/photo. Should have header "media" with `MediaRecording` pk.<br>
+    Returns URL to video/photo and serialized media object. Should have header "media" with `MediaRecording` pk.<br>
     <b>Sample</b>:<br>
     {"media": 5}<br>
     :param request:
     :return:
     """
     media = MediaRecording.objects.get(pk=request.data['media'])
-    return Response({"url": media.file.url})
+    return Response({"url": media.file.url,
+                     "obj": MediaRecordingSerializer(media).data})
 
 
 @api_view(['POST'])
