@@ -704,7 +704,7 @@ def search_user_doctor(request):
 
 
 @api_view(['POST'])
-def search_relative(request):
+def search_user_relative(request):
     """
     Searches patients in attached peoples. Should have header `text` with search text and <br>
     header `relative` with relative user__pk.<br>
