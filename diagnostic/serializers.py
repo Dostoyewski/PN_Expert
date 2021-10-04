@@ -95,12 +95,6 @@ class DoctorEventSeralizer(serializers.ModelSerializer):
             return DoctorEvent.objects.create(**validated_data)
 
 
-class MediaRecordingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MediaRecording
-        fields = '__all__'
-
-
 class MediaRecordingCreateSerializer(serializers.ModelSerializer):
     """
     Drecording serializer
