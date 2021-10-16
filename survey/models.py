@@ -42,7 +42,8 @@ def create_events(sender, instance, **kwargs):
 TYPES = (
     (0, "RADIO"),
     (1, "TEXT"),
-    (2, "MULTPLY")
+    (2, "MULTPLY"),
+    (2, "DATA")
 )
 
 
