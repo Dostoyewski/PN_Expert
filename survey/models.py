@@ -103,6 +103,10 @@ class SurveyAnswer(models.Model):
             up = UserProfile.objects.get(user=self.user)
             up.isSurvey0 = True
             up.save()
+        elif "о вашей работе" in self.survey.title:
+            up = UserProfile.objects.get(user=self.user)
+            up.isHospitalInfo = True
+            up.save()
         elif 'роль' in self.survey.title:
             up = UserProfile.objects.get(user=self.user)
             up.isStatus = True
@@ -117,6 +121,7 @@ class SurveyAnswer(models.Model):
                 up.isDiary = True
             elif answer.answer == 'Пациент':
                 up.status = 0
+                up.isHospitalInfo = True
             elif answer.answer == 'Родственник':
                 up.status = 2
                 up.isPills = True
@@ -124,6 +129,7 @@ class SurveyAnswer(models.Model):
                 up.isSurvey0 = True
                 up.isSurvey2 = True
                 up.isDiary = True
+                up.isHospitalInfo = True
             up.save()
         process_test(self)
         self.process_answers()
