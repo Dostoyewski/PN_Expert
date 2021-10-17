@@ -43,8 +43,9 @@ TYPES = (
     (0, "RADIO"),
     (1, "TEXT"),
     (2, "RADIO+TEXT"),
-    (2, "DATE"),
-    (3, "NUANCES")
+    (3, "DATE"),
+    (4, "NUANCES"),
+    (5, "AVATAR"),
 )
 
 
