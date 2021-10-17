@@ -82,6 +82,10 @@ class UserProfile(models.Model):
     isStatus = models.BooleanField(default=False)
     isPills = models.BooleanField(default=False)
     isSick = models.BooleanField(default=False)
+    isHospitalInfo = models.BooleanField(default=False)
+    # Для врача:
+    hospital = models.TextField(default="")
+    position = models.TextField(default="")
     # Город проживания
     city = models.CharField(max_length=50, blank=True)
     # URL на личную страницу
