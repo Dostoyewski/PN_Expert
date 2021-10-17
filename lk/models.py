@@ -71,6 +71,8 @@ class UserProfile(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     # Опыт
     exp = models.IntegerField(default=0)
+    # Флаг, показывающий, заполненна ли основная инфа.
+    isPrimaryInfo = models.BooleanField(default=False)
     # Флаг, указывающий на заполненные дополнительные поля
     isFull = models.BooleanField(default=False)
     isDiary = models.BooleanField(default=False)
