@@ -34,7 +34,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-PROD = False
+PROD = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -218,7 +218,7 @@ LOGIN_REDIRECT_URL = 'http://www.parkinson.expert'
 LOGIN_URL = 'http://www.parkinson.expert'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGOUT_REDIRECT_URL = 'http://www.parkinson.expert'
 
