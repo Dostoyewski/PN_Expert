@@ -195,6 +195,7 @@ class MediaView(APIView):
         print("RECEIVED")
         file_serializer = MediaRecordingCreateSerializer(data=request.data)
         print("start validating")
+        print(request.FILES)
         if file_serializer.is_valid():
             print("valid")
             print(file_serializer.data)
