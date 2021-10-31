@@ -168,6 +168,7 @@ class DoctorEvent(models.Model):
             self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
         if type(self.end) is not datetime.datetime:
             self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
+        self.create_gevent()
         # note = PushNotification(event=self, is_shown=False)
         # note.save()
 
