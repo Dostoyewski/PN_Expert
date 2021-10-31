@@ -99,14 +99,9 @@ class MediaRecordingCreateSerializer(serializers.ModelSerializer):
     """
     Drecording serializer
     """
-    file = serializers.FileField()
-
     class Meta:
         model = MediaRecording
         fields = ('file', 'user', 'name', 'typo')
-
-        def create(self, validated_data):
-            return MediaRecording.objects.create(**validated_data)
 
 
 class DataSerializer(serializers.ModelSerializer):
