@@ -99,6 +99,7 @@ class MediaRecordingCreateSerializer(serializers.ModelSerializer):
     """
     Drecording serializer
     """
+    file = serializers.FileField()
 
     class Meta:
         model = MediaRecording
