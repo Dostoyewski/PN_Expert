@@ -197,8 +197,11 @@ class MediaView(APIView):
         print("start validating")
         if file_serializer.is_valid():
             print("valid")
+            print(file_serializer.data)
             file_serializer.create(file_serializer.data)
             print("created")
+            # media = MediaRecording()
+            # media.user = User.objects.get(pk=file_serializer.data['user'])
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             print("error")
