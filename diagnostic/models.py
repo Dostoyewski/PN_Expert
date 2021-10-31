@@ -176,7 +176,7 @@ class DoctorEvent(models.Model):
                 break
             except HttpError:
                 time.sleep(5)
-        note = PushNotification(event=self, is_shown=False)
+        # note = PushNotification(event=self, is_shown=False)
         note.save()
 
 
