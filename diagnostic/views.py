@@ -197,7 +197,7 @@ class MediaView(APIView):
         print("start validating")
         if file_serializer.is_valid():
             print("valid")
-            file_serializer.save()
+            file_serializer.create(file_serializer.data)
             print("created")
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
