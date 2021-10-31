@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from googleapiclient.errors import HttpError
 
+from video_proc.decorators import postpone
 from .google_sync import create_event
 
 
@@ -167,6 +168,11 @@ class DoctorEvent(models.Model):
             self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
         if type(self.end) is not datetime.datetime:
             self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
+        # note = PushNotification(event=self, is_shown=False)
+        # note.save()
+
+    @postpone
+    def create_gevent(self):
         while True:
             try:
                 create_event(summary=self.summary, location="SPB", description=self.description,
@@ -176,8 +182,6 @@ class DoctorEvent(models.Model):
                 break
             except HttpError:
                 time.sleep(5)
-        # note = PushNotification(event=self, is_shown=False)
-        # note.save()
 
 
 class DailyActivity(models.Model):
