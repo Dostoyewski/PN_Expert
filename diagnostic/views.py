@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -189,7 +189,7 @@ class MediaView(APIView):
     """
     Should contain fieds 'file' with a file, 'user' with user pk, 'name' with filename, 'typo' with file type
     """
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
 
     def post(self, request, *args, **kwargs):
         print("RECEIVED")
