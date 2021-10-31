@@ -177,7 +177,7 @@ class DoctorEvent(models.Model):
             except HttpError:
                 time.sleep(5)
         # note = PushNotification(event=self, is_shown=False)
-        note.save()
+        # note.save()
 
 
 class DailyActivity(models.Model):
