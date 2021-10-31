@@ -192,11 +192,16 @@ class MediaView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
+        print("RECEIVED")
         file_serializer = MediaRecordingCreateSerializer(data=request.data)
+        print("start validating")
         if file_serializer.is_valid():
+            print("valid")
             file_serializer.save()
+            print("created")
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
+            print("error")
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
