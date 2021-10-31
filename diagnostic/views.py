@@ -198,8 +198,8 @@ class MediaView(APIView):
         print(request.FILES)
         if file_serializer.is_valid():
             print("valid")
-            print(file_serializer.data)
             file_serializer.save()
+            print(file_serializer.data)
             print("created")
             # media = MediaRecording()
             # media.user = User.objects.get(pk=file_serializer.data['user'])
