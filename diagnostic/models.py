@@ -161,6 +161,7 @@ class DoctorEvent(models.Model):
     isDone = models.BooleanField(default=False)
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient',
                                 default=1)
+    info = models.CharField(max_length=1000, default="—")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
