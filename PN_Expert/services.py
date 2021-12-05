@@ -53,6 +53,8 @@ def construct_string(typo):
         return 'Отправка фотографии'
     elif typo == 4:
         return 'Опрос'
+    elif typo == 5:
+        return 'Игра'
 
 
 def create_events_message(pk):
