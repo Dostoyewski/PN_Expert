@@ -22,7 +22,7 @@ def get_survey(request):
     if request.method == 'POST':
         survey_id = request.data['survey']
         survey = Survey.objects.get(pk=survey_id)
-        questions = Question.objects.filter(survey__pk=survey_id)
+        questions = Question.objects.filter(survey__pk=survey_id).order_by('order')
         return Response({"data": QuestionSerializer(questions, many=True).data,
                          "survey": SurveySerializer(survey).data})
     else:

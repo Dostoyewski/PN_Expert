@@ -53,6 +53,7 @@ TYPES = (
 class Question(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     question = models.TextField(max_length=1000)
+    order = models.IntegerField(default=0)
     typo = models.IntegerField(choices=TYPES, default=1)
     # Should be separated using ::
     choices = models.TextField(max_length=2000, blank=True)
