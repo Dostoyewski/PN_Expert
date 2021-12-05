@@ -46,7 +46,8 @@ TYPES = (
     (3, "DATE"),
     (4, "NUANCES"),
     (5, "AVATAR"),
-    (6, "TIME")
+    (6, "TIME"),
+    (7, "PERCENT")
 )
 
 
