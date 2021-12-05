@@ -86,10 +86,21 @@ class DoctorEventSeralizer(serializers.ModelSerializer):
     """
     Drecording serializer
     """
+    rating = serializers.SerializerMethodField('process_rating')
+
+    def process_rating(self, obj):
+        dict = {}
+        dict['0'] = obj.r0
+        dict['1'] = obj.r1
+        dict['2'] = obj.r2
+        dict['3'] = obj.r3
+        dict['4'] = obj.r4
+        return dict
 
     class Meta:
         model = DoctorEvent
-        fields = '__all__'
+        fields = ['user', 'description', 'summary', 'video', 'start', 'end', 'event_type',
+                  'isDone', 'patient', 'info']
 
         def create(self, validated_data):
             return DoctorEvent.objects.create(**validated_data)
