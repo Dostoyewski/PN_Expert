@@ -100,7 +100,7 @@ class DoctorEventSeralizer(serializers.ModelSerializer):
     class Meta:
         model = DoctorEvent
         fields = ['user', 'description', 'summary', 'video', 'start', 'end', 'event_type',
-                  'isDone', 'patient', 'info']
+                  'isDone', 'patient', 'info', 'rating']
 
         def create(self, validated_data):
             return DoctorEvent.objects.create(**validated_data)
