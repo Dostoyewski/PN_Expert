@@ -575,10 +575,7 @@ def create_mem_stats(request):
         user = User.objects.get(pk=request.data['user'])
     except:
         return Response({"error": "User not found"})
-    mem_event = Event.objects.filter(user=user, summary='Игра', location="0")
-    for event in mem_event:
-        event.isDone = True
-        event.save()
+    mem_event = Event.objects.filter(user=user, summary='Игра', location="0").update(isDone=True)
     MemoryStatistics.objects.create(user=user, pairs=request.data['pairs'], turn=request.data['turn'])
     return Response({"message": "ok"})
 
@@ -599,8 +596,6 @@ def create_react_stats(request):
     except:
         return Response({"error": "User not found"})
     r_event = Event.objects.filter(user=user, summary='Игра', location="1").update(isDone=True)
-    for event in r_event:
-        print(event.isDone, event.pk)
     ReactionStatistics.objects.create(user=user, move=request.data['move'], time=request.data['time'])
     return Response({"message": "ok"})
 
