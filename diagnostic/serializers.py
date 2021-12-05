@@ -101,7 +101,7 @@ class MediaRecordingCreateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = MediaRecording
-        fields = ('file', 'user', 'name', 'typo', 'time')
+        fields = ('file', 'user', 'name', 'typo', 'time', 'description')
 
 
 class DataSerializer(serializers.ModelSerializer):

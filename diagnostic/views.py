@@ -187,7 +187,8 @@ class FileView(APIView):
 
 class MediaView(APIView):
     """
-    Should contain fieds 'file' with a file, 'user' with user pk, 'name' with filename, 'typo' with file type
+    Should contain fieds 'file' with a file, 'user' with user pk, 'name' with filename, 'typo' with file type,
+    'time' with time from levodopa and 'description' with event description
     """
     parser_classes = (MultiPartParser, FormParser, FileUploadParser)
 

@@ -125,6 +125,7 @@ class DataRecording(models.Model):
 
 class MediaRecording(models.Model):
     file = models.FileField(upload_to="user_files", blank=True, max_length=500)
+    description = models.CharField(default="", max_length=2000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(default="File", max_length=100)
     date = models.DateTimeField(auto_now_add=True, blank=True)
@@ -164,6 +165,11 @@ class DoctorEvent(models.Model):
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient',
                                 default=1)
     info = models.CharField(max_length=1000, default="—")
+    r0 = models.CharField(max_length=5000, default="")
+    r1 = models.CharField(max_length=5000, default="")
+    r2 = models.CharField(max_length=5000, default="")
+    r3 = models.CharField(max_length=5000, default="")
+    r4 = models.CharField(max_length=5000, default="")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -171,6 +177,13 @@ class DoctorEvent(models.Model):
             self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
         if type(self.end) is not datetime.datetime:
             self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
+        ms = MessageShedule.objects.get(description=self.video.description)
+        self.r0 = ms.r0
+        self.r1 = ms.r1
+        self.r2 = ms.r2
+        self.r3 = ms.r3
+        self.r4 = ms.r4
+        super().save(*args, **kwargs)
         self.create_gevent()
         # note = PushNotification(event=self, is_shown=False)
         # note.save()
@@ -239,6 +252,11 @@ class MessageShedule(models.Model):
     location = models.CharField(max_length=2000, default=" ")
     day_delta = models.IntegerField(default=0)
     description = models.CharField(max_length=2000, default=" ")
+    r0 = models.CharField(max_length=5000, default="")
+    r1 = models.CharField(max_length=5000, default="")
+    r2 = models.CharField(max_length=5000, default="")
+    r3 = models.CharField(max_length=5000, default="")
+    r4 = models.CharField(max_length=5000, default="")
 
 
 class PushNotification(models.Model):
