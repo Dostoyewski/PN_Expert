@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from lk.models import create_events
+from sheduling.models import MessageSurvey, SurveyShedule
 from .models import UserProfile, NewsRecording, DiaryRecording, StepsCounter, HADS_Result, HADS_Alarm, \
     SmileStats, ReactionStatistics, MemoryStatistics, ShwabStats, PDQ39Stats, DailyActivityStats
 
@@ -12,6 +14,22 @@ class PDQ39Admin(admin.ModelAdmin):
     list_display = ('user', 'value', 'day')
 
 
+@admin.action(description='Сгенерировать заново расписание')
+def reload_all(modeladmin, request, queryset):
+    for obj in queryset:
+        reload_all_events(obj)
+
+
+def reload_all_events(user_profile):
+    surveys = SurveyShedule.objects.filter(users=user_profile.user)
+    m_surveys = MessageSurvey.objects.filter(users=user_profile.user)
+    for surv in surveys:
+        surv.delete()
+    for m_surv in m_surveys:
+        m_surv.delete()
+    create_events(user_profile.user, user_profile)
+
+
 class UserProfileAdmin(admin.ModelAdmin):
     """
     Register User Profiles to admin profiles
@@ -20,6 +38,7 @@ class UserProfileAdmin(admin.ModelAdmin):
                     'gender', 'age', 'status', 'exp', 'isFull', 'slug')
     list_filter = ('user', 'name', 'gender', 'status', 'doctor')
     search_fields = ['user', 'doctor__user__username', 'doctor__user', 'doctor_name', 'name']
+    actions = [reload_all]
 
 
 class NewsAdmin(admin.ModelAdmin):
