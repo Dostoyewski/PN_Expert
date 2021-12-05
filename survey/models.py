@@ -66,6 +66,11 @@ class Answer(models.Model):
     # Should be separated using ',' if Multiply
     answer = models.TextField(max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    typo = models.IntegerField(choices=TYPES, default=1)
+
+    def save(self, *args, **kwargs):
+        self.typo = self.question.typo
+        super().save(*args, **kwargs)
 
     def parse_answers(self):
         if self.question.typo == 2:

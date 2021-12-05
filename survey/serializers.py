@@ -23,10 +23,10 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Answer
-        fields = '__all__'
+        fields = ['answer', 'question', 'user']
 
         def create(self, validated_data):
-            return Question.objects.create(**validated_data)
+            return Answer.objects.create(**validated_data)
 
 
 class SurveySerializer(serializers.ModelSerializer):
