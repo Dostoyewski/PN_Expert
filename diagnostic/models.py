@@ -128,6 +128,7 @@ class MediaRecording(models.Model):
     name = models.CharField(default="File", max_length=100)
     date = models.DateTimeField(auto_now_add=True, blank=True)
     typo = models.IntegerField(choices=MEDIA_TYPES, default=0)
+    time = models.FloatField(default=0)
     mark = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
