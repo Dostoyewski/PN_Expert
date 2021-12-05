@@ -598,12 +598,9 @@ def create_react_stats(request):
         user = User.objects.get(pk=request.data['user'])
     except:
         return Response({"error": "User not found"})
-    r_event = Event.objects.filter(user=user, summary='Игра', location="1")
+    r_event = Event.objects.filter(user=user, summary='Игра', location="1").update(isDone=True)
     for event in r_event:
         print(event.isDone, event.pk)
-        event.isDone = True
-        event.save()
-        print(event.isDone)
     ReactionStatistics.objects.create(user=user, move=request.data['move'], time=request.data['time'])
     return Response({"message": "ok"})
 
