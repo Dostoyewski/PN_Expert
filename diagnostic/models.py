@@ -172,11 +172,6 @@ class DoctorEvent(models.Model):
     r4 = models.CharField(max_length=5000, default="")
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if type(self.start) is not datetime.datetime:
-            self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
-        if type(self.end) is not datetime.datetime:
-            self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
         ms = MessageShedule.objects.get(description=self.video.description)
         self.r0 = ms.r0
         self.r1 = ms.r1
@@ -184,6 +179,10 @@ class DoctorEvent(models.Model):
         self.r3 = ms.r3
         self.r4 = ms.r4
         super().save(*args, **kwargs)
+        if type(self.start) is not datetime.datetime:
+            self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')
+        if type(self.end) is not datetime.datetime:
+            self.end = datetime.datetime.strptime(self.end, '%Y-%m-%dT%H:%M:%S')
         self.create_gevent()
         # note = PushNotification(event=self, is_shown=False)
         # note.save()
