@@ -599,6 +599,7 @@ def create_react_stats(request):
     except:
         return Response({"error": "User not found"})
     r_event = Event.objects.filter(user=user, summary='Игра', location="1")
+    print(r_event)
     for event in r_event:
         event.isDone = True
         event.save()
