@@ -73,7 +73,7 @@ class MessageSurvey(models.Model):
     forall = models.BooleanField(default=False)
     location = models.CharField(max_length=2000, default=" ")
     day_delta = models.IntegerField(default=0)
-    messageShedule = models.ForeignKey(MessageShedule, default=1)
+    messageShedule = models.ForeignKey(MessageShedule, default=1, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
