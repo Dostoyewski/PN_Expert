@@ -5,7 +5,7 @@ from django.db import models
 from django_q.models import Schedule
 from django_q.tasks import schedule
 
-from diagnostic.models import Event
+from diagnostic.models import Event, MessageShedule
 
 SHEDULE_TYPE = (
     (0, 'Ежедневно'),
@@ -73,6 +73,7 @@ class MessageSurvey(models.Model):
     forall = models.BooleanField(default=False)
     location = models.CharField(max_length=2000, default=" ")
     day_delta = models.IntegerField(default=0)
+    messageShedule = models.ForeignKey(MessageShedule, default=1)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -332,7 +332,8 @@ def create_events(instance, profile):
                              typo=shedule.typo,
                              forall=shedule.forall,
                              location=shedule.location,
-                             day_delta=shedule.day_delta)
+                             day_delta=shedule.day_delta,
+                             messageShedule=shedule)
         surv.save()
         surv.users.add(instance)
 

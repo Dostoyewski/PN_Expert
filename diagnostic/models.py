@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from googleapiclient.errors import HttpError
 
+from sheduling.models import MessageSurvey
 from video_proc.decorators import postpone
 from .google_sync import create_event
 
@@ -73,6 +74,7 @@ class Event(models.Model):
     event_type = models.IntegerField(choices=TYPES, default=0)
     survey_pk = models.IntegerField(default=0)
     isDone = models.BooleanField(default=False)
+    messageSurvey_id = models.ForeignKey(MessageSurvey, default=1)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -124,6 +126,7 @@ class DataRecording(models.Model):
 
 
 class MediaRecording(models.Model):
+    event_id = models.ForeignKey(Event, default=1)
     file = models.FileField(upload_to="user_files", blank=True, max_length=500)
     description = models.CharField(default="", max_length=2000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

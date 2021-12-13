@@ -69,7 +69,8 @@ def create_events_message(pk):
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
                                  survey_pk=1,
-                                 event_type=obj.typo)
+                                 event_type=obj.typo,
+                                 messageSurvey_id=obj)
     else:
         users = User.objects.all()
         for user in users:
@@ -80,4 +81,5 @@ def create_events_message(pk):
                                  end=datetime.datetime.now() + datetime.timedelta(days=1),
                                  user=user,
                                  survey_pk=1,
-                                 event_type=obj.typo)
+                                 event_type=obj.typo,
+                                 messageSurvey_id=obj)
