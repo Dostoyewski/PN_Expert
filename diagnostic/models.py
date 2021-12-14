@@ -73,6 +73,12 @@ class Event(models.Model):
     event_type = models.IntegerField(choices=TYPES, default=0)
     survey_pk = models.IntegerField(default=0)
     isDone = models.BooleanField(default=False)
+    # Тектосовое описание для оценки видео
+    text_r0 = models.CharField(default="", max_length=2000)
+    text_r1 = models.CharField(default="", max_length=2000)
+    text_r2 = models.CharField(default="", max_length=2000)
+    text_r3 = models.CharField(default="", max_length=2000)
+    text_r4 = models.CharField(default="", max_length=2000)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -173,12 +179,12 @@ class DoctorEvent(models.Model):
     r4 = models.CharField(max_length=5000, default="")
 
     def save(self, *args, **kwargs):
-        ms = MessageShedule.objects.get(description=self.video.description)
-        self.r0 = ms.r0
-        self.r1 = ms.r1
-        self.r2 = ms.r2
-        self.r3 = ms.r3
-        self.r4 = ms.r4
+        event = self.video.event_id
+        self.r0 = event.text_r0
+        self.r1 = event.text_r1
+        self.r2 = event.text_r2
+        self.r3 = event.text_r3
+        self.r4 = event.text_r4
         super().save(*args, **kwargs)
         if type(self.start) is not datetime.datetime:
             self.start = datetime.datetime.strptime(self.start, '%Y-%m-%dT%H:%M:%S')

@@ -60,6 +60,7 @@ def construct_string(typo):
 def create_events_message(pk):
     print("Creating messages for object ", pk)
     obj = MessageSurvey.objects.get(pk=pk)
+    messageShedule = obj.messageShedule
     if not obj.forall:
         for user in obj.users.all():
             sleep(randint(5, 100))
@@ -70,7 +71,11 @@ def create_events_message(pk):
                                  user=user,
                                  survey_pk=1,
                                  event_type=obj.typo,
-                                 messageSurvey_id=obj)
+                                 text_r0=messageShedule.r0,
+                                 text_r1=messageShedule.r1,
+                                 text_r2=messageShedule.r2,
+                                 text_r3=messageShedule.r3,
+                                 text_r4=messageShedule.r4)
     else:
         users = User.objects.all()
         for user in users:
@@ -82,4 +87,8 @@ def create_events_message(pk):
                                  user=user,
                                  survey_pk=1,
                                  event_type=obj.typo,
-                                 messageSurvey_id=obj)
+                                 text_r0=messageShedule.r0,
+                                 text_r1=messageShedule.r1,
+                                 text_r2=messageShedule.r2,
+                                 text_r3=messageShedule.r3,
+                                 text_r4=messageShedule.r4)
