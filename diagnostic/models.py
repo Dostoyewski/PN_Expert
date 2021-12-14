@@ -130,7 +130,7 @@ class DataRecording(models.Model):
 
 
 class MediaRecording(models.Model):
-    event_id = models.ForeignKey(Event, default=1, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(Event, default=2111, on_delete=models.CASCADE)
     file = models.FileField(upload_to="user_files", blank=True, max_length=500)
     description = models.CharField(default="", max_length=2000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
