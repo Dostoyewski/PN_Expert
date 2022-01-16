@@ -92,7 +92,7 @@ class UserProfileAdmin(admin.ModelAdmin):
                     'gender', 'age', 'status', 'exp', 'isFull', 'slug')
     list_filter = ('user', 'name', 'gender', 'status', 'doctor')
     search_fields = ['user', 'doctor__user__username', 'doctor__user', 'doctor_name', 'name']
-    actions = [reload_all, create_statistics]
+    actions = [reload_all, create_statistics, create_detail_statistics]
 
 
 class NewsAdmin(admin.ModelAdmin):
