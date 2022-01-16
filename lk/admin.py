@@ -34,7 +34,7 @@ def create_statistics(modeladmin, request, queryset):
 def create_detail_statistics(modeladmin, request, queryset):
     df = pd.DataFrame(columns=['User', 'status', 'Event', 'Type', 'Date'])
     for obj in queryset:
-        df = pd.concat([create_detail_stats(obj), df], axis=1)
+        df = pd.concat([create_detail_stats(obj), df])
     df.to_excel('C:/UserDetailStats.xlsx')
 
 
