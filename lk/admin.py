@@ -27,7 +27,7 @@ def create_statistics(modeladmin, request, queryset):
     df = pd.DataFrame(columns=['User', 'status', 'All events', 'Done events'])
     for obj in queryset:
         df = df.append(create_user_stats(obj), ignore_index=True)
-    df.to_excel('./UserStats.xlsx')
+    df.to_excel('C:/UserStats.xlsx')
 
 
 def create_user_stats(user_profile):
