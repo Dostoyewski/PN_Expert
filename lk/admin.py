@@ -22,12 +22,39 @@ def reload_all(modeladmin, request, queryset):
         reload_all_events(obj)
 
 
-@admin.action(description='Выгрузить статистику')
+@admin.action(description='Выгрузить общую статистику')
 def create_statistics(modeladmin, request, queryset):
     df = pd.DataFrame(columns=['User', 'status', 'All events', 'Done events'])
     for obj in queryset:
         df = df.append(create_user_stats(obj), ignore_index=True)
     df.to_excel('C:/UserStats.xlsx')
+
+
+@admin.action(description='Выгрузить детальную статистику')
+def create_detail_statistics(modeladmin, request, queryset):
+    df = pd.DataFrame(columns=['User', 'status', 'Event', 'Type', 'Date'])
+    for obj in queryset:
+        df = pd.concat([create_detail_stats(obj), df], axis=1)
+    df.to_excel('C:/UserDetailStats.xlsx')
+
+
+def create_detail_stats(user_profile):
+    df = pd.DataFrame(columns=['User', 'status', 'Event', 'Type', 'Date'])
+    events = None
+    status = ""
+    if user_profile.status == 0:
+        events = Event.objects.filter(user=user_profile.user, isDone=True)
+        status = "Пациент"
+    elif user_profile.status == 1:
+        events = DoctorEvent.objects.filter(user=user_profile.user, isDone=True)
+        status = "Врач"
+    for event in events:
+        df = df.append({'User': user_profile.user.username,
+                        'status': status,
+                        'Event': event.description,
+                        'Type': event.get_event_type_display(),
+                        'Date': event.end}, ignore_index=True)
+    return df
 
 
 def create_user_stats(user_profile):
