@@ -24,10 +24,31 @@ def reload_all(modeladmin, request, queryset):
 
 @admin.action(description='Выгрузить общую статистику')
 def create_statistics(modeladmin, request, queryset):
-    df = pd.DataFrame(columns=['User', 'status', 'All events', 'Done events'])
+    df = pd.DataFrame(columns=['User', 'status', 'All events', 'Done events',
+                               'Name', 'Vorname', 'Pincode'])
     for obj in queryset:
         df = df.append(create_user_stats(obj), ignore_index=True)
     df.to_excel('C:/UserStats.xlsx')
+
+
+def create_user_stats(user_profile):
+    events, done_events = None, None
+    status = ""
+    if user_profile.status == 0:
+        events = Event.objects.filter(user=user_profile.user)
+        done_events = Event.objects.filter(user=user_profile.user, isDone=True)
+        status = "Пациент"
+    elif user_profile.status == 1:
+        events = DoctorEvent.objects.filter(user=user_profile.user)
+        done_events = DoctorEvent.objects.filter(user=user_profile.user, isDone=True)
+        status = "Врач"
+    return {'User': user_profile.user.username,
+            'status': status,
+            'All events': len(events),
+            'Done events': len(done_events),
+            'Name': user_profile.name,
+            'Vorname': user_profile.vorname,
+            'Pincode': user_profile.pincode}
 
 
 @admin.action(description='Выгрузить детальную статистику')
@@ -55,23 +76,6 @@ def create_detail_stats(user_profile):
                         'Type': event.get_event_type_display(),
                         'Date': event.end}, ignore_index=True)
     return df
-
-
-def create_user_stats(user_profile):
-    events, done_events = None, None
-    status = ""
-    if user_profile.status == 0:
-        events = Event.objects.filter(user=user_profile.user)
-        done_events = Event.objects.filter(user=user_profile.user, isDone=True)
-        status = "Пациент"
-    elif user_profile.status == 1:
-        events = DoctorEvent.objects.filter(user=user_profile.user)
-        done_events = DoctorEvent.objects.filter(user=user_profile.user, isDone=True)
-        status = "Врач"
-    return {'User': user_profile.user.username,
-            'status': status,
-            'All events': len(events),
-            'Done events': len(done_events)}
 
 
 def reload_all_events(user_profile):
